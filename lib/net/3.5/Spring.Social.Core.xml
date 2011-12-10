@@ -1,0 +1,591 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Spring.Social.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Spring.Social.IApiBinding">
+            <summary>
+            Base interface that may be implemented by API bindings.
+            Provides a simple boolean tester that can be used to determine if the API binding has been authorized for a specific user.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="P:Spring.Social.IApiBinding.IsAuthorized">
+            <summary>
+            Returns true if this API binding has been authorized on behalf of a specific user.
+            </summary>
+            <remarks>
+            If so, calls to the API are signed with the user's authorization credentials, indicating an application is invoking the API on a user's behalf. 
+            If not, API calls do not contain any user authorization information. 
+            Callers can use this status flag to determine if API operations requiring authorization can be invoked.
+            </remarks>
+        </member>
+        <member name="T:Spring.Social.IServiceProvider`1">
+            <summary>
+            Top-level marker interface defining a ServiceProvider.
+            A ServiceProvider provides access to a API that the application can invoke on behalf of a provider user.
+            </summary>
+            <remarks>
+            For example, the FacebookServiceProvider could expose a FacebookApi that the application can invoke on behalf of Facebook user "Keith Donald".
+            Defines a single parameterized type T representing a strongly-typed Java binding to the provider's API that can be obtained and invoked by the application.
+            Does not define any operations since the provider authorization flow needed to construct an authorized API binding is protocol specific, for example, OAuth1 or OAuth2.
+            </remarks>
+            <typeparam name="T">The service provider's API type</typeparam>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="T:Spring.Social.OAuth1.AbstractOAuth1ApiBinding">
+            <summary>
+            Base class for OAuth1-based provider API bindings.
+            </summary>
+            <author>Craig Walls</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.AbstractOAuth1ApiBinding.#ctor">
+            <summary>
+            Constructs the API template without user authorization. 
+            This is useful for accessing operations on a provider's API that do not require user authorization.
+            </summary>
+        </member>
+        <member name="M:Spring.Social.OAuth1.AbstractOAuth1ApiBinding.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Constructs the API template with OAuth credentials necessary to perform operations on behalf of a user.
+            </summary>
+            <param name="consumerKey">The application's consumer key.</param>
+            <param name="consumerSecret">The application's consumer secret.</param>
+            <param name="accessToken">The access token.</param>
+            <param name="accessTokenSecret">The access token secret.</param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.AbstractOAuth1ApiBinding.GetMessageConverters">
+            <summary>
+            Returns a list of <see cref="T:Spring.Http.Converters.IHttpMessageConverter"/>s to be used by the internal <see cref="P:Spring.Social.OAuth1.AbstractOAuth1ApiBinding.RestTemplate"/>.
+            </summary>
+            <remarks>
+            Override this method to add additional message converters or to replace the default list of message converters.
+            </remarks>
+            <returns>
+            By default, this includes a <see cref="T:Spring.Http.Converters.StringHttpMessageConverter"/> and a <see cref="T:Spring.Http.Converters.FormHttpMessageConverter"/>.
+            </returns>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AbstractOAuth1ApiBinding.RestTemplate">
+            <summary>
+            Gets a reference to the REST client backing this API binding and used to perform API calls. 
+            </summary>
+            <remarks>
+            Callers may use the RestTemplate to invoke other API operations not yet modeled by the binding interface. 
+            Callers may also modify the configuration of the RestTemplate to support unit testing the API binding with a mock server in a test environment. 
+            During construction, subclasses may apply customizations to the RestTemplate needed to invoke a specific API.
+            </remarks>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AbstractOAuth1ApiBinding.IsAuthorized">
+            <summary>
+            Returns true if this API binding has been authorized on behalf of a specific user.
+            </summary>
+            <remarks>
+            If so, calls to the API are signed with the user's authorization credentials, indicating an application is invoking the API on a user's behalf. 
+            If not, API calls do not contain any user authorization information. 
+            Callers can use this status flag to determine if API operations requiring authorization can be invoked.
+            </remarks>
+        </member>
+        <member name="T:Spring.Social.OAuth1.AbstractOAuth1ServiceProvider`1">
+            <summary>
+            Base class for ServiceProviders that use the OAuth1 protocol.
+            OAuth1-based ServiceProvider implementations should extend and implement <see cref="M:GetApi(string, string)"/>.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+            <typeparam name="T">The service API type</typeparam>
+        </member>
+        <member name="T:Spring.Social.OAuth1.IOAuth1ServiceProvider`1">
+            <summary>
+            A ServiceProvider that uses the OAuth 1.0 protocol.
+            </summary>
+            <typeparam name="T">The service provider's API type.</typeparam>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1ServiceProvider`1.GetApi(System.String,System.String)">
+            <summary>
+            Returns an API interface allowing the client application to access protected resources on behalf of a user.
+            </summary>
+            <param name="accessToken">The API access token.</param>
+            <param name="secret">The access token secret.</param>
+            <returns>A binding to the service provider's API.</returns>
+        </member>
+        <member name="P:Spring.Social.OAuth1.IOAuth1ServiceProvider`1.OAuthOperations">
+            <summary>
+            Gets the service interface for carrying out the "OAuth dance" with this provider. 
+            The result of the OAuth dance is an access token that can be used to obtain an API binding with <see cref="M:GetApi(string,string)"/> method.
+            </summary>
+        </member>
+        <member name="M:Spring.Social.OAuth1.AbstractOAuth1ServiceProvider`1.#ctor(System.String,System.String,Spring.Social.OAuth1.IOAuth1Operations)">
+            <summary>
+            Creates a new AbstractOAuth1ServiceProvider.
+            </summary>
+            <param name="consumerKey">The consumer (or client) key assigned to the application by the provider.</param>
+            <param name="consumerSecret">the consumer (or client) secret assigned to the application by the provider.</param>
+            <param name="oauth1Operations">
+            The OAuth2Operations template for conducting the OAuth 2 flow with the provider.
+            </param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.AbstractOAuth1ServiceProvider`1.GetApi(System.String,System.String)">
+            <summary>
+            Returns an API interface allowing the client application to access protected resources on behalf of a user.
+            </summary>
+            <param name="accessToken">accessToken the API access token.</param>
+            <param name="secret">The access token secret.</param>
+            <returns>A binding to the service provider's API.</returns>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AbstractOAuth1ServiceProvider`1.ConsumerKey">
+            <summary>
+            Gets the consumer (or client) key assigned to the application by the provider.
+            </summary>
+            <remarks>
+            Exposed to subclasses to support constructing service API instances.
+            </remarks>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AbstractOAuth1ServiceProvider`1.ConsumerSecret">
+            <summary>
+            Gets the consumer (or client) secret assigned to the application by the provider.
+            </summary>
+            <remarks>
+            Exposed to subclasses to support constructing service API instances.
+            </remarks>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AbstractOAuth1ServiceProvider`1.OAuthOperations">
+            <summary>
+            Gets the service interface for carrying out the "OAuth dance" with this provider. 
+            The result of the OAuth dance is an access token that can be used to obtain an API binding with <see cref="M:GetApi(string, string)"/> method.
+            </summary>
+        </member>
+        <member name="T:Spring.Social.OAuth1.AuthorizedRequestToken">
+            <summary>
+            An OAuth 1.0 request token that has been authorized by the user.
+            </summary>
+            <remarks>
+            Constructed after the user grants the consumer application access to their data hosted at the service provider.
+            This is typically achieved by the user clicking "Allow" over at the provider's site.
+            The service provider returns a Verifier string in the authorization callback that must also be submitted in the access token request.
+            </remarks>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.AuthorizedRequestToken.#ctor(Spring.Social.OAuth1.OAuthToken,System.String)">
+            <summary>
+            Creates an authorized request token.
+            </summary>
+            <param name="requestToken">The request token object.</param>
+            <param name="verifier">The access token verifier.</param>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AuthorizedRequestToken.Value">
+            <summary>
+            Gets the request token value.
+            </summary>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AuthorizedRequestToken.Secret">
+            <summary>
+            Gets the request token secret.
+            </summary>
+        </member>
+        <member name="P:Spring.Social.OAuth1.AuthorizedRequestToken.Verifier">
+            <summary>
+            Gets the verifier string generated by the provider.
+            </summary>
+        </member>
+        <member name="T:Spring.Social.OAuth1.IOAuth1Operations">
+            <summary>
+            A service interface for the OAuth 1 flow. 
+            This interface allows you to conduct the "OAuth dance" with a service provider on behalf of a user.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1Operations.FetchRequestToken(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Begin a new authorization flow by fetching a new request token from this service provider.
+            </summary>
+            <remarks>
+            The request token should be stored in the user's session up until the authorization callback is made 
+            and it's time to exchange it for an <see cref="M:ExchangeForAccessToken(AuthorizedRequestToken, NameValueCollection)">access token</see>.
+            </remarks>
+            <param name="callbackUrl">
+            The URL the provider should redirect to after the member authorizes the connection. Ignored for OAuth 1.0 providers.
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the request token.
+            </param>
+            <returns>A temporary request token use for authorization and exchanged for an access token.</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1Operations.FetchRequestTokenAsync(System.String,System.Collections.Specialized.NameValueCollection,System.Action{Spring.Rest.Client.RestOperationCompletedEventArgs{Spring.Social.OAuth1.OAuthToken}})">
+            <summary>
+            Asynchronously begin a new authorization flow by fetching a new request token from this service provider.
+            </summary>
+            <remarks>
+            The request token should be stored in the user's session up until the authorization callback is made 
+            and it's time to exchange it for an <see cref="M:ExchangeForAccessToken(AuthorizedRequestToken, NameValueCollection)">access token</see>.
+            </remarks>
+            <param name="callbackUrl">
+            The URL the provider should redirect to after the member authorizes the connection. Ignored for OAuth 1.0 providers.
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the request token.
+            </param>
+            <param name="operationCompleted">
+            The <code>Action&lt;T&gt;</code> to perform when the asynchronous request completes. 
+            Provides the temporary request token used for authorization and exchanged for an access token.
+            </param>
+            <returns>
+            A <see cref="T:Spring.Rest.Client.RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1Operations.BuildAuthorizeUrl(System.String,Spring.Social.OAuth1.OAuth1Parameters)">
+            <summary>
+            Construct the URL to redirect the user to for authorization.
+            </summary>
+            <param name="requestToken">The request token value, to be encoded in the authorize URL.</param>
+            <param name="parameters">
+            Parameters to pass to the provider in the authorize URL. Should never be null; 
+            if there are no parameters to pass, set this argument value to OAuth1Parameters.NONE.
+            </param>
+            <returns>The absolute authorize URL to redirect the user to for authorization.</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1Operations.BuildAuthenticateUrl(System.String,Spring.Social.OAuth1.OAuth1Parameters)">
+            <summary>
+            Construct the URL to redirect the user to for authentication. 
+            The authenticate URL differs from the authorizationUrl slightly in that it does not require the user to authorize the app multiple times. 
+            This provides a better user experience for "Sign in with Provider" scenarios.
+            </summary>
+            <param name="requestToken">The request token value, to be encoded in the authorize URL.</param>
+            <param name="parameters">
+            Parameters to pass to the provider in the authenticate URL. Should never be null; 
+            if there are no parameters to pass, set this argument value to OAuth1Parameters.NONE.
+            </param>
+            <returns>The absolute authenticate URL to redirect the user to for authentication.</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1Operations.ExchangeForAccessToken(Spring.Social.OAuth1.AuthorizedRequestToken,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Exchange the authorized request token for an access token.
+            </summary>
+            <param name="requestToken">
+            An authorized request token and verifier. The verifier will be ignored for OAuth 1.0 providers.
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the access token.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.IOAuth1Operations.ExchangeForAccessTokenAsync(Spring.Social.OAuth1.AuthorizedRequestToken,System.Collections.Specialized.NameValueCollection,System.Action{Spring.Rest.Client.RestOperationCompletedEventArgs{Spring.Social.OAuth1.OAuthToken}})">
+            <summary>
+            Asynchronously exchange the authorized request token for an access token.
+            </summary>
+            <param name="requestToken">
+            An authorized request token and verifier. The verifier will be ignored for OAuth 1.0 providers
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the access token
+            </param>
+            <param name="operationCompleted">
+            The <code>Action&lt;T&gt;</code> to perform when the asynchronous request completes. 
+            Provides the access token.
+            </param>
+            <returns>
+            A <see cref="T:Spring.Rest.Client.RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+            </returns>
+        </member>
+        <member name="P:Spring.Social.OAuth1.IOAuth1Operations.Version">
+            <summary>
+            Gets the version of OAuth1 implemented by this operations instance.
+            </summary>
+        </member>
+        <member name="T:Spring.Social.OAuth1.OAuth1Parameters">
+            <summary>
+            Parameters for building an OAuth1 authorize URL.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="F:Spring.Social.OAuth1.OAuth1Parameters.NONE">
+            <summary>
+            Shared instance for passing zero authorization parameters (accepted for OAuth 1.0a-based flows).
+            </summary>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Parameters.#ctor(System.String)">
+            <summary>
+            Creates a new OAuth1Parameters instance. 
+            </summary>
+            <param name="callbackUrl">
+            The authorization callback url; this value must be included for OAuth 1.0 providers (and NOT for OAuth 1.0a).
+            </param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Parameters.#ctor(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Creates a new OAuth1Parameters instance.
+            </summary>
+            <param name="callbackUrl">
+            The authorization callback url; this value must be included for OAuth 1.0 providers (and NOT for OAuth 1.0a).
+            </param>
+            <param name="additionalParameters">Additional supported parameters to pass to the provider.</param>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuth1Parameters.CallbackUrl">
+            <summary>
+            Gets the authorization callback url; this value must be included for OAuth 1.0 providers (and NOT for OAuth 1.0a).
+            </summary>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuth1Parameters.AdditionalParameters">
+            <summary>
+            Gets the additional supported parameters to pass to the provider.
+            </summary>
+        </member>
+        <member name="T:Spring.Social.OAuth1.OAuth1RequestInterceptor">
+            <summary>
+            <see cref="T:Spring.Http.Client.Interceptor.IClientHttpRequestBeforeInterceptor"/> implementation that performs OAuth1 request signing 
+            before a request for a protected resource is executed.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Craig Walls</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1RequestInterceptor.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates an OAuth 1.0 protected resource request interceptor.
+            </summary>
+            <param name="consumerKey">The application's consumer key.</param>
+            <param name="consumerSecret">The application's consumer secret.</param>
+            <param name="accessToken">The access token.</param>
+            <param name="accessTokenSecret">The access token secret.</param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1RequestInterceptor.BeforeExecute(Spring.Http.Client.Interceptor.IClientHttpRequestContext)">
+            <summary>
+            The callback method before the given request is executed.
+            </summary>
+            <remarks>
+            This implementation adds the "Authorization" header to the request.
+            </remarks>
+            <param name="request">The request context.</param>
+        </member>
+        <member name="T:Spring.Social.OAuth1.OAuth1Template">
+            <summary>
+            <see cref="T:Spring.Social.OAuth1.IOAuth1Operations"/> implementation that uses REST template to make the OAuth calls.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates an OAuth1Template in OAuth 1.0a mode.
+            </summary>
+            <param name="consumerKey">The application's consumer key.</param>
+            <param name="consumerSecret">The application's consumer secret.</param>
+            <param name="requestTokenUrl">The request token URL.</param>
+            <param name="authorizeUrl">The authorize URL.</param>
+            <param name="accessTokenUrl">The access token URL.</param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.#ctor(System.String,System.String,System.String,System.String,System.String,Spring.Social.OAuth1.OAuth1Version)">
+            <summary>
+            Creates an OAuth1Template.
+            </summary>
+            <param name="consumerKey">The application's consumer key.</param>
+            <param name="consumerSecret">The application's consumer secret.</param>
+            <param name="requestTokenUrl">The request token URL.</param>
+            <param name="authorizeUrl">The authorize URL.</param>
+            <param name="accessTokenUrl">The access token URL.</param>
+            <param name="version">The version of OAuth 1, either 10 or 10a.</param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates an OAuth1Template in OAuth 1.0a mode.
+            </summary>
+            <param name="consumerKey">The application's consumer key.</param>
+            <param name="consumerSecret">The application's consumer secret.</param>
+            <param name="requestTokenUrl">The request token URL.</param>
+            <param name="authorizeUrl">The authorize URL.</param>
+            <param name="authenticateUrl">The authenticate URL.</param>
+            <param name="accessTokenUrl">The access token URL.</param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,Spring.Social.OAuth1.OAuth1Version)">
+            <summary>
+            Creates an OAuth1Template.
+            </summary>
+            <param name="consumerKey">The application's consumer key.</param>
+            <param name="consumerSecret">The application's consumer secret.</param>
+            <param name="requestTokenUrl">The request token URL.</param>
+            <param name="authorizeUrl">The authorize URL.</param>
+            <param name="authenticateUrl">The authenticate URL.</param>
+            <param name="accessTokenUrl">The access token URL.</param>
+            <param name="version">The version of OAuth 1, either 10 or 10a.</param>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.FetchRequestToken(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Begin a new authorization flow by fetching a new request token from this service provider.
+            </summary>
+            <remarks>
+            The request token should be stored in the user's session up until the authorization callback is made 
+            and it's time to exchange it for an <see cref="M:ExchangeForAccessToken(AuthorizedRequestToken, NameValueCollection)">access token</see>.
+            </remarks>
+            <param name="callbackUrl">
+            The URL the provider should redirect to after the member authorizes the connection. Ignored for OAuth 1.0 providers
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the request token
+            </param>
+            <returns>A temporary request token use for authorization and exchanged for an access token</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.FetchRequestTokenAsync(System.String,System.Collections.Specialized.NameValueCollection,System.Action{Spring.Rest.Client.RestOperationCompletedEventArgs{Spring.Social.OAuth1.OAuthToken}})">
+            <summary>
+            Asynchronously begin a new authorization flow by fetching a new request token from this service provider.
+            </summary>
+            <remarks>
+            The request token should be stored in the user's session up until the authorization callback is made 
+            and it's time to exchange it for an <see cref="M:ExchangeForAccessToken(AuthorizedRequestToken, NameValueCollection)">access token</see>.
+            </remarks>
+            <param name="callbackUrl">
+            The URL the provider should redirect to after the member authorizes the connection. Ignored for OAuth 1.0 providers.
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the request token.
+            </param>
+            <param name="operationCompleted">
+            The <code>Action&lt;T&gt;</code> to perform when the asynchronous request completes. 
+            Provides the temporary request token used for authorization and exchanged for an access token.
+            </param>
+            <returns>
+            A <see cref="T:Spring.Rest.Client.RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.BuildAuthorizeUrl(System.String,Spring.Social.OAuth1.OAuth1Parameters)">
+            <summary>
+            Construct the URL to redirect the user to for authorization.
+            </summary>
+            <param name="requestToken">The request token value, to be encoded in the authorize URL</param>
+            <param name="parameters">
+            Parameters to pass to the provider in the authorize URL. Should never be null; 
+            if there are no parameters to pass, set this argument value to OAuth1Parameters.NONE
+            </param>
+            <returns>The absolute authorize URL to redirect the user to for authorization</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.BuildAuthenticateUrl(System.String,Spring.Social.OAuth1.OAuth1Parameters)">
+            <summary>
+            Construct the URL to redirect the user to for authentication. 
+            The authenticate URL differs from the authorizationUrl slightly in that it does not require the user to authorize the app multiple times. 
+            This provides a better user experience for "Sign in with Provider" scenarios.
+            </summary>
+            <param name="requestToken">The request token value, to be encoded in the authorize URL</param>
+            <param name="parameters">
+            Parameters to pass to the provider in the authenticate URL. Should never be null; 
+            if there are no parameters to pass, set this argument value to OAuth1Parameters.NONE
+            </param>
+            <returns>The absolute authenticate URL to redirect the user to for authentication</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.ExchangeForAccessToken(Spring.Social.OAuth1.AuthorizedRequestToken,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Exchange the authorized request token for an access token.
+            </summary>
+            <param name="requestToken">
+            An authorized request token and verifier. The verifier will be ignored for OAuth 1.0 providers
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the access token
+            </param>
+            <returns>The access token.</returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.ExchangeForAccessTokenAsync(Spring.Social.OAuth1.AuthorizedRequestToken,System.Collections.Specialized.NameValueCollection,System.Action{Spring.Rest.Client.RestOperationCompletedEventArgs{Spring.Social.OAuth1.OAuthToken}})">
+            <summary>
+            Asynchronously exchange the authorized request token for an access token.
+            </summary>
+            <param name="requestToken">
+            An authorized request token and verifier. The verifier will be ignored for OAuth 1.0 providers
+            </param>
+            <param name="additionalParameters">
+            Any additional query parameters to be sent when fetching the access token
+            </param>
+            <param name="operationCompleted">
+            The <code>Action&lt;T&gt;</code> to perform when the asynchronous request completes. 
+            Provides the access token.
+            </param>
+            <returns>
+            A <see cref="T:Spring.Rest.Client.RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.CreateOAuthToken(System.String,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Creates an <see cref="T:Spring.Social.OAuth1.OAuthToken"/> given the response from the request token or access token exchange with the provider. 
+            May be overridden to create a custom <see cref="T:Spring.Social.OAuth1.OAuthToken"/>.
+            </summary>
+            <param name="tokenValue">The token value received from the provider.</param>
+            <param name="tokenSecret">The token secret received from the provider.</param>
+            <param name="response">All parameters from the response received in the request/access token exchange.</param>
+            <returns>An <see cref="T:Spring.Social.OAuth1.OAuthToken"/></returns>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuth1Template.GetCustomAuthorizationParameters">
+            <summary>
+            Returns a name-values collection of custom authorization parameters. 
+            May be overridden to return any provider-specific parameters that must be passed in the request to the authorization URL.
+            </summary>
+            <returns>Custom authorization parameters.</returns>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuth1Template.RestTemplate">
+            <summary>
+            Gets a reference to the REST client used to perform OAuth2 calls. 
+            </summary>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuth1Template.Version">
+            <summary>
+            Gets the version of OAuth1 implemented by this operations instance.
+            </summary>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuth1Template.ConsumerKey">
+            <summary>
+            Gets the consumer key to be read by subclasses. 
+            This may be useful when overriding <see cref="M:GetCustomAuthorizationParameters"/> and 
+            the consumer key is required in the authorization request.
+            </summary>
+        </member>
+        <member name="T:Spring.Social.OAuth1.OAuth1Version">
+            <summary>
+            Various versions of the OAuth1 Core specification.
+            </summary>
+            <remarks>
+            Used by <see cref="T:Spring.Social.OAuth1.OAuth1Template"/> to vary behavior its by the configured version.
+            </remarks>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="F:Spring.Social.OAuth1.OAuth1Version.CORE_10">
+            <summary>
+            OAuth Core Version 1.0.
+            </summary>       
+        </member>
+        <member name="F:Spring.Social.OAuth1.OAuth1Version.CORE_10_REVISION_A">
+            <summary>
+            OAuth Core Version 1.0 Revision A.
+            </summary>
+        </member>
+        <member name="T:Spring.Social.OAuth1.OAuthToken">
+            <summary>
+            Holds an OAuth token and secret. 
+            Used for both the request token and access token.
+            </summary>
+            <author>Keith Donald</author>
+            <author>Bruno Baia (.NET)</author>
+        </member>
+        <member name="M:Spring.Social.OAuth1.OAuthToken.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new OAuth token with a token value and secret.
+            </summary>
+            <param name="value">The token value.</param>
+            <param name="secret">The token secret.</param>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuthToken.Value">
+            <summary>
+            Gets the token value.
+            </summary>
+        </member>
+        <member name="P:Spring.Social.OAuth1.OAuthToken.Secret">
+            <summary>
+            Gets the token secret.
+            </summary>
+        </member>
+    </members>
+</doc>
