@@ -35,8 +35,11 @@
     <file src="..\..\..\bin\net\4.0\Release\Spring.Social.Twitter.pdb" target="lib\net40-client" />
     <file src="..\..\..\bin\net\4.0\Release\Spring.Social.Twitter.xml" target="lib\net40-client" />
     <file src="..\..\..\bin\sl\4.0\Release\Spring.Social.Twitter.dll" target="lib\sl4" />
+    <file src="..\..\..\bin\sl\4.0\Release\Spring.Social.Twitter.dll" target="lib\sl4" />
     <file src="..\..\..\bin\sl\4.0\Release\Spring.Social.Twitter.pdb" target="lib\sl4" />
-    <file src="..\..\..\bin\sl\4.0\Release\Spring.Social.Twitter.xml" target="lib\sl4" />
+    <file src="..\..\..\bin\sl\5.0\Release\Spring.Social.Twitter.xml" target="lib\sl5" />
+    <file src="..\..\..\bin\sl\5.0\Release\Spring.Social.Twitter.pdb" target="lib\sl5" />
+    <file src="..\..\..\bin\sl\5.0\Release\Spring.Social.Twitter.xml" target="lib\sl5" />
     <file src="..\..\..\bin\wp\7.0\Release\Spring.Social.Twitter.dll" target="lib\sl4-wp" />
     <file src="..\..\..\bin\wp\7.0\Release\Spring.Social.Twitter.pdb" target="lib\sl4-wp" />
     <file src="..\..\..\bin\wp\7.0\Release\Spring.Social.Twitter.xml" target="lib\sl4-wp" />

@@ -16,7 +16,7 @@ Spring.NET Social Twitter supports
 
 	* .NET 2.0
 	* .NET Client Profile 3.5 and 4.0
-	* Silverlight 4.0
+	* Silverlight 4.0 and 5.0
 	* Windows Phone 7.0 and 7.1
 
 
@@ -49,7 +49,9 @@ The "bin" directory contains the following distinct dll files for use in applica
 Dependencies are those other than on the .NET BCL.
 
 	* "Spring.Social.Twitter" for all supported Framework versions
+
 	* "Spring.Social.Core" for all supported Framework versions
+
 	* "Spring.Rest" for all supported Framework versions
 	* Dependencies: Common.Logging for .NET 3.5 and 4.0
 
@@ -69,6 +71,7 @@ There is a Visual Studio solution file for each supported version
 	* Spring.Social.Twitter.2008-NET35.sln for use with VS.NET 2008 and .NET 3.5
 	* Spring.Social.Twitter.2010-NET40.sln for use with VS.NET 2010 and .NET 4.0
 	* Spring.Social.Twitter.2010-SL40.sln  for use with VS.NET 2010 and Silverlight 4.0 (Requires Silverlight tools)
+	* Spring.Social.Twitter.2010-SL50.sln  for use with VS.NET 2010 and Silverlight 5.0 (Requires Silverlight tools)
 	* Spring.Social.Twitter.2010-WP70.sln  for use with VS.NET 2010 and Windows Phone 7.0 (Requires Windows Phone tools)
 	* Spring.Social.Twitter.2010-WP71.sln  for use with VS.NET 2010 and Windows Phone 7.1 (Requires Windows Phone tools)
 

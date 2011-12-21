@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="Spring.Social.Twitter" default="build" xmlns="http://nant.sf.net/release/0.91-alpha2/nant.xsd">
+<project name="Spring.Social.Twitter" default="build" xmlns="http://nant.sf.net/release/0.91/nant.xsd">
    
   <property name="datetime.now" value="${datetime::now()}" />
 
@@ -24,7 +24,7 @@
   <property name="product.fullname" value="${product.name} ${product.version}" if="${(product.releasetype == '')}" />
   <property name="product.fullname" value="${product.name} ${product.version} (${product.releasetype})" if="${(product.releasetype != '')}" />
 
-  <property name="project.buildnumber" value="${math::abs(math::floor(timespan::get-total-days(datetime::now() - datetime::parse('11/01/2011'))))}" />
+  <property name="project.buildnumber" value="${math::abs(math::floor(timespan::get-total-days(datetime::now() - datetime::parse('12/01/2011'))))}" />
   <property name="project.version" value="${product.version}.${project.buildnumber}" />
   <property name="project.buildtype" value="dev" />
   <property name="project.sign" value="false" overwrite="false" />
@@ -114,6 +114,7 @@
     <call target="build-net-3.5" />
     <call target="build-net-4.0" />
     <call target="build-sl-4.0" />
+    <call target="build-sl-5.0" />
     <call target="build-wp-7.0" />
     <call target="build-wp-7.1" />
   </target>
@@ -161,6 +162,17 @@
     <property name="project.version" value="${product.version}.${project.buildnumber}40" />
     <property name="project.buildoutputdir" value="${bin.dir}\sl\4.0\${project.buildconfiguration}" />
     <property name="project.buildsolutionfile" value="${root.dir}\Spring.Social.Twitter.2010-SL40.sln" />
+    <call target="update-common-assemblyinfo" />
+    <call target="rebuild-solution"/>
+  </target>
+
+  <target name="build-sl-5.0">
+    <echo message="Building for Silverlight 5.0 with '${project.buildconfiguration}' configuration" />
+    <property name="product.fullname" value="${product.fullname.temp} for Silverlight 5.0" />
+    <property name="project.framework" value="sl-5.0"/>
+    <property name="project.version" value="${product.version}.${project.buildnumber}50" />
+    <property name="project.buildoutputdir" value="${bin.dir}\sl\5.0\${project.buildconfiguration}" />
+    <property name="project.buildsolutionfile" value="${root.dir}\Spring.Social.Twitter.2010-SL50.sln" />
     <call target="update-common-assemblyinfo" />
     <call target="rebuild-solution"/>
   </target>
