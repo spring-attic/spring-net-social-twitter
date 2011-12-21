@@ -64,6 +64,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\TwitterTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\ITwitter.cs" />
+    <Compile Include="Social\Twitter\Connect\TwitterServiceProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
