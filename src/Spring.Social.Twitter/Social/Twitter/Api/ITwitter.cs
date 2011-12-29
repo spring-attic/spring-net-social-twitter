@@ -32,6 +32,11 @@ namespace Spring.Social.Twitter.Api
     public interface ITwitter : IApiBinding
     {
         /// <summary>
+        /// Gets the portion of the Twitter API containing the tweet and timeline operations.
+        /// </summary>
+        ITimelineOperations TimelineOperations { get; }
+
+        /// <summary>
         /// Gets the underlying <see cref="IRestOperations"/> object allowing for consumption of Twitter endpoints 
         /// that may not be otherwise covered by the API binding. 
         /// </summary>

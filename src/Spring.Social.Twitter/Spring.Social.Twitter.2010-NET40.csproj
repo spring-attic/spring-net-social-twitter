@@ -110,10 +110,25 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperations.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\JsonUtils.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\PagingUtils.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\TimelineTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\TwitterErrorHandler.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\TwitterProfileDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\LongListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\TwitterProfileListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\TweetListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\TweetDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\TwitterProfile.cs" />
+    <Compile Include="Social\Twitter\Api\StatusDetails.cs" />
+    <Compile Include="Social\Twitter\Api\ITimelineOperations.cs" />
+    <Compile Include="Social\Twitter\Api\Tweet.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplate.cs" />
     <Compile Include="Social\Twitter\Api\ITwitter.cs" />
     <Compile Include="Social\Twitter\Connect\TwitterServiceProvider.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
