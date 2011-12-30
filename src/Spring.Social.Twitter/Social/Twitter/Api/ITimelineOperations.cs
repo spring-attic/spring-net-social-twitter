@@ -23,6 +23,9 @@ using System.IO;
 using System.Collections.Generic;
 #if NET_4_0 || SILVERLIGHT_5
 using System.Threading.Tasks;
+#else
+using Spring.Rest.Client;
+using Spring.Http;
 #endif
 
 namespace Spring.Social.Twitter.Api
@@ -230,7 +233,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// A list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<Tweet>> GetUserTimelineAsync(long userId, int page, int pageSize, long sinceId, long maxId);
@@ -256,7 +259,7 @@ namespace Spring.Social.Twitter.Api
         /// </param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// A list of <see cref="Tweet"/>s that mention the authenticated user.
+        /// a list of <see cref="Tweet"/>s that mention the authenticated user.
         /// </returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
@@ -472,7 +475,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The user ID to get retweets for.</param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
         /// </returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
@@ -1464,6 +1467,967 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
         void RemoveFromFavorites(long tweetId);
 #endif
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recently posted tweets from the public timeline. 
+        /// The public timeline is the timeline containing tweets from all Twitter users. 
+        /// As this is the public timeline, authentication is not required to use this method.
+        /// </summary>
+        /// <remarks>
+        /// Note that Twitter caches public timeline results for 60 seconds. 
+        /// Calling this method more frequently than that will count against rate limits 
+        /// and will not return any new results.
+        /// </remarks>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s in the public timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetPublicTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recently posted tweets, including retweets, from the authenticating user's home timeline. 
+        /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s in the authenticating user's home timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetHomeTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets, including retweets, from the authenticating user's home timeline. 
+        /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s in the authenticating user's home timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetHomeTimelineAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets, including retweets, from the authenticating user's home timeline. 
+        /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s in the authenticating user's home timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetHomeTimelineAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent tweets posted by the authenticating user.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been posted by the authenticating user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been posted by the authenticating user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been posted by the authenticating user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent tweets posted by the given user.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetUserTimelineAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetUserTimelineAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetUserTimelineAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent tweets posted by the given user.
+        /// </summary>
+        /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetUserTimelineAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetUserTimelineAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetUserTimelineAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent tweets that mention the authenticated user.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that mention the authenticated user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetMentionsAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that mention the authenticated user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetMentionsAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// (Will return at most 200 entries, even if pageSize is greater than 200)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that mention the authenticated user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetMentionsAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent retweets posted by the authenticated user.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent retweets posted by the specified user.
+        /// </summary>
+        /// <param name="userId">The user ID to get retweets for.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="userId">The user ID to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByUserAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="userId">The user ID to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByUserAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent retweets posted by the specified user.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user to get retweets for.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByUserAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent retweets posted by users the authenticating user follow.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent retweets posted by users that the specified user follows.
+        /// </summary>
+        /// <param name="userId">The user ID to get retweets for.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="userId">The user ID to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToUserAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="userId">The user ID to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToUserAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent retweets by users that the specified user follows.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user to get retweets for.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToUserAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="screenName">The screen name of the user to get retweets for.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedToUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent tweets of the authenticated user that have been retweeted by others.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the authenticated user that have been retweeted by others.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetsOfMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the authenticated user that have been retweeted by others.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetsOfMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the authenticated user that have been retweeted by others.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetsOfMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously returns a single tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the <see cref="Tweet"/> from the specified ID.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously updates the user's status.
+        /// </summary>
+        /// <param name="status">The status message.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the created <see cref="Tweet"/>.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="ApiException">If the status message duplicates a previously posted status.</exception>
+        /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler UpdateStatusAsync(string status, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously updates the user's status along with a picture.
+        /// </summary>
+        /// <param name="status">The status message.</param>
+        /// <param name="photo">
+        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the created <see cref="Tweet"/>.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="ApiException">If the status message duplicates a previously posted status.</exception>
+        /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
+        /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously updates the user's status, including additional metadata concerning the status.
+        /// </summary>
+        /// <param name="status">The status message.</param>
+        /// <param name="details">The metadata pertaining to the status.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the created <see cref="Tweet"/>.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="ApiException">If the status message duplicates a previously posted status.</exception>
+        /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler UpdateStatusAsync(string status, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously updates the user's status, including a picture and additional metadata concerning the status.
+        /// </summary>
+        /// <param name="status">The status message.</param>
+        /// <param name="photo">
+        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// </param>
+        /// <param name="details">The metadata pertaining to the status.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the created <see cref="Tweet"/>.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="ApiException">If the status message duplicates a previously posted status.</exception>
+        /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
+        /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously removes a status entry.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID to be removed.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler DeleteStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<object>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously posts a retweet of an existing tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID to be retweeted.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler RetweetAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves up to 100 retweets of a specific tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the retweets of the specified tweet.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetRetweetsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves retweets of a specific tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="count">
+        /// The maximum number of retweets to return. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the retweets of the specified tweet.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetRetweetsAsync(long tweetId, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the profiles of up to 100 users how have retweeted a specific tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetRetweetedByAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the profiles of users how have retweeted a specific tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of <see cref="TwitterProfile"/>s per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        RestOperationCanceler GetRetweetedByAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the IDs of up to 100 users who have retweeted a specific tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the IDs of users who have retweeted a specific tweet.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">
+        /// The number of entiers per page. Should be less than or equal to 100. 
+        /// (Will return at most 100 entries, even if pageSize is greater than 100)
+        /// </param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of user's ids who have retweeted the specified tweet.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the 20 most recent tweets favorited by the authenticated user.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's favorite timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetFavoritesAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves tweets favorited by the authenticated user.
+        /// </summary>
+        /// <param name="page">The page to return.</param>
+        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a list of <see cref="Tweet"/>s from the specified user's favorite timeline.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetFavoritesAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously adds a tweet to the user's collection of favorite tweets.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler AddToFavoritesAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously removes a tweet from the user's collection of favorite tweets.
+        /// </summary>
+        /// <param name="tweetId">The tweet's ID.</param>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler RemoveFromFavoritesAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
 #endif
     }
 }

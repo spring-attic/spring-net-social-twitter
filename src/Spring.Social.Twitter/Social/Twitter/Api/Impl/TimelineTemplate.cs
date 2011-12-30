@@ -22,13 +22,15 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
-#if NET_4_0 || SILVERLIGHT_5
-using System.Threading.Tasks;
-#endif
 #if SILVERLIGHT
 using Spring.Collections.Specialized;
 #else
 using System.Collections.Specialized;
+#endif
+#if NET_4_0 || SILVERLIGHT_5
+using System.Threading.Tasks;
+#else
+using Spring.Http;
 #endif
 
 using Spring.Rest.Client;
@@ -696,6 +698,325 @@ namespace Spring.Social.Twitter.Api.Impl
             this.restTemplate.PostForMessage("favorites/destroy/{tweetId}.json", request, tweetId);
         }
 #endif
+
+        public RestOperationCanceler GetPublicTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>("statuses/public_timeline.json", operationCompleted);
+        }
+        public RestOperationCanceler GetHomeTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetHomeTimelineAsync(1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetHomeTimelineAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetHomeTimelineAsync(page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetHomeTimelineAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/home_timeline.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetUserTimelineAsync(1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetUserTimelineAsync(page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetUserTimelineAsync(screenName, 1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetUserTimelineAsync(screenName, page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetUserTimelineAsync(userId, 1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetUserTimelineAsync(userId, page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetUserTimelineAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetMentionsAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetMentionsAsync(1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetMentionsAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetMentionsAsync(page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetMentionsAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/mentions.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedByMeAsync(1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedByMeAsync(page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_me.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedByUserAsync(userId, 1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByUserAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedByUserAsync(userId, page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByUserAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedByUserAsync(screenName, 1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByUserAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedByUserAsync(screenName, page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedToMeAsync(1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedToMeAsync(page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_me.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedToUserAsync(userId, 1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToUserAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedToUserAsync(userId, page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToUserAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedToUserAsync(screenName, 1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToUserAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetedToUserAsync(screenName, page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedToUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetsOfMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetsOfMeAsync(1, 20, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetsOfMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetsOfMeAsync(page, pageSize, 0, 0, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetsOfMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweets_of_me.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        {
+            return this.restTemplate.GetForObjectAsync<Tweet>("statuses/show/{tweetId}.json", operationCompleted, tweetId);
+        }
+
+        public RestOperationCanceler UpdateStatusAsync(string status, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        {
+            return this.UpdateStatusAsync(status, new StatusDetails(), operationCompleted);
+        }
+
+        public RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        {
+            return this.UpdateStatusAsync(status, photo, new StatusDetails(), operationCompleted);
+        }
+
+        public RestOperationCanceler UpdateStatusAsync(string status, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            request.Add("status", status);
+            AddStatusDetailsTo(request, details);
+            return this.restTemplate.PostForObjectAsync<Tweet>("statuses/update.json", request, operationCompleted);
+        }
+
+        public RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            IDictionary<string, object> request = new Dictionary<string, object>();
+            request.Add("status", status);
+            request.Add("media", photo);
+            AddStatusDetailsTo(request, details);
+            return this.restTemplate.PostForObjectAsync<Tweet>("https://upload.twitter.com/1/statuses/update_with_media.json", request, operationCompleted);
+        }
+
+        public RestOperationCanceler DeleteStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<object>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            return this.restTemplate.DeleteAsync("statuses/destroy/{tweetId}.json", operationCompleted, tweetId);
+        }
+
+        public RestOperationCanceler RetweetAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            return this.restTemplate.PostForMessageAsync("statuses/retweet/{tweetId}.json", request, operationCompleted, tweetId);
+        }
+
+        public RestOperationCanceler GetRetweetsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetRetweetsAsync(tweetId, 100, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetsAsync(long tweetId, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>("statuses/retweets/{tweetId}.json?count={count}", operationCompleted, tweetId, count);
+        }
+
+        public RestOperationCanceler GetRetweetedByAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
+        {
+            return this.GetRetweetedByAsync(tweetId, 1, 100, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
+        {
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
+            return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted)
+        {
+            return this.GetRetweetedByIdsAsync(tweetId, 1, 100, operationCompleted);
+        }
+
+        public RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized(); // requires authentication, even though getRetweetedBy() does not.
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
+            return this.restTemplate.GetForObjectAsync<IList<long>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by/ids.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetFavoritesAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            return this.GetFavoritesAsync(1, 20, operationCompleted);
+        }
+
+        public RestOperationCanceler GetFavoritesAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            // Note: The documentation for /favorites.json doesn't list the count parameter, but it works anyway.
+            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("favorites.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler AddToFavoritesAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            return this.restTemplate.PostForMessageAsync("favorites/create/{tweetId}.json", request, operationCompleted, tweetId);
+        }
+
+        public RestOperationCanceler RemoveFromFavoritesAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
+        {
+            this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            return this.restTemplate.PostForMessageAsync("favorites/destroy/{tweetId}.json", request, operationCompleted, tweetId);
+        }
 #endif
 
         #endregion
