@@ -33,6 +33,7 @@ using System.Threading.Tasks;
 using Spring.Http;
 #endif
 
+using Spring.IO;
 using Spring.Rest.Client;
 
 using Spring.Social.Twitter.Api.Impl.Json;
@@ -280,7 +281,7 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.UpdateStatusAsync(status, new StatusDetails());
         }
 
-        public Task<Tweet> UpdateStatusAsync(string status, FileInfo photo)
+        public Task<Tweet> UpdateStatusAsync(string status, IResource photo)
         {
             return this.UpdateStatusAsync(status, photo, new StatusDetails());
         }
@@ -294,7 +295,7 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.PostForObjectAsync<Tweet>("statuses/update.json", request);
         }
 
-        public Task<Tweet> UpdateStatusAsync(string status, FileInfo photo, StatusDetails details)
+        public Task<Tweet> UpdateStatusAsync(string status, IResource photo, StatusDetails details)
         {
             this.EnsureIsAuthorized();
             IDictionary<string, object> request = new Dictionary<string, object>();
@@ -601,7 +602,7 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.UpdateStatus(status, new StatusDetails());
         }
 
-        public Tweet UpdateStatus(string status, FileInfo photo)
+        public Tweet UpdateStatus(string status, IResource photo)
         {
             return this.UpdateStatus(status, photo, new StatusDetails());
         }
@@ -615,7 +616,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    return this.restTemplate.PostForObject<Tweet>("statuses/update.json", request);
         }
 
-        public Tweet UpdateStatus(string status, FileInfo photo, StatusDetails details)
+        public Tweet UpdateStatus(string status, IResource photo, StatusDetails details)
         {
             this.EnsureIsAuthorized();
 		    IDictionary<string, object> request = new Dictionary<string, object>();
@@ -921,7 +922,7 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.UpdateStatusAsync(status, new StatusDetails(), operationCompleted);
         }
 
-        public RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        public RestOperationCanceler UpdateStatusAsync(string status, IResource photo, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
         {
             return this.UpdateStatusAsync(status, photo, new StatusDetails(), operationCompleted);
         }
@@ -935,7 +936,7 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.PostForObjectAsync<Tweet>("statuses/update.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
+        public RestOperationCanceler UpdateStatusAsync(string status, IResource photo, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             IDictionary<string, object> request = new Dictionary<string, object>();

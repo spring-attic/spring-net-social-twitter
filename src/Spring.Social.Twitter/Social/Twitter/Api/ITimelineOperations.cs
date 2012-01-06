@@ -28,6 +28,8 @@ using Spring.Rest.Client;
 using Spring.Http;
 #endif
 
+using Spring.IO;
+
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
@@ -640,7 +642,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="status">The status message.</param>
         /// <param name="photo">
-        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// A <see cref="IResource"/> for the photo data. It must contain GIF, JPG, or PNG data.
         /// </param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
@@ -651,7 +653,7 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
         /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
-        Task<Tweet> UpdateStatusAsync(string status, FileInfo photo);
+        Task<Tweet> UpdateStatusAsync(string status, IResource photo);
 
         /// <summary>
         /// Asynchronously updates the user's status, including additional metadata concerning the status.
@@ -673,7 +675,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="status">The status message.</param>
         /// <param name="photo">
-        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// A <see cref="IResource"/> for the photo data. It must contain GIF, JPG, or PNG data.
         /// </param>
         /// <param name="details">The metadata pertaining to the status.</param>
         /// <returns>
@@ -685,7 +687,7 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
         /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
-        Task<Tweet> UpdateStatusAsync(string status, FileInfo photo, StatusDetails details);
+        Task<Tweet> UpdateStatusAsync(string status, IResource photo, StatusDetails details);
 
         /// <summary>
         /// Asynchronously removes a status entry.
@@ -1315,7 +1317,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="status">The status message.</param>
         /// <param name="photo">
-        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// A <see cref="IResource"/> for the photo data. It must contain GIF, JPG, or PNG data.
         /// </param>
         /// <returns>The created <see cref="Tweet"/>.</returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
@@ -1323,7 +1325,7 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
         /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
-        Tweet UpdateStatus(string status, FileInfo photo);
+        Tweet UpdateStatus(string status, IResource photo);
 
         /// <summary>
         /// Updates the user's status, including additional metadata concerning the status.
@@ -1342,7 +1344,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="status">The status message.</param>
         /// <param name="photo">
-        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// A <see cref="IResource"/> for the photo data. It must contain GIF, JPG, or PNG data.
         /// </param>
         /// <param name="details">The metadata pertaining to the status.</param>
         /// <returns>The created <see cref="Tweet"/>.</returns>
@@ -1351,7 +1353,7 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
         /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
-        Tweet UpdateStatus(string status, FileInfo photo, StatusDetails details);
+        Tweet UpdateStatus(string status, IResource photo, StatusDetails details);
 
         /// <summary>
         /// Removes a status entry.
@@ -2187,7 +2189,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="status">The status message.</param>
         /// <param name="photo">
-        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// A <see cref="IResource"/> for the photo data. It must contain GIF, JPG, or PNG data.
         /// </param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
@@ -2201,7 +2203,7 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
         /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+        RestOperationCanceler UpdateStatusAsync(string status, IResource photo, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
 
         /// <summary>
         /// Asynchronously updates the user's status, including additional metadata concerning the status.
@@ -2226,7 +2228,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="status">The status message.</param>
         /// <param name="photo">
-        /// A <see cref="FileInfo"/> for the photo data. It must contain GIF, JPG, or PNG data.
+        /// A <see cref="IResource"/> for the photo data. It must contain GIF, JPG, or PNG data.
         /// </param>
         /// <param name="details">The metadata pertaining to the status.</param>
         /// <param name="operationCompleted">
@@ -2241,7 +2243,7 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="ApiException">If the length of the status message exceeds Twitter's 140 character limit.</exception>
         /// <exception cref="OperationNotPermittedException">If the photo resource isn't a GIF, JPG, or PNG.</exception>
         /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler UpdateStatusAsync(string status, FileInfo photo, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
+        RestOperationCanceler UpdateStatusAsync(string status, IResource photo, StatusDetails details, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
 
         /// <summary>
         /// Asynchronously removes a status entry.
