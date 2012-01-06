@@ -1,13 +1,13 @@
 The Spring.NET Social Twitter project, Release 1.0.0
 ----------------------------------------------------
-http://www.springframework.net/social/
+http://www.springframework.net/social/twitter/
 
 
 1. INTRODUCTION
 
 The 1.0.0 release of Spring.NET Social Twitter contains
 	
-	* An Spring.NET Social extension with connection support and an API binding for Twitter.
+	* A Spring.NET Social extension with connection support and an API binding for Twitter.
 
 
 2. SUPPORTED FRAMEWORK VERSIONS
@@ -80,11 +80,11 @@ There is a Visual Studio solution file for each supported version
 
 The user forums at http://forum.springframework.net/ are available for you to submit questions, support requests, and interact with other Spring.NET users.
 
-Bug, issue and project tracking can be found at https://jira.springsource.org/browse/SPRNETSOCIAL
+Bug, issue and project tracking can be found at https://jira.springsource.org/browse/SPRNETSOCIALTW
 
 A source repository browser is located at https://fisheye.springsource.org/changelog/spring-net-social-twitter
 
-A continuous intergration and build server is located at http://build.springframework.org/browse/SPRNETSOCIAL
+A continuous intergration and build server is located at http://build.springframework.org/browse/SPRNETSOCIALTW
 
 To get the sources, check them out at the git repository at https://github.com/SpringSource/spring-net-social-twitter using a git client to deal with line endings.
 

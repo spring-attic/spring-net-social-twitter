@@ -211,6 +211,12 @@
     <!-- Copy binaries -->
     <copy todir="${package.dir}\bin">
       <fileset basedir="${bin.dir}">
+        <include name="**\Spring.Rest.dll"/>
+        <include name="**\Spring.Rest.pdb"/>
+        <include name="**\Spring.Rest.xml"/>
+        <include name="**\Spring.Social.Core.dll"/>
+        <include name="**\Spring.Social.Core.pdb"/>
+        <include name="**\Spring.Social.Core.xml"/>
         <include name="**\Spring.Social.Twitter.dll"/>
         <include name="**\Spring.Social.Twitter.pdb"/>
         <include name="**\Spring.Social.Twitter.xml"/>
