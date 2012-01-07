@@ -36,40 +36,41 @@ namespace Spring.Social.Twitter.Api.Impl.Json
 
         public object Deserialize(JsonValue value, JsonMapper mapper)
         {
-            TwitterProfile twitterProfile = new TwitterProfile();
-            twitterProfile.ID = value.GetValue<long>("id");
-            twitterProfile.ScreenName = value.GetValue<string>("screen_name");
-            twitterProfile.Name = value.GetValue<string>("name");
-            twitterProfile.Url = value.GetValue<string>("url");
-            twitterProfile.ProfileImageUrl = value.GetValue<string>("profile_image_url");
-            twitterProfile.Description = value.GetValue<string>("description");
-            twitterProfile.Location = value.GetValue<string>("location");
-            twitterProfile.CreatedDate = JsonUtils.ToDateTime(value.GetValue<string>("created_at"), DATE_FORMAT);
-            twitterProfile.IsNotificationsEnabled = value.GetValue<bool>("notifications");
-            twitterProfile.Language = value.GetValue<string>("lang");
-            twitterProfile.StatusesCount = value.GetValue<int>("statuses_count");
-            twitterProfile.FriendsCount = value.GetValue<int>("friends_count");
-            twitterProfile.FollowersCount = value.GetValue<int>("followers_count");
-            twitterProfile.FavoritesCount = value.GetValue<int>("favourites_count");
-            twitterProfile.IsFollowing = value.GetValue<bool>("following");
-            twitterProfile.IsFollowRequestSent = value.GetValue<bool>("follow_request_sent");
-            twitterProfile.IsProtected = value.GetValue<bool>("protected");
-            twitterProfile.IsVerified = value.GetValue<bool>("verified");
-            twitterProfile.IsGeoEnabled = value.GetValue<bool>("geo_enabled");
-            twitterProfile.IsContributorsEnabled = value.GetValue<bool>("contributors_enabled");
-            twitterProfile.IsTranslator = value.GetValue<bool>("is_translator");
-            twitterProfile.TimeZone = value.GetValue<string>("time_zone");
-            twitterProfile.UtcOffset = value.GetValue<int>("utc_offset");
-            twitterProfile.UseBackgroundImage = value.GetValue<bool>("profile_use_background_image");
-            twitterProfile.SidebarBorderColor = value.GetValue<string>("profile_sidebar_border_color");
-            twitterProfile.SidebarFillColor = value.GetValue<string>("profile_sidebar_fill_color");
-            twitterProfile.BackgroundColor = value.GetValue<string>("profile_background_color");
-            twitterProfile.BackgroundImageUrl = value.GetValue<string>("profile_background_image_url");
-            twitterProfile.IsBackgroundImageTiled = value.GetValue<bool>("profile_background_tile");
-            twitterProfile.TextColor = value.GetValue<string>("profile_text_color");
-            twitterProfile.LinkColor = value.GetValue<string>("profile_link_color");
-            twitterProfile.ShowAllInlineMedia = value.GetValue<bool>("show_all_inline_media");
-            return twitterProfile;
+            return new TwitterProfile()
+            {
+                ID = value.GetValue<long>("id"),
+                ScreenName = value.GetValue<string>("screen_name"),
+                Name = value.GetValue<string>("name"),
+                Url = value.GetValue<string>("url"),
+                ProfileImageUrl = value.GetValue<string>("profile_image_url"),
+                Description = value.GetValue<string>("description"),
+                Location = value.GetValue<string>("location"),
+                CreatedDate = JsonUtils.ToDateTime(value.GetValue<string>("created_at"), DATE_FORMAT),
+                IsNotificationsEnabled = value.GetValue<bool>("notifications"),
+                Language = value.GetValue<string>("lang"),
+                StatusesCount = value.GetValue<int>("statuses_count"),
+                FriendsCount = value.GetValue<int>("friends_count"),
+                FollowersCount = value.GetValue<int>("followers_count"),
+                FavoritesCount = value.GetValue<int>("favourites_count"),
+                IsFollowing = value.GetValue<bool>("following"),
+                IsFollowRequestSent = value.GetValue<bool>("follow_request_sent"),
+                IsProtected = value.GetValue<bool>("protected"),
+                IsVerified = value.GetValue<bool>("verified"),
+                IsGeoEnabled = value.GetValue<bool>("geo_enabled"),
+                IsContributorsEnabled = value.GetValue<bool>("contributors_enabled"),
+                IsTranslator = value.GetValue<bool>("is_translator"),
+                TimeZone = value.GetValue<string>("time_zone"),
+                UtcOffset = value.GetValue<int>("utc_offset"),
+                UseBackgroundImage = value.GetValue<bool>("profile_use_background_image"),
+                SidebarBorderColor = value.GetValue<string>("profile_sidebar_border_color"),
+                SidebarFillColor = value.GetValue<string>("profile_sidebar_fill_color"),
+                BackgroundColor = value.GetValue<string>("profile_background_color"),
+                BackgroundImageUrl = value.GetValue<string>("profile_background_image_url"),
+                IsBackgroundImageTiled = value.GetValue<bool>("profile_background_tile"),
+                TextColor = value.GetValue<string>("profile_text_color"),
+                LinkColor = value.GetValue<string>("profile_link_color"),
+                ShowAllInlineMedia = value.GetValue<bool>("show_all_inline_media"),
+            };
         }
     }
 }

@@ -19,35 +19,40 @@
 #endregion
 
 using System;
-
-using Spring.Rest.Client;
+using System.Collections.Generic;
 
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Interface specifying a basic set of operations for interacting with Twitter.
+    /// Represents a saved search.
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
-    public interface ITwitter : IApiBinding
+    public class SavedSearch
     {
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the search operations.
-        /// </summary>        
-        ISearchOperations SearchOperations { get; }
+        /// Gets or sets the saved search ID.
+        /// </summary>
+        public long ID { get; set; }
 
         /// <summary>
-        /// Gets the portion of the Twitter API containing the tweet and timeline operations.
+        /// Gets or sets the saved search name.
         /// </summary>
-        ITimelineOperations TimelineOperations { get; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets the underlying <see cref="IRestOperations"/> object allowing for consumption of Twitter endpoints 
-        /// that may not be otherwise covered by the API binding. 
+        /// Gets or sets the saved search query.
         /// </summary>
-        /// <remarks>
-        /// The <see cref="IRestOperations"/> object returned is configured to include an OAuth "Authorization" header on all requests.
-        /// </remarks>
-        IRestOperations RestOperations { get; }
+        public string Query { get; set; }
+
+        /// <summary>
+        /// Gets or sets the saved search created date.
+        /// </summary>
+        public DateTime? CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the saved search position.
+        /// </summary>
+        public int Position { get; set; }
     }
 }

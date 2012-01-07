@@ -19,35 +19,36 @@
 #endregion
 
 using System;
-
-using Spring.Rest.Client;
+using System.Collections.Generic;
 
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Interface specifying a basic set of operations for interacting with Twitter.
+    /// Represents the results of a Twitter search, 
+    /// including matching <see cref="Tweet"/>s and any metadata associated with that search.
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
-    public interface ITwitter : IApiBinding
+    public class SearchResults
     {
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the search operations.
-        /// </summary>        
-        ISearchOperations SearchOperations { get; }
+        /// Gets or sets the list of matching <see cref="Tweet"/>s.
+        /// </summary>
+        public IList<Tweet> Tweets { get; set; }
 
         /// <summary>
-        /// Gets the portion of the Twitter API containing the tweet and timeline operations.
+        /// Gets or sets the maximum <see cref="Tweet"/> ID in the search results
         /// </summary>
-        ITimelineOperations TimelineOperations { get; }
+        public long MaxId { get; set; }
 
         /// <summary>
-        /// Gets the underlying <see cref="IRestOperations"/> object allowing for consumption of Twitter endpoints 
-        /// that may not be otherwise covered by the API binding. 
+        /// Gets or sets the <see cref="Tweet"/> ID after which all of the matching <see cref="Tweet"/>s were created.
         /// </summary>
-        /// <remarks>
-        /// The <see cref="IRestOperations"/> object returned is configured to include an OAuth "Authorization" header on all requests.
-        /// </remarks>
-        IRestOperations RestOperations { get; }
+        public long SinceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not this is the last page of matching <see cref="Tweet"/>s.
+        /// </summary>
+        public bool IsLastPage { get; set; }
     }
 }

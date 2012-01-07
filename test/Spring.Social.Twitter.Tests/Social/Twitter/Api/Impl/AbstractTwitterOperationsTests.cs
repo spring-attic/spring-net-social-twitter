@@ -75,7 +75,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.ProfileImageUrl);
 		    Assert.AreEqual("Spring Social Showcase", tweet.Source);
             Assert.IsNotNull(tweet.CreatedAt);
-            Assert.AreEqual("13/07/2010 17:38:21", tweet.CreatedAt.Value.ToUniversalTime().ToString());
+            Assert.AreEqual("13/07/2010 17:38:21", tweet.CreatedAt.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
             Assert.IsNotNull(tweet.InReplyToStatusId);
 		    Assert.AreEqual(123123123123, tweet.InReplyToStatusId.Value);
 	    }
@@ -92,7 +92,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.ProfileImageUrl);
 		    Assert.AreEqual("Twitter", tweet2.Source);
             Assert.IsNotNull(tweet2.CreatedAt);
-            Assert.AreEqual("20/07/2010 19:38:21", tweet2.CreatedAt.Value.ToUniversalTime().ToString());
+            Assert.AreEqual("20/07/2010 19:38:21", tweet2.CreatedAt.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
 	    }
 
 #if NET_4_0 || SILVERLIGHT_5

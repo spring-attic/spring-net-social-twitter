@@ -20,34 +20,23 @@
 
 using System;
 
-using Spring.Rest.Client;
-
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Interface specifying a basic set of operations for interacting with Twitter.
+    /// Represents a single trending topic.
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
-    public interface ITwitter : IApiBinding
+    public class Trend
     {
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the search operations.
-        /// </summary>        
-        ISearchOperations SearchOperations { get; }
+        /// Gets or sets the name of the trending topic.
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets the portion of the Twitter API containing the tweet and timeline operations.
+        /// Gets or sets the query of the trending topic.
         /// </summary>
-        ITimelineOperations TimelineOperations { get; }
-
-        /// <summary>
-        /// Gets the underlying <see cref="IRestOperations"/> object allowing for consumption of Twitter endpoints 
-        /// that may not be otherwise covered by the API binding. 
-        /// </summary>
-        /// <remarks>
-        /// The <see cref="IRestOperations"/> object returned is configured to include an OAuth "Authorization" header on all requests.
-        /// </remarks>
-        IRestOperations RestOperations { get; }
+        public string Query { get; set; }
     }
 }

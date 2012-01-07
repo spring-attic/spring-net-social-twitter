@@ -55,6 +55,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private static readonly Uri API_URI_BASE = new Uri("https://api.twitter.com/1/");
 
+        private ISearchOperations searchOperations;
         private ITimelineOperations timelineOperations;
 
         /// <summary>
@@ -85,6 +86,14 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         #region ITwitter Members
+
+        /// <summary>
+        /// Gets or sets the portion of the Twitter API containing the search operations.
+        /// </summary>        
+        public ISearchOperations SearchOperations
+        {
+            get { return this.searchOperations; }
+        }
 
         /// <summary>
         /// Gets the portion of the Twitter API containing the tweet and timeline operations.
@@ -139,6 +148,12 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(TwitterProfile), new TwitterProfileDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<TwitterProfile>), new TwitterProfileListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<long>), new LongListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(SearchResults), new SearchResultsDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(SavedSearch), new SavedSearchDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(IList<SavedSearch>), new SavedSearchListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(DailyTrendsList), new DailyTrendsListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(WeeklyTrendsList), new WeeklyTrendsListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(LocalTrends), new LocalTrendsDeserializer());
 
             IList<IHttpMessageConverter> converters = base.GetMessageConverters();
             converters.Add(new SpringJsonHttpMessageConverter(jsonMapper));
@@ -147,6 +162,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         private void InitSubApis()
         {
+            this.searchOperations = new SearchTemplate(this.RestTemplate, this.IsAuthorized);
             this.timelineOperations = new TimelineTemplate(this.RestTemplate, this.IsAuthorized);
         }
     }
