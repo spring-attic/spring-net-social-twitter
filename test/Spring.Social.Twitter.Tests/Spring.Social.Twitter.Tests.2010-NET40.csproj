@@ -103,6 +103,9 @@
     <Reference Include="Spring.Rest">
       <HintPath>..\..\lib\net\4.0\Spring.Rest.dll</HintPath>
     </Reference>
+    <Reference Include="Spring.Rest.Testing">
+      <HintPath>..\..\lib\net\4.0\Spring.Rest.Testing.dll</HintPath>
+    </Reference>
     <Reference Include="Spring.Social.Core">
       <HintPath>..\..\lib\net\4.0\Spring.Social.Core.dll</HintPath>
     </Reference>
@@ -112,9 +115,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperationsTests.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Timeline.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Status.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Sharing_NotAllowed.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Retweeted_By.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Retweeted_By_Ids.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Favorite.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -124,6 +135,9 @@
       <Project>{04F79EC0-1F18-18D3-3F4B-01CFAE04EFBC}</Project>
       <Name>Spring.Social.Twitter.2010-NET40</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

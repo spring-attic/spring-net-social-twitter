@@ -52,7 +52,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    }
 	    }
 
-        protected Uri BuildUri(string path, NameValueCollection parameters)
+        protected string BuildUrl(string path, NameValueCollection parameters)
         {
             StringBuilder qsBuilder = new StringBuilder();
             bool isFirst = true;
@@ -71,7 +71,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 qsBuilder.Append('=');
                 qsBuilder.Append(HttpUtils.UrlEncode(parameters[key]));
             }
-            return new Uri(path + qsBuilder.ToString());
+            return path + qsBuilder.ToString();
 	    }
     }
 }

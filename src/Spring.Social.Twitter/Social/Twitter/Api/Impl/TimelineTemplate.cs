@@ -77,7 +77,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/home_timeline.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/home_timeline.json", parameters));
         }
 
         public Task<IList<Tweet>> GetUserTimelineAsync()
@@ -94,7 +94,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters));
         }
 
         public Task<IList<Tweet>> GetUserTimelineAsync(string screenName)
@@ -111,7 +111,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters));
         }
 
         public Task<IList<Tweet>> GetUserTimelineAsync(long userId)
@@ -128,7 +128,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters));
         }
 
         public Task<IList<Tweet>> GetMentionsAsync()
@@ -145,7 +145,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/mentions.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/mentions.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetedByMeAsync()
@@ -162,7 +162,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_me.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_me.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetedByUserAsync(long userId)
@@ -180,7 +180,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_user.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetedByUserAsync(string screenName)
@@ -198,7 +198,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_user.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetedToMeAsync()
@@ -215,7 +215,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_me.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_me.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetedToUserAsync(long userId)
@@ -233,7 +233,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_user.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetedToUserAsync(string screenName)
@@ -251,7 +251,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_user.json", parameters));
         }
 
         public Task<IList<Tweet>> GetRetweetsOfMeAsync()
@@ -268,7 +268,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweets_of_me.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweets_of_me.json", parameters));
         }
 
         public Task<Tweet> GetStatusAsync(long tweetId)
@@ -300,8 +300,8 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             IDictionary<string, object> request = new Dictionary<string, object>();
             request.Add("status", status);
-            request.Add("media", photo);
             AddStatusDetailsTo(request, details);
+            request.Add("media", photo);
             return this.restTemplate.PostForObjectAsync<Tweet>("https://upload.twitter.com/1/statuses/update_with_media.json", request);
         }
 
@@ -336,7 +336,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public Task<IList<TwitterProfile>> GetRetweetedByAsync(long tweetId, int page, int pageSize)
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("statuses/" + tweetId + "/retweeted_by.json", parameters));
         }
 
         public Task<IList<long>> GetRetweetedByIdsAsync(long tweetId)
@@ -348,7 +348,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized(); // requires authentication, even though getRetweetedBy() does not.
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<long>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by/ids.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<long>>(this.BuildUrl("statuses/" + tweetId + "/retweeted_by/ids.json", parameters));
         }
 
         public Task<IList<Tweet>> GetFavoritesAsync()
@@ -361,7 +361,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             // Note: The documentation for /favorites.json doesn't list the count parameter, but it works anyway.
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("favorites.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("favorites.json", parameters));
         }
 
         public Task AddToFavoritesAsync(long tweetId)
@@ -398,7 +398,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/home_timeline.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/home_timeline.json", parameters));
         }
 
         public IList<Tweet> GetUserTimeline()
@@ -415,7 +415,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters));
         }
 
         public IList<Tweet> GetUserTimeline(string screenName)
@@ -432,7 +432,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters));
         }
 
         public IList<Tweet> GetUserTimeline(long userId)
@@ -449,7 +449,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters));
         }
 
         public IList<Tweet> GetMentions()
@@ -466,7 +466,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/mentions.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/mentions.json", parameters));
         }
 
         public IList<Tweet> GetRetweetedByMe()
@@ -483,7 +483,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_me.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_me.json", parameters));
         }
 
         public IList<Tweet> GetRetweetedByUser(long userId)
@@ -501,7 +501,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_user.json", parameters));
         }
 
         public IList<Tweet> GetRetweetedByUser(string screenName)
@@ -519,7 +519,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_user.json", parameters));
         }
 
         public IList<Tweet> GetRetweetedToMe()
@@ -536,7 +536,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_me.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_me.json", parameters));
         }
 
         public IList<Tweet> GetRetweetedToUser(long userId)
@@ -554,7 +554,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_user.json", parameters));
         }
 
         public IList<Tweet> GetRetweetedToUser(string screenName)
@@ -572,7 +572,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_user.json", parameters));
         }
 
         public IList<Tweet> GetRetweetsOfMe()
@@ -589,7 +589,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("statuses/retweets_of_me.json", parameters));
+            return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("statuses/retweets_of_me.json", parameters));
         }
 
         public Tweet GetStatus(long tweetId)
@@ -621,8 +621,8 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
 		    IDictionary<string, object> request = new Dictionary<string, object>();
 		    request.Add("status", status);
-		    request.Add("media", photo);
             AddStatusDetailsTo(request, details);
+		    request.Add("media", photo);
 		    return this.restTemplate.PostForObject<Tweet>("https://upload.twitter.com/1/statuses/update_with_media.json", request);
         }
 
@@ -657,7 +657,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public IList<TwitterProfile> GetRetweetedBy(long tweetId, int page, int pageSize)
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by.json", parameters));
+		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("statuses/" + tweetId + "/retweeted_by.json", parameters));
         }
 
         public IList<long> GetRetweetedByIds(long tweetId)
@@ -669,7 +669,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized(); // requires authentication, even though getRetweetedBy() does not.
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-		    return this.restTemplate.GetForObject<IList<long>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by/ids.json", parameters));
+		    return this.restTemplate.GetForObject<IList<long>>(this.BuildUrl("statuses/" + tweetId + "/retweeted_by/ids.json", parameters));
         }
 
         public IList<Tweet> GetFavorites()
@@ -682,7 +682,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
 		    // Note: The documentation for /favorites.json doesn't list the count parameter, but it works anyway.
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-		    return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUri("favorites.json", parameters));
+		    return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("favorites.json", parameters));
         }
 
         public void AddToFavorites(long tweetId)
@@ -718,7 +718,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/home_timeline.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/home_timeline.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetUserTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -735,7 +735,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetUserTimelineAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -752,7 +752,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetUserTimelineAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -769,7 +769,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/user_timeline.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/user_timeline.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetMentionsAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -786,7 +786,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/mentions.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/mentions.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedByMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -803,7 +803,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_me.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_me.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedByUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -821,7 +821,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_user.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedByUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -839,7 +839,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_by_user.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_by_user.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedToMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -856,7 +856,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_me.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_me.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedToUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -874,7 +874,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("user_id", userId.ToString());
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_user.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedToUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -892,7 +892,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
             parameters.Add("screen_name", screenName);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweeted_to_user.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweeted_to_user.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetsOfMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -909,7 +909,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("statuses/retweets_of_me.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("statuses/retweets_of_me.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted)
@@ -941,8 +941,8 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             IDictionary<string, object> request = new Dictionary<string, object>();
             request.Add("status", status);
-            request.Add("media", photo);
             AddStatusDetailsTo(request, details);
+            request.Add("media", photo);
             return this.restTemplate.PostForObjectAsync<Tweet>("https://upload.twitter.com/1/statuses/update_with_media.json", request, operationCompleted);
         }
 
@@ -977,7 +977,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public RestOperationCanceler GetRetweetedByAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("statuses/" + tweetId + "/retweeted_by.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted)
@@ -989,7 +989,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized(); // requires authentication, even though getRetweetedBy() does not.
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<long>>(this.BuildUri("statuses/" + tweetId + "/retweeted_by/ids.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<long>>(this.BuildUrl("statuses/" + tweetId + "/retweeted_by/ids.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetFavoritesAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
@@ -1002,7 +1002,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             // Note: The documentation for /favorites.json doesn't list the count parameter, but it works anyway.
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUri("favorites.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("favorites.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler AddToFavoritesAsync(long tweetId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)

@@ -84,6 +84,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net\3.5\Spring.Rest.dll</HintPath>
     </Reference>
+    <Reference Include="Spring.Rest.Testing, Version=1.1.0.3635, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net\3.5\Spring.Rest.Testing.dll</HintPath>
+    </Reference>
     <Reference Include="Spring.Social.Core, Version=1.0.0.34335, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net\3.5\Spring.Social.Core.dll</HintPath>
@@ -94,9 +98,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperationsTests.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Sharing_NotAllowed.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Favorite.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Retweeted_By.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Retweeted_By_Ids.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Status.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Timeline.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -106,6 +118,9 @@
       <Project>{1C6A09B3-607D-4A06-8D59-C723CBBBF77D}</Project>
       <Name>Spring.Social.Twitter.2008-NET35</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
