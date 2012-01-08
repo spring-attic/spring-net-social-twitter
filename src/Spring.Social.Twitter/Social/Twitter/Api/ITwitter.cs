@@ -42,6 +42,11 @@ namespace Spring.Social.Twitter.Api
         ITimelineOperations TimelineOperations { get; }
 
         /// <summary>
+        /// Gets the portion of the Twitter API containing the user operations.
+        /// </summary>
+        IUserOperations UserOperations { get; }
+
+        /// <summary>
         /// Gets the underlying <see cref="IRestOperations"/> object allowing for consumption of Twitter endpoints 
         /// that may not be otherwise covered by the API binding. 
         /// </summary>

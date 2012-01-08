@@ -52,6 +52,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 FriendsCount = value.GetValue<int>("friends_count"),
                 FollowersCount = value.GetValue<int>("followers_count"),
                 FavoritesCount = value.GetValue<int>("favourites_count"),
+                ListedCount = value.GetValue<int>("listed_count"),
                 IsFollowing = value.GetValue<bool>("following"),
                 IsFollowRequestSent = value.GetValue<bool>("follow_request_sent"),
                 IsProtected = value.GetValue<bool>("protected"),

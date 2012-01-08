@@ -39,7 +39,7 @@ using Spring.Social.Twitter.Api.Impl.Json;
 namespace Spring.Social.Twitter.Api.Impl
 {
     /// <summary>
-    /// Implementation of <see cref="ITimelineOperations"/>, providing a binding to Twitter's search and trend-oriented REST resources.
+    /// Implementation of <see cref="ISearchOperations"/>, providing a binding to Twitter's search and trend-oriented REST resources.
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
@@ -160,7 +160,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 #else
 #if !SILVERLIGHT
-                public SearchResults Search(string query) 
+        public SearchResults Search(string query) 
         {
 		    return this.Search(query, 1, DEFAULT_RESULTS_PER_PAGE, 0, 0);
 	    }

@@ -102,6 +102,7 @@
     <Compile Include="Social\Twitter\Api\Impl\SearchTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplateTests.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\UserTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Sharing_NotAllowed.json" />
@@ -116,6 +117,12 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Saved_Searches.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Search.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Weekly_Trends.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\List_Of_Profiles.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Rate_Limit_Status_Authenticated.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Rate_Limit_Status_Unauthenticated.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Suggestions.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Suggestion_Categories.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Twitter_Profile.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

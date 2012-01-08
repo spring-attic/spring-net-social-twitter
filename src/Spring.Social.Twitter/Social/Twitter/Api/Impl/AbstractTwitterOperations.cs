@@ -52,6 +52,13 @@ namespace Spring.Social.Twitter.Api.Impl
 		    }
 	    }
 
+        protected string BuildUrl(string path, string parameterName, string parameterValue)
+        {
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add(parameterName, parameterValue);
+            return this.BuildUrl(path, parameters);
+        }
+
         protected string BuildUrl(string path, NameValueCollection parameters)
         {
             StringBuilder qsBuilder = new StringBuilder();

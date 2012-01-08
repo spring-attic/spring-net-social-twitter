@@ -58,22 +58,40 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\ImageSize.cs" />
     <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperations.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\DailyTrendsList.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\AbstractTrendsListDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\DailyTrendsListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\ArrayUtils.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\DailyTrendsList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\AbstractTrendsListDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\DailyTrendsListDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\JsonUtils.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\LocalTrendsDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\LocalTrendsDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\LongListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchListDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\SearchResultsDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\RateLimitStatusDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchListDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\SearchResultsDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\SuggestionCategoryListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\TweetDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,12 +104,18 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\TwitterProfileListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\WeeklyTrendsListDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\LocalTrends.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\WeeklyTrendsListDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\LocalTrends.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\PagingUtils.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\SearchTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\SearchTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\TimelineTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,21 +125,37 @@
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\WeeklyTrendsList.cs" />
-    <Compile Include="Social\Twitter\Api\ISearchOperations.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\UserTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\WeeklyTrendsList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\ISearchOperations.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\ITimelineOperations.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\ITwitter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\SavedSearch.cs" />
-    <Compile Include="Social\Twitter\Api\SearchResults.cs" />
+    <Compile Include="Social\Twitter\Api\IUserOperations.cs" />
+    <Compile Include="Social\Twitter\Api\RateLimitStatus.cs" />
+    <Compile Include="Social\Twitter\Api\SavedSearch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\SearchResults.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\StatusDetails.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Trend.cs" />
-    <Compile Include="Social\Twitter\Api\Trends.cs" />
+    <Compile Include="Social\Twitter\Api\SuggestionCategory.cs" />
+    <Compile Include="Social\Twitter\Api\Trend.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Trends.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Tweet.cs">
       <SubType>Code</SubType>
     </Compile>

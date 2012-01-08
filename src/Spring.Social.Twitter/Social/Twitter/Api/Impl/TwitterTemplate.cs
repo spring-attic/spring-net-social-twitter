@@ -57,6 +57,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         private ISearchOperations searchOperations;
         private ITimelineOperations timelineOperations;
+        private IUserOperations userOperations;
 
         /// <summary>
         /// Create a new instance of <see cref="TwitterTemplate"/> able to perform unauthenticated operations against Twitter's API.
@@ -101,6 +102,14 @@ namespace Spring.Social.Twitter.Api.Impl
         public ITimelineOperations TimelineOperations
         {
             get { return this.timelineOperations; }
+        }
+
+        /// <summary>
+        /// Gets the portion of the Twitter API containing the user operations.
+        /// </summary>
+        public IUserOperations UserOperations
+        {
+            get { return this.userOperations; }
         }
 
         /// <summary>
@@ -154,8 +163,11 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(DailyTrendsList), new DailyTrendsListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(WeeklyTrendsList), new WeeklyTrendsListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(LocalTrends), new LocalTrendsDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(RateLimitStatus), new RateLimitStatusDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(IList<SuggestionCategory>), new SuggestionCategoryListDeserializer());
 
             IList<IHttpMessageConverter> converters = base.GetMessageConverters();
+            converters.Add(new ByteArrayHttpMessageConverter());
             converters.Add(new SpringJsonHttpMessageConverter(jsonMapper));
             return converters;
         }
@@ -164,6 +176,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.searchOperations = new SearchTemplate(this.RestTemplate, this.IsAuthorized);
             this.timelineOperations = new TimelineTemplate(this.RestTemplate, this.IsAuthorized);
+            this.userOperations = new UserTemplate(this.RestTemplate, this.IsAuthorized);
         }
     }
 }

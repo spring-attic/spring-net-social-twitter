@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperationsTests.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\UserTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\SearchTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplateTests.cs" />
@@ -133,6 +134,12 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Saved_Search.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Saved_Searches.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Weekly_Trends.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\List_Of_Profiles.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Suggestions.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Suggestion_Categories.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Twitter_Profile.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Rate_Limit_Status_Authenticated.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Rate_Limit_Status_Unauthenticated.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

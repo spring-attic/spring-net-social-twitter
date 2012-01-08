@@ -76,7 +76,7 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s.
         /// </returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        Task<SearchResults> SearchAsync(String query, int page, int pageSize, long sinceId, long maxId);
+        Task<SearchResults> SearchAsync(string query, int page, int pageSize, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the authenticating user's saved searches.
@@ -254,7 +254,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>A <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s</returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        SearchResults Search(String query, int page, int pageSize, long sinceId, long maxId);
+        SearchResults Search(string query, int page, int pageSize, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the authenticating user's saved searches.
@@ -424,7 +424,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler SearchAsync(String query, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted);
+        RestOperationCanceler SearchAsync(string query, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the authenticating user's saved searches.
