@@ -61,14 +61,14 @@ namespace Spring.Social.Twitter.Api.Impl
                 this.HandleServerErrors(response.StatusCode);
             }
 
-            // if not otherwise handled, do default handling and wrap with UncategorizedApiException
+            // if not otherwise handled, do default handling and wrap with ApiException
             try
             {
                 base.HandleError(response);
             }
             catch (Exception ex)
             {
-                throw new ApiException("Error consuming Twitter REST API", ex);
+                throw new ApiException("Error consuming Twitter REST API.", ex);
             }
         }
 
@@ -124,12 +124,11 @@ namespace Spring.Social.Twitter.Api.Impl
             else if (response.StatusCode == HttpStatusCode.NotFound) 
             {
 			    throw new ApiException(errorText);
-		    } 
-            // TODO: test 402: Enhance your calm
-            //else if (response.StatusCode == 402) 
-            //{
-            //    throw new ApiException("The rate limit has been exceeded.");
-            //}
+		    }
+            else if (response.StatusCode == (HttpStatusCode)420)
+            {
+                throw new ApiException("The rate limit has been exceeded.");
+            }
 	    }
 
 	    private void HandleServerErrors(HttpStatusCode statusCode)
