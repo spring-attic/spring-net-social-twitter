@@ -1,6 +1,6 @@
 The Spring.NET Social Twitter project, Release 1.0.0
 ----------------------------------------------------
-http://www.springframework.net/social/twitter/
+http://www.springframework.net/social-twitter/
 
 
 1. INTRODUCTION

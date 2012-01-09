@@ -6,13 +6,13 @@
     <!-- auto-generated -->
     <version>1.0.0</version>
     <iconUrl>http://springframework.net/images/SpringSource_Leaves32x32.png</iconUrl>
-    <projectUrl>http://www.springframework.net/</projectUrl>
+    <projectUrl>http://www.springframework.net/social-twitter/</projectUrl>
     <licenseUrl>http://www.springframework.net/license.html</licenseUrl>
     <authors>SpringSource</authors>
     <description>Spring.NET Social Framework</description>
     <summary>Allows you to connect your applications with Twitter.</summary>
     <language>en-US</language>
-    <tags>Spring Social REST HTTP Twitter</tags>
+    <tags>Spring Social REST JSON HTTP Twitter</tags>
     <dependencies>
       <dependency id="Spring.Social.Core" version="1.0.0" />
     </dependencies>
