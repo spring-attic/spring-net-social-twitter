@@ -524,9 +524,6 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// </returns>
         /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetDailyTrendsAsync(bool excludeHashtags, string startDate, Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted);
 

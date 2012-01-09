@@ -208,8 +208,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 #endif
 
-#endif
-
         public RestOperationCanceler GetUserProfileAsync(Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
             this.EnsureIsAuthorized();
@@ -291,6 +289,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             return this.restTemplate.GetForObjectAsync<RateLimitStatus>("account/rate_limit_status.json", operationCompleted);
         }
+#endif
 
         #endregion
 

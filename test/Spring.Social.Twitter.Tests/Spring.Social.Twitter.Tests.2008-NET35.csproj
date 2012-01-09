@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperationsTests.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\ErrorHandlerTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\SearchTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
@@ -128,6 +129,8 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_No_Token.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Rate_Limited.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Revoked_Token.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Direct_Message.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Messages.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

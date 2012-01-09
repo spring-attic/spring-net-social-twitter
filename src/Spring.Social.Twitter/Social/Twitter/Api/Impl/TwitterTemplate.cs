@@ -55,6 +55,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private static readonly Uri API_URI_BASE = new Uri("https://api.twitter.com/1/");
 
+        private IDirectMessageOperations directMessageOperations;
         private ISearchOperations searchOperations;
         private ITimelineOperations timelineOperations;
         private IUserOperations userOperations;
@@ -87,6 +88,14 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         #region ITwitter Members
+
+        /// <summary>
+        /// Gets or sets the portion of the Twitter API containing the direct message operations.
+        /// </summary>
+        public IDirectMessageOperations DirectMessageOperations
+        {
+            get { return this.directMessageOperations; }
+        }
 
         /// <summary>
         /// Gets or sets the portion of the Twitter API containing the search operations.
@@ -165,6 +174,8 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(LocalTrends), new LocalTrendsDeserializer());
             jsonMapper.RegisterDeserializer(typeof(RateLimitStatus), new RateLimitStatusDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<SuggestionCategory>), new SuggestionCategoryListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(DirectMessage), new DirectMessageDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(IList<DirectMessage>), new DirectMessageListDeserializer());
 
             IList<IHttpMessageConverter> converters = base.GetMessageConverters();
             converters.Add(new ByteArrayHttpMessageConverter());
@@ -174,6 +185,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         private void InitSubApis()
         {
+            this.directMessageOperations = new DirectMessageTemplate(this.RestTemplate, this.IsAuthorized);
             this.searchOperations = new SearchTemplate(this.RestTemplate, this.IsAuthorized);
             this.timelineOperations = new TimelineTemplate(this.RestTemplate, this.IsAuthorized);
             this.userOperations = new UserTemplate(this.RestTemplate, this.IsAuthorized);
