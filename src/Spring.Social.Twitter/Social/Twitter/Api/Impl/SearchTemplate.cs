@@ -31,10 +31,7 @@ using System.Threading.Tasks;
 using Spring.Http;
 #endif
 
-using Spring.IO;
 using Spring.Rest.Client;
-
-using Spring.Social.Twitter.Api.Impl.Json;
 
 namespace Spring.Social.Twitter.Api.Impl
 {

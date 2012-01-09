@@ -19,7 +19,6 @@
 #endregion
 
 using System;
-using System.Net;
 using System.Collections.Generic;
 #if SILVERLIGHT
 using Spring.Collections.Specialized;
@@ -30,11 +29,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 #endif
 
-using Spring.IO;
-using Spring.Http;
 using Spring.Rest.Client;
-
-using Spring.Social.Twitter.Api.Impl.Json;
 
 namespace Spring.Social.Twitter.Api.Impl
 {

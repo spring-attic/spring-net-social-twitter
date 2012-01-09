@@ -57,6 +57,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         private IBlockOperations blockOperations;
         private IDirectMessageOperations directMessageOperations;
+        private IGeoOperations geoOperations;
         private ISearchOperations searchOperations;
         private ITimelineOperations timelineOperations;
         private IUserOperations userOperations;
@@ -104,6 +105,14 @@ namespace Spring.Social.Twitter.Api.Impl
         public IDirectMessageOperations DirectMessageOperations
         {
             get { return this.directMessageOperations; }
+        }
+
+        /// <summary>
+        /// Gets the portion of the Twitter API containing the geo location operations.
+        /// </summary>
+        public IGeoOperations GeoOperations
+        {
+            get { return this.geoOperations; }
         }
 
         /// <summary>
@@ -185,6 +194,9 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(IList<SuggestionCategory>), new SuggestionCategoryListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(DirectMessage), new DirectMessageDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<DirectMessage>), new DirectMessageListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(Place), new PlaceDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(IList<Place>), new PlaceListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(SimilarPlaces), new SimilarPlacesDeserializer());
 
             IList<IHttpMessageConverter> converters = base.GetMessageConverters();
             converters.Add(new ByteArrayHttpMessageConverter());
@@ -196,6 +208,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.blockOperations = new BlockTemplate(this.RestTemplate, this.IsAuthorized);
             this.directMessageOperations = new DirectMessageTemplate(this.RestTemplate, this.IsAuthorized);
+            this.geoOperations = new GeoTemplate(this.RestTemplate, this.IsAuthorized);
             this.searchOperations = new SearchTemplate(this.RestTemplate, this.IsAuthorized);
             this.timelineOperations = new TimelineTemplate(this.RestTemplate, this.IsAuthorized);
             this.userOperations = new UserTemplate(this.RestTemplate, this.IsAuthorized);

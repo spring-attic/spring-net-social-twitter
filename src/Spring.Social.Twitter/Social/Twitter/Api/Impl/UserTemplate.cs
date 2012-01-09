@@ -30,11 +30,8 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 #endif
 
-using Spring.IO;
 using Spring.Http;
 using Spring.Rest.Client;
-
-using Spring.Social.Twitter.Api.Impl.Json;
 
 namespace Spring.Social.Twitter.Api.Impl
 {

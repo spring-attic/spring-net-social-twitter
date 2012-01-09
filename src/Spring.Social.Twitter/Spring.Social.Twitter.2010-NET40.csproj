@@ -110,6 +110,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\GeoTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\SimilarPlacesDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\PlaceListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\PlaceDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\SimilarPlaces.cs" />
+    <Compile Include="Social\Twitter\Api\PlacePrototype.cs" />
+    <Compile Include="Social\Twitter\Api\PlaceType.cs" />
+    <Compile Include="Social\Twitter\Api\Place.cs" />
+    <Compile Include="Social\Twitter\Api\IGeoOperations.cs" />
     <Compile Include="Social\Twitter\Api\IBlockOperations.cs" />
     <Compile Include="Social\Twitter\Api\DirectMessage.cs" />
     <Compile Include="Social\Twitter\Api\IDirectMessageOperations.cs" />

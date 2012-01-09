@@ -56,10 +56,13 @@
     <Compile Include="Social\Twitter\Api\DirectMessage.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\IBlockOperations.cs" />
+    <Compile Include="Social\Twitter\Api\IBlockOperations.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\IDirectMessageOperations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\IGeoOperations.cs" />
     <Compile Include="Social\Twitter\Api\ImageSize.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -69,13 +72,16 @@
     <Compile Include="Social\Twitter\Api\Impl\ArrayUtils.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\BlockTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\BlockTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\DailyTrendsList.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\GeoTemplate.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\AbstractTrendsListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +103,8 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\LongListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\PlaceDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\PlaceListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\RateLimitStatusDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +117,7 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\SearchResultsDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\SimilarPlacesDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\SuggestionCategoryListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,6 +172,9 @@
     <Compile Include="Social\Twitter\Api\IUserOperations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Place.cs" />
+    <Compile Include="Social\Twitter\Api\PlacePrototype.cs" />
+    <Compile Include="Social\Twitter\Api\PlaceType.cs" />
     <Compile Include="Social\Twitter\Api\RateLimitStatus.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -172,6 +184,7 @@
     <Compile Include="Social\Twitter\Api\SearchResults.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\SimilarPlaces.cs" />
     <Compile Include="Social\Twitter\Api\StatusDetails.cs">
       <SubType>Code</SubType>
     </Compile>

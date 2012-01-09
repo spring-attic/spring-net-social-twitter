@@ -19,7 +19,6 @@
 #endregion
 
 using System;
-using System.Net;
 using System.Collections.Generic;
 #if SILVERLIGHT
 using Spring.Collections.Specialized;
@@ -31,11 +30,8 @@ using System.Threading;
 using System.Threading.Tasks;
 #endif
 
-using Spring.IO;
 using Spring.Http;
 using Spring.Rest.Client;
-
-using Spring.Social.Twitter.Api.Impl.Json;
 
 namespace Spring.Social.Twitter.Api.Impl
 {
@@ -274,7 +270,14 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.ExchangeAsync(blockingExistsUrl, HttpMethod.GET, null, 
                 r =>
                 {
-                    operationCompleted(new RestOperationCompletedEventArgs<bool>(r.Error == null, r.Error, r.Cancelled, r.UserState));
+                    if (r.Error == null)
+                    {
+                        operationCompleted(new RestOperationCompletedEventArgs<bool>(true, r.Error, r.Cancelled, r.UserState));
+                    }
+                    else
+                    {
+                        operationCompleted(new RestOperationCompletedEventArgs<bool>(false, null, r.Cancelled, r.UserState));
+                    }
                 });
         }
 #endif
