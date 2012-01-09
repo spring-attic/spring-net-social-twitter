@@ -32,12 +32,17 @@ namespace Spring.Social.Twitter.Api
     public interface ITwitter : IApiBinding
     {
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the direct message operations.
+        /// Gets he portion of the Twitter API containing the block operations.
+        /// </summary>
+        IBlockOperations BlockOperations { get; }
+
+        /// <summary>
+        /// Gets the portion of the Twitter API containing the direct message operations.
         /// </summary>
         IDirectMessageOperations DirectMessageOperations { get; }
 
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the search operations.
+        /// Gets the portion of the Twitter API containing the search operations.
         /// </summary>        
         ISearchOperations SearchOperations { get; }
 

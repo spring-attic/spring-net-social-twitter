@@ -55,6 +55,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private static readonly Uri API_URI_BASE = new Uri("https://api.twitter.com/1/");
 
+        private IBlockOperations blockOperations;
         private IDirectMessageOperations directMessageOperations;
         private ISearchOperations searchOperations;
         private ITimelineOperations timelineOperations;
@@ -90,7 +91,15 @@ namespace Spring.Social.Twitter.Api.Impl
         #region ITwitter Members
 
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the direct message operations.
+        /// Gets the portion of the Twitter API containing the block operations.
+        /// </summary>
+        public IBlockOperations BlockOperations
+        {
+            get { return this.blockOperations; }
+        }
+
+        /// <summary>
+        /// Gets the portion of the Twitter API containing the direct message operations.
         /// </summary>
         public IDirectMessageOperations DirectMessageOperations
         {
@@ -98,7 +107,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         /// <summary>
-        /// Gets or sets the portion of the Twitter API containing the search operations.
+        /// Gets the portion of the Twitter API containing the search operations.
         /// </summary>        
         public ISearchOperations SearchOperations
         {
@@ -185,6 +194,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         private void InitSubApis()
         {
+            this.blockOperations = new BlockTemplate(this.RestTemplate, this.IsAuthorized);
             this.directMessageOperations = new DirectMessageTemplate(this.RestTemplate, this.IsAuthorized);
             this.searchOperations = new SearchTemplate(this.RestTemplate, this.IsAuthorized);
             this.timelineOperations = new TimelineTemplate(this.RestTemplate, this.IsAuthorized);

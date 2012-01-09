@@ -53,8 +53,13 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Social\Twitter\Api\DirectMessage.cs" />
-    <Compile Include="Social\Twitter\Api\IDirectMessageOperations.cs" />
+    <Compile Include="Social\Twitter\Api\DirectMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\IBlockOperations.cs" />
+    <Compile Include="Social\Twitter\Api\IDirectMessageOperations.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\ImageSize.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,18 +69,25 @@
     <Compile Include="Social\Twitter\Api\Impl\ArrayUtils.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\BlockTemplate.cs" />
     <Compile Include="Social\Twitter\Api\Impl\DailyTrendsList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\AbstractTrendsListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\DailyTrendsListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\DirectMessageDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\DirectMessageListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\DirectMessageDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\DirectMessageListDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\JsonUtils.cs">
       <SubType>Code</SubType>
     </Compile>
