@@ -110,6 +110,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\CursoredUserListListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\UserListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\ListTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\UserList.cs" />
+    <Compile Include="Social\Twitter\Api\IListOperations.cs" />
     <Compile Include="Social\Twitter\Api\CursoredList.cs" />
     <Compile Include="Social\Twitter\Api\IFriendOperations.cs" />
     <Compile Include="Social\Twitter\Api\Impl\FriendTemplate.cs" />

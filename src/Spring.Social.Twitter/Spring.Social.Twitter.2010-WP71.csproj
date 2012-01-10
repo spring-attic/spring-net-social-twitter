@@ -23,7 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\VS2010-WP70\Spring.Social.Twitter\Debug\</OutputPath>
+    <OutputPath>..\..\build\VS2010-WP71\Spring.Social.Twitter\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;$(DefineExtraConstants)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -34,7 +34,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\VS2010-WP70\Spring.Social.Twitter\Release\</OutputPath>
+    <OutputPath>..\..\build\VS2010-WP71\Spring.Social.Twitter\Release\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;$(DefineExtraConstants)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -58,7 +58,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Social\Twitter\Api\CursoredList.cs" />
+    <Compile Include="Social\Twitter\Api\CursoredList.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\DirectMessage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -68,10 +70,13 @@
     <Compile Include="Social\Twitter\Api\IDirectMessageOperations.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\IFriendOperations.cs" />
+    <Compile Include="Social\Twitter\Api\IFriendOperations.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\IGeoOperations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\IListOperations.cs" />
     <Compile Include="Social\Twitter\Api\ImageSize.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -90,14 +95,19 @@
     <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\FriendTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\FriendTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\GeoTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\AbstractTrendsListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\CursoredLongListDeserializer.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\CursoredLongListDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\CursoredUserListListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\DailyTrendsListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -152,9 +162,11 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\TwitterProfileListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\UserListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\WeeklyTrendsListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\ListTemplate.cs" />
     <Compile Include="Social\Twitter\Api\Impl\LocalTrends.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -230,6 +242,7 @@
     <Compile Include="Social\Twitter\Api\TwitterProfile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\UserList.cs" />
     <Compile Include="Social\Twitter\Connect\TwitterServiceProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />

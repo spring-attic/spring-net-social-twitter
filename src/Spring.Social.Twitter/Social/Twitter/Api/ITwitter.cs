@@ -52,6 +52,11 @@ namespace Spring.Social.Twitter.Api
         IGeoOperations GeoOperations { get; }
 
         /// <summary>
+        /// Gets the portion of the Twitter API containing the user list operations.
+        /// </summary>
+        IListOperations ListOperations { get; }
+
+        /// <summary>
         /// Gets the portion of the Twitter API containing the search operations.
         /// </summary>        
         ISearchOperations SearchOperations { get; }
