@@ -110,7 +110,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\CursoredList.cs" />
+    <Compile Include="Social\Twitter\Api\IFriendOperations.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\FriendTemplate.cs" />
     <Compile Include="Social\Twitter\Api\Impl\GeoTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\Json\CursoredLongListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\SimilarPlacesDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\PlaceListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\PlaceDeserializer.cs" />

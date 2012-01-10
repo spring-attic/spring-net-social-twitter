@@ -76,7 +76,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public Task<IList<Place>> SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query) 
         {
 		    NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, query);
-            return restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/search.json", parameters));
+            return this.restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/search.json", parameters));
 	    }
 
         public Task<SimilarPlaces> FindSimilarPlacesAsync(double latitude, double longitude, string name) 
@@ -132,7 +132,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public IList<Place> Search(double latitude, double longitude, PlaceType? granularity, string accuracy, string query) 
         {
 		    NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, query);
-		    return restTemplate.GetForObject<IList<Place>>(this.BuildUrl("geo/search.json", parameters));
+		    return this.restTemplate.GetForObject<IList<Place>>(this.BuildUrl("geo/search.json", parameters));
 	    }
 	
 	    public SimilarPlaces FindSimilarPlaces(double latitude, double longitude, string name) 
@@ -184,7 +184,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public RestOperationCanceler SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted)
         {
             NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, query);
-            return restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/search.json", parameters), operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/search.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler FindSimilarPlacesAsync(double latitude, double longitude, string name, Action<RestOperationCompletedEventArgs<SimilarPlaces>> operationCompleted)

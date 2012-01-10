@@ -42,6 +42,11 @@ namespace Spring.Social.Twitter.Api
         IDirectMessageOperations DirectMessageOperations { get; }
 
         /// <summary>
+        /// Gets the portion of the Twitter API containing the friends and followers operations.
+        /// </summary>
+        IFriendOperations FriendOperations { get; }
+
+        /// <summary>
         /// Gets the portion of the Twitter API containing the geo location operations.
         /// </summary>
         IGeoOperations GeoOperations { get; }

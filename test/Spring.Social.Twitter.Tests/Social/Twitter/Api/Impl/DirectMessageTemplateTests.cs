@@ -30,12 +30,12 @@ using Spring.IO;
 namespace Spring.Social.Twitter.Api.Impl
 {
     /// <summary>
-    /// Unit tests for the DirectMessage class.
+    /// Unit tests for the DirectMessageTemplate class.
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
     [TestFixture]
-    public class DirectMessageTests : AbstractTwitterOperationsTests 
+    public class DirectMessageTemplateTests : AbstractTwitterOperationsTests 
     {    
 	    [Test]
 	    public void GetDirectMessagesReceived() 

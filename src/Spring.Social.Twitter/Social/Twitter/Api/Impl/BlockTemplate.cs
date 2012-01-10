@@ -58,7 +58,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", userId.ToString());
-		    return restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request);
+		    return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request);
 	    }
 
         public Task<TwitterProfile> BlockAsync(string screenName) 
@@ -119,7 +119,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", userId.ToString());
-		    return restTemplate.PostForObject<TwitterProfile>("blocks/create.json", request);
+		    return this.restTemplate.PostForObject<TwitterProfile>("blocks/create.json", request);
 	    }
 	
 	    public TwitterProfile Block(string screenName) 
@@ -180,7 +180,7 @@ namespace Spring.Social.Twitter.Api.Impl
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
-            return restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request, operationCompleted);
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request, operationCompleted);
         }
 
         public RestOperationCanceler BlockAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)

@@ -102,6 +102,7 @@
     <Compile Include="Social\Twitter\Api\Impl\BlockTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\ErrorHandlerTests.cs" />
+    <Compile Include="Social\Twitter\Api\Impl\FriendTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\GeoTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\SearchTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
@@ -137,6 +138,12 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Geo_Place.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Places_List.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Similar_Places.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Follow.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Friend_Or_Follower_Ids.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Many_Friend_Or_Follower_Ids.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\No_Friend_Or_Follower_Ids.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Unfollow.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Incoming_Or_Outgoing_Friendships.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
