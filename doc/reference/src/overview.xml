@@ -7,17 +7,39 @@
          xmlns:ns="http://docbook.org/ns/docbook">
   <title>Overview</title>
 
-  <para>TODO</para>
+  <para>
+    The Spring.NET Social Twitter project is an extension to <ulink url="http://www.springframework.net/social/">Spring.NET Social</ulink>
+    that enables integration with Twitter.
+  </para>
+  
+  <para>
+		<ulink url="http://www.twitter.com">Twitter</ulink> is a popular micro-blogging and social networking service, 
+    enabling people to communicate with each other 140 characters at a time.
+	</para>
 
-  <para>Spring.NET Social Framework extension for Twitter supports the following .NET Frameworks : <itemizedlist>
-      <listitem>.NET 2.0</listitem>
+  <para>Spring.NET Social Twitter supports the following .NET Frameworks : <itemizedlist>
+    <listitem>
+      <para>.NET 2.0</para>
+    </listitem>
 
-      <listitem>.NET Client Profile 3.5 and 4.0</listitem>
+    <listitem>
+      <para>.NET Client Profile 3.5 and 4.0</para>
+    </listitem>
 
-      <listitem>Silverlight 4.0 and 5.0</listitem>
+    <listitem>
+      <para>Silverlight 4.0 and 5.0</para>
+    </listitem>
 
-      <listitem>Windows Phone 7.0 and 7.1</listitem>
-    </itemizedlist></para>
+    <listitem>
+      <para>Windows Phone 7.0 and 7.1</para>
+    </listitem>
+  </itemizedlist></para>
+  
+  <para>
+    As an extension, Spring.NET Social Twitter depends on Spring.NET Social. 
+    <sbr/>
+    Note that Spring.NET Social Twitter may release on a different schedule than Spring.NET Social. 
+    Consequently, Spring.NET Social's version may differ from that of Spring.NET Social Twitter.
+  </para>
 
-  <note>Spring.NET Social Twitter is also available in the Java version of the Spring Framework.</note>
 </chapter>

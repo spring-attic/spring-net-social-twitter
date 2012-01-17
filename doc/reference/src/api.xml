@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="api" version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:ns52="http://www.w3.org/2000/svg"
+         xmlns:ns5="http://www.w3.org/1999/xlink"
+         xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns3="http://www.w3.org/1999/xhtml"
+         xmlns:ns="http://docbook.org/ns/docbook">
+	<title>Twitter API Binding</title>
+  
+	<para>
+		Spring.NET Social Twitter offers integration with Twitter's REST API through the <interfacename>ITwitter</interfacename> interface 
+    and its implementation, <classname>TwitterTemplate</classname>.			
+	</para>
+
+	<para>
+		Creating an instance of <classname>TwitterTemplate</classname> involves invoking its constructor, 
+    passing in the application's OAuth credentials and an access token/secret pair authorizing the application to act on a user's behalf. 
+		<sbr/>For example:
+	</para>
+	
+	<programlisting language="csharp"><![CDATA[string consumerKey = "..."; // The application's consumer key
+string consumerSecret = "..."; // The application's consumer secret
+string accessToken = "..."; // The access token granted after OAuth authorization
+string accessTokenSecret = "..."; // The access token secret granted after OAuth authorization
+ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);]]></programlisting>
+	
+	<para>
+		In addition, <classname>TwitterTemplate</classname> has a default constructor that creates an instance without any OAuth credentials:
+	</para>
+	
+	<programlisting language="csharp"><![CDATA[Twitter twitter = new TwitterTemplate();]]></programlisting>
+	
+	<para>
+		When constructed with the default constructor, <classname>TwitterTemplate</classname> will allow a few simple operations that do not require authorization, 
+    such as searching. Attempting other operations, such as tweeting will fail with an <classname>NotAuthorizedException</classname> being thrown.
+	</para>
+	
+	<para>
+		You can also get an instance of <interfacename>ITwitter</interfacename> from the <classname>TwitterServiceProvider</classname> class.
+		<sbr/>The example code below shows use of the <classname>TwitterServiceProvider</classname> to retrieve an instance of <interfacename>ITwitter</interfacename> after authenticating through OAuth1 server-side flow:
+    <programlisting language="csharp"><![CDATA[
+TwitterServiceProvider serviceProvider = new TwitterServiceProvider("consumerKey", "consumerSecret");
+OAuth1Operations oauthOperations = serviceProvider.AuthOperations;
+OAuthToken requestToken = oauthOperations.FetchRequestToken("https://my-callback-url", null);
+string authorizeUrl = oauthOperations.BuildAuthorizeUrl(requestToken, null);
+Response.Redirect(authorizeUrl);
+
+// upon receiving the callback from the provider:
+OAuthToken accessToken = oauthOperations.ExchangeForAccessToken(new AuthorizedRequestToken(requestToken, oauthVerifier), null);
+ITwitter twitterApi = serviceProvider.GetApi(accessToken.Value, accessToken.Secret);]]></programlisting>
+  </para>
+
+  <note>
+    See <ulink url="http://www.springframework.net/social/">Spring.NET Social</ulink> project for OAuth1 based samples.
+  </note>
+	
+	<para>
+		Once you have a <interfacename>ITwitter</interfacename>, you can perform a several operations against Twitter.
+		<sbr/><interfacename>ITwitter</interfacename> is defined as follows:
+	</para>
+	
+  <programlisting language="csharp"><![CDATA[public interface ITwitter : IApiBinding
+{
+  IBlockOperations BlockOperations { get; }
+
+  IDirectMessageOperations DirectMessageOperations { get; }
+
+  IFriendOperations FriendOperations { get; }
+
+  IGeoOperations GeoOperations { get; }
+
+  IListOperations ListOperations { get; }
+  
+  ISearchOperations SearchOperations { get; }
+
+  ITimelineOperations TimelineOperations { get; }
+
+  IUserOperations UserOperations { get; }
+
+  IRestOperations RestOperations { get; }
+}]]></programlisting>	
+	
+	<para>
+		The <methodname>IApiBinding.IsAuthorized</methodname> property helps determine if the <interfacename>ITwitter</interfacename> instance has been created with credentials to perform on behalf of a user.
+		It will return true if it is capable of performing operations requiring authorization; false otherwise. 			
+	</para>
+	
+	<para>
+		The first eight properties return sub-APIs, partitioning the Twitter service API into divisions targeting specific facets of Twitter functionality.
+		These sub-APIs are defined by interfaces described in <xref linkend="table-twitter-sub-apis" />.
+    <sbr/>The last property <literal>RestOperations</literal> gets the underlying <classname>RestTemplate</classname> object allowing for consumption of Twitter endpoints that may not be otherwise covered by the API binding.
+  </para>
+	
+	<table xml:id="table-twitter-sub-apis">
+		<title>Twitter's Sub-APIs</title>
+		<tgroup cols="2">
+			<colspec align="left" />
+			<colspec colnum="1" colname="col1" colwidth="2*"/>
+			<colspec colnum="2" colname="col2" colwidth="2*"/>
+			<thead>
+				<row>
+					<entry align="center">Sub-API Interface</entry>
+					<entry align="center">Description</entry>
+				</row>
+			</thead>
+			<tbody>
+        <row>
+          <entry>BlockOperations</entry>
+          <entry>Blocking and unblocking other users.</entry>
+        </row>
+				<row>
+					<entry>DirectMessageOperations</entry>
+					<entry>Reading and sending direct messages.</entry>
+				</row>
+				<row>
+					<entry>FriendOperations</entry>
+					<entry>Retrieving a user's list of friends and followers and following/unfollowing users.</entry>
+				</row>
+				<row>
+					<entry>GeoOperations</entry>
+					<entry>Working with locations.</entry>
+				</row>
+				<row>
+					<entry>ListOperations</entry>
+					<entry>Maintaining, subscribing to, and unsubscribing from user lists</entry>
+				</row>
+				<row>
+					<entry>SearchOperations</entry>
+					<entry>Searching tweets and viewing search trends</entry>
+				</row>
+				<row>
+					<entry>TimelineOperations</entry>
+					<entry>Reading timelines and posting tweets.</entry>
+				</row>
+				<row>
+					<entry>UserOperations</entry>
+					<entry>Retrieving user profile data.</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+	
+	<para>
+		What follows is a survey of common tasks you may perform with <interfacename>ITwitter</interfacename> and its sub-APIs.
+		<sbr/>For complete details on the Spring.NET Social's entire Twitter API binding, refer to the API documentation.
+	</para>
+
+	<section id="twitter-getProfile">
+		<title>Retrieving a user's Twitter profile data</title>
+		
+		<para>
+			To get a user's Twitter profile, call <interfacename>UserOperations</interfacename>' <literal>GetUserProfile()</literal>:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfile();]]></programlisting>
+		
+		<para>
+			This returns a <classname>TwitterProfile</classname> object containing profile data for the authenticated user. 
+			This profile information includes the user's Twitter screen name, their name, location, description, and the date that they created their Twitter account. 
+			Also included is a URL to their profile image.
+		</para>
+		
+		<para>
+			If you want to retrieve the user profile for a specific user other than the authenticated user, you can so do by passing the user's screen name as a parameter to <literal>GetUserProfile()</literal>:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfile("brbaia");]]></programlisting>
+
+	</section>
+
+	<section id="twitter-status">
+		<title>Tweeting</title>
+		
+		<para>
+			To post a message to Twitter the simplest thing to do is to pass the message to the <literal>UpdateStatus()</literal> method provided by <interfacename>ITimelineOperations</interfacename>:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[twitter.TimelineOperations.UpdateStatus("Spring.NET Social is awesome!")]]></programlisting>
+		
+		<para>
+			Optionally, you may also include metadata about the tweet, such as the location (latitude and longitude) you are tweeting from. 
+			For that, pass in a <classname>StatusDetails</classname> object, setting the location property:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[StatusDetails statusDetails = new StatusDetails()
+{
+  Latitude = 51.502,
+  Longitude = -0.126
+};
+twitter.TimelineOperations.UpdateStatus("I'm tweeting from London!", statusDetails);]]></programlisting>
+		
+		<para>
+			To have Twitter display the location in a map (on the Twitter web site) then you should also set the <literal>DisplayCoordinates</literal> property to <literal>true</literal>:
+		</para>
+
+    <programlisting language="csharp"><![CDATA[StatusDetails statusDetails = new StatusDetails()
+{
+  Latitude = 51.502,
+  Longitude = -0.126,
+  DisplayCoordinates = true;
+};
+twitter.TimelineOperations.UpdateStatus("I'm tweeting from London!", statusDetails);]]></programlisting>
+		
+		<para>
+			If you'd like to retweet another tweet (perhaps one found while searching or reading the Twitter timeline), call the <literal>Retweet()</literal> method, passing in the ID of the tweet to be retweeted:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[long tweetId = tweet.ID;
+twitter.TimelineOperations.Retweet(tweetId);]]></programlisting>
+		
+	</section>
+
+	<section id="twitter-timelines">
+		<title>Reading Twitter timelines</title> <!-- and mentions -->
+		
+		<para>
+			From a Twitter user's perspective, Twitter organizes tweets into four different timelines:
+		</para>
+		
+		<itemizedlist>
+			<listitem><para>User - Includes tweets posted by the user.</para></listitem>
+			<listitem><para>Friends - Includes tweets from the user's timeline and the timeline of anyone that they follow, with the exception of any retweets.</para></listitem>
+			<listitem><para>Home - Includes tweets from the user's timeline and the timeline of anyone that they follow.</para></listitem>
+			<listitem><para>Public - Includes tweets from all Twitter users.</para></listitem>
+		</itemizedlist>
+		
+		<para>
+			To be clear, the only difference between the home timeline and the friends timeline is that the friends timeline excludes retweets.
+		</para>
+		
+		<para>
+			<interfacename>ITimelineOperations</interfacename> also supports reading of tweets from one of the available Twitter timelines. 
+			<sbr/>To retrieve the 20 most recent tweets from the public timeline, use the <literal>GetPublicTimeline()</literal> method:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetPublicTimeline();]]></programlisting>
+		
+		<para>
+      <literal>GetHomeTimeline()</literal> retrieves the 20 most recent tweets from the user's home timeline:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetHomeTimeline();]]></programlisting>
+		
+		<para>
+			Similarly, <literal>GetFriendsTimeline()</literal> retrieves the 20 most recent tweets from the user's friends timeline:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetFriendsTimeline();]]></programlisting>
+		
+		<para>
+			To get tweets from the authenticating user's own timeline, call the <literal>GetUserTimeline()</literal> method:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetUserTimeline();]]></programlisting>
+		
+		<para>
+			If you'd like to retrieve the 20 most recent tweets from a specific user's timeline (not necessarily the authenticating user's timeline), pass the user's screen name in as a parameter to <literal>GetUserTimeline()</literal>:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetUserTimeline("rclarkson");]]></programlisting>
+		
+		<para>
+			In addition to the four Twitter timelines, you may also want to get a list of tweets mentioning the user. 
+			The <literal>GetMentions()</literal> method returns the 20 most recent tweets that mention the authenticating user:
+    </para>
+		
+		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetMentions();]]></programlisting>
+		
+	</section>
+
+	<section id="twitter-friends">
+		<title>Friends and Followers</title>
+		
+		<para>
+			A key social concept in Twitter is the ability for one user to "follow" another user.
+			The followed user's tweets will appear in the following user's home and friends timelines.
+			<sbr/>To follow a user on behalf of the authenticating user, call the <interfacename>IFriendOperations</interfacename>' <literal>Follow()</literal> method:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[twitter.FriendOperations.Follow("braia");]]></programlisting>
+
+		<para>
+			Similarly, you may stop following a user using the <literal>Unfollow()</literal> method:
+		</para>
+
+		<programlisting language="csharp"><![CDATA[twitter.FriendOperations.Unfollow("braia");]]></programlisting>
+		
+		<para>
+			If you want to see who a particular user is following, use the <literal>GetFriends()</literal> method:
+		</para>
+
+		<programlisting language="csharp"><![CDATA[IList<TwitterProfile> friends = twitter.FriendOperations.GetFriends("braia");]]></programlisting>
+
+		<para>
+			On the other hand, you may be interested in seeing who is following a given user.
+			In that case the <literal>GetFollowers()</literal> method may be useful:		
+    </para>
+
+		<programlisting language="csharp"><![CDATA[IList<TwitterProfile> followers = twitter.FriendOperations.GetFollowers("braia");]]></programlisting>
+	</section>
+	
+	<section id="twitter-lists">
+		<title>Twitter User Lists</title>
+		
+		<para>
+			In addition to following other users, Twitter provides the ability for users to collect users in lists, regardless of whether or not they are being followed.
+			<sbr/>These lists may be private to the use who created them or may be public for others to read and subscribe to.
+		</para>
+		
+		<para>
+			To create a new list, use <interfacename>IListOperations</interfacename>' <literal>CreateList()</literal> method:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[UserList familyList = twitter.ListOperations.CreateList("My Family", "Tweets from my immediate family members", false);]]></programlisting>
+		
+		<para>
+			<literal>CreateList()</literal> takes three parameters and returns a <classname>UserList</classname> object representing the newly created list.
+			<sbr/>The first parameter is the name of the list.
+			<sbr/>The second parameter is a brief description of the list.
+			<sbr/>The final parameter is a boolean indicating whether or not the list is public.
+			<sbr/>Here, false indicates that the list should be private.			
+		</para>
+		
+		<para>
+			Once the list is created, you may add members to the list by calling the <literal>AddToList()</literal> method:
+		</para>
+
+		<programlisting language="csharp"><![CDATA[twitter.ListOperations.AddToList(familyList.Slug, "artnames");]]></programlisting>
+		
+		<para>
+			The first parameter given to <literal>AddToList()</literal> is the list slug (which is readily available from the <classname>UserList</classname> object).
+			<sbr/>The second parameter is the screen name of a user to add to the list.
+		</para>
+		
+		<para>
+			To remove a member from a list, pass the same parameters to <literal>RemovedFromList()</literal>:
+		</para>
+
+		<programlisting language="csharp"><![CDATA[twitter.ListOperations.RemoveFromList(familyList.Slug, "artnames");]]></programlisting>
+
+		<para>
+			You can also subscribe to a list on behalf of the authenticating user.
+			Subscribing to a list has the effect of including tweets from the list's members in the user's home timeline.
+			<sbr/>The <literal>Subscribe()</literal> method is used to subscribe to a list:
+		</para>
+
+		<programlisting language="csharp"><![CDATA[twitter.ListOperations.Subscribe("brbaia", "music");]]></programlisting>			
+		
+		<para>
+			Here, <literal>Subscribe()</literal> is given the list owner's screen name ("brbaia") and the list slug ("music").
+    </para>
+		
+		<para>
+			Similarly, you may unsubscribe from a list with the <literal>Unsubscribe()</literal> method:
+		</para>
+
+		<programlisting language="csharp"><![CDATA[twitter.ListOperations.Unsubscribe("brbaia", "music");]]></programlisting>			
+	</section>		
+
+	<section id="twitter-search">
+		<title>Searching Twitter</title>
+		
+		<para>
+			<interfacename>ISearchOperations</interfacename> enables you to search the public timeline for tweets containing some text through its <literal>Search()</literal> method.
+		</para>
+		
+		<para>
+			For example, to search for tweets containing "#Spring.NET":
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[SearchResults results = twitter.SearchOperations.Search("#Spring.NET");]]></programlisting>
+		
+		<para>
+			The <literal>Search()</literal> method will return a <classname>SearchResults</classname> object that includes a list of 50 most recent matching tweets as well as some metadata concerning the result set. 
+			<sbr/>The metadata includes the maximum tweet ID in the search results list as well as the ID of a tweet that precedes the resulting tweets. 
+			<sbr/>The <literal>sinceId</literal> and <literal>maxId</literal> properties effectively define the boundaries of the result set. 
+			<sbr/>Additionally, there's a boolean <literal>lastPage</literal> property that, if <literal>true</literal>, indicates that this result set is the page of results.  
+  </para>
+		
+		<para>
+			To gain better control over the paging of results, you may choose to pass in the page and results per page to <methodname>Search()</methodname>:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[SearchResults results = twitter.SearchOperations.Search("#Spring.NET", 2, 10);]]></programlisting>
+		
+		<para>
+			Here, we're asking for the 2nd page of results where the pages have 10 tweets per page.
+		</para>
+		
+		<para>
+			Finally, if you'd like to confine the bounds of the search results to fit between two tweet IDs, you may pass in the since and maximum tweet ID values to <literal>Search()</literal>:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[SearchResults results = twitter.SearchOperations.Search("#Spring.NET", 2, 10, 145962, 210112);]]></programlisting>
+		
+		<para>
+			This ensures that the result set will not contain any tweets posted before the tweet whose ID is 146962 nor any tweets posted after the tweet whose ID is 210112.
+		</para>
+	</section>
+
+	<section id="twitter-directMessages">
+		<title>Sending and receiving direct messages</title>
+		
+		<para>
+			In addition to posting tweets to the public timelines, Twitter also supports sending of private messages directly to a given user. 
+			<interfacename>IDirectMessageOperations</interfacename>'s <literal>SendDirectMessage()</literal> method can be used to send a direct message to another user:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[twitter.DirectMessageOperations.SendDirectMessage("kdonald", "You going to the Dolphins game?")]]></programlisting>
+		
+		<para>
+      <interfacename>IDirectMessageOperations</interfacename> can also be used to read direct messages received by the authenticating user through its <literal>GetDirectMessagesReceived()</literal> method:
+		</para>
+		
+		<programlisting language="csharp"><![CDATA[IList<DirectMessage> twitter.DirectMessageOperations.GetDirectMessagesReceived();]]></programlisting>
+		
+		<para>
+      <literal>GetDirectMessagesReceived()</literal> will return the 20 most recently received direct messages.
+		</para>
+		
+	</section>
+</chapter>
