@@ -9,7 +9,7 @@
     <projectUrl>http://www.springframework.net/social-twitter/</projectUrl>
     <licenseUrl>http://www.springframework.net/license.html</licenseUrl>
     <authors>SpringSource</authors>
-    <description>Spring.NET Social Framework</description>
+    <description>Spring.NET Social Framework extension for Twitter</description>
     <summary>Allows you to connect your applications with Twitter.</summary>
     <language>en-US</language>
     <tags>Spring Social REST JSON HTTP Twitter</tags>

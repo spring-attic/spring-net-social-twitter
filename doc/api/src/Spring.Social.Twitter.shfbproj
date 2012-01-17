@@ -87,7 +87,7 @@
     <PresentationStyle>hana</PresentationStyle>
     <BuildLogFile>
     </BuildLogFile>
-    <HelpTitle>Spring.NET Social Framework extension for Twitter - API Documentation</HelpTitle>
+    <HelpTitle>Spring.NET Social Twitter - API Documentation</HelpTitle>
     <MSHelpViewerSdkLinkType>Msdn</MSHelpViewerSdkLinkType>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <FooterText>Sponsored by SpringSource</FooterText>
