@@ -109,15 +109,5 @@ namespace Spring.Social.Twitter.Api.Impl
             });
         }
 #endif
-
-        protected static RequestMatcher BodyContains(string body)
-        {
-            return request =>
-            {
-                MockClientHttpRequest mockRequest = request as MockClientHttpRequest;
-                string actualBody = mockRequest.GetBodyAsString();
-                AssertionUtils.IsTrue(actualBody.Contains(body), String.Format("Body didn't contain expected content [expected:<{0}> in:<{1}>]", body, actualBody));
-            };
-        }
     }
 }

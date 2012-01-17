@@ -172,7 +172,7 @@ namespace Spring.Social.Twitter.Api.Impl
         #endregion
 
         /// <summary>
-        /// Enables customization of the RestTemplate used to consume provider API resources.
+        /// Enables customization of the <see cref="RestTemplate"/> used to consume provider API resources.
         /// </summary>
         /// <remarks>
         /// An example use case might be to configure a custom error handler. 
@@ -189,12 +189,26 @@ namespace Spring.Social.Twitter.Api.Impl
         /// Returns a list of <see cref="IHttpMessageConverter"/>s to be used by the internal <see cref="RestTemplate"/>.
         /// </summary>
         /// <remarks>
-        /// This implementation adds a <see cref="SpringJsonHttpMessageConverter"/> to the default list.
+        /// This implementation adds <see cref="SpringJsonHttpMessageConverter"/> and <see cref="ByteArrayHttpMessageConverter"/> to the default list.
         /// </remarks>
         /// <returns>
         /// The list of <see cref="IHttpMessageConverter"/>s to be used by the internal <see cref="RestTemplate"/>.
         /// </returns>
         protected override IList<IHttpMessageConverter> GetMessageConverters()
+        {
+            IList<IHttpMessageConverter> converters = base.GetMessageConverters();
+            converters.Add(new ByteArrayHttpMessageConverter());
+            converters.Add(this.GetJsonMessageConverter());
+            return converters;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="SpringJsonHttpMessageConverter"/> to be used by the internal <see cref="RestTemplate"/>.
+        /// <para/>
+        /// Override to customize the message converter (for example, to set a custom object mapper or supported media types).
+        /// </summary>
+        /// <returns>The configured <see cref="SpringJsonHttpMessageConverter"/>.</returns>
+        protected virtual SpringJsonHttpMessageConverter GetJsonMessageConverter()
         {
             JsonMapper jsonMapper = new JsonMapper();
             jsonMapper.RegisterDeserializer(typeof(Tweet), new TweetDeserializer());
@@ -219,10 +233,7 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(UserList), new UserListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(CursoredList<UserList>), new CursoredUserListListDeserializer());
 
-            IList<IHttpMessageConverter> converters = base.GetMessageConverters();
-            converters.Add(new ByteArrayHttpMessageConverter());
-            converters.Add(new SpringJsonHttpMessageConverter(jsonMapper));
-            return converters;
+            return new SpringJsonHttpMessageConverter(jsonMapper);
         }
 
         private void InitSubApis()

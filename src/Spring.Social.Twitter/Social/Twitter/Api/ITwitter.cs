@@ -32,7 +32,7 @@ namespace Spring.Social.Twitter.Api
     public interface ITwitter : IApiBinding
     {
         /// <summary>
-        /// Gets he portion of the Twitter API containing the block operations.
+        /// Gets the portion of the Twitter API containing the block operations.
         /// </summary>
         IBlockOperations BlockOperations { get; }
 

@@ -751,11 +751,11 @@ namespace Spring.Social.Twitter.Api.Impl
                 .AndExpectUri("https://upload.twitter.com/1/statuses/update_with_media.json")
 				.AndExpectMethod(HttpMethod.POST)
                 .AndExpectHeaderContains("Content-Type", MediaType.MULTIPART_FORM_DATA.ToString() + ";boundary=")
-                .AndExpect(BodyContains("Content-Disposition: form-data; name=\"status\""))
-                .AndExpect(BodyContains("Content-Type: text/plain;charset=ISO-8859-1"))
-                .AndExpect(BodyContains("Test Message"))
-                .AndExpect(BodyContains("Content-Disposition: form-data; name=\"media\"; filename=\"Logo.png\""))
-                .AndExpect(BodyContains("Content-Type: image/png"))
+                .AndExpectBodyContains("Content-Disposition: form-data; name=\"status\"")
+                .AndExpectBodyContains("Content-Type: text/plain;charset=ISO-8859-1")
+                .AndExpectBodyContains("Test Message")
+                .AndExpectBodyContains("Content-Disposition: form-data; name=\"media\"; filename=\"Logo.png\"")
+                .AndExpectBodyContains("Content-Type: image/png")
 				.AndRespondWith(JsonResource("Status"), responseHeaders);
 
             IResource photo = new AssemblyResource("assembly://Spring.Social.Twitter.Tests/Spring.Social.Twitter.Api.Impl/Logo.png");
@@ -852,15 +852,15 @@ namespace Spring.Social.Twitter.Api.Impl
                 .AndExpectUri("https://upload.twitter.com/1/statuses/update_with_media.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectHeaderContains("Content-Type", MediaType.MULTIPART_FORM_DATA.ToString() + ";boundary=")
-                .AndExpect(BodyContains("Content-Disposition: form-data; name=\"status\""))
-                .AndExpect(BodyContains("Content-Type: text/plain;charset=ISO-8859-1"))
-                .AndExpect(BodyContains("Test Message"))
-                .AndExpect(BodyContains("Content-Disposition: form-data; name=\"lat\""))
-                .AndExpect(BodyContains("123.1"))
-                .AndExpect(BodyContains("Content-Disposition: form-data; name=\"long\""))
-                .AndExpect(BodyContains("-111.2"))
-                .AndExpect(BodyContains("Content-Disposition: form-data; name=\"media\"; filename=\"Logo.png\""))
-                .AndExpect(BodyContains("Content-Type: image/png"))
+                .AndExpectBodyContains("Content-Disposition: form-data; name=\"status\"")
+                .AndExpectBodyContains("Content-Type: text/plain;charset=ISO-8859-1")
+                .AndExpectBodyContains("Test Message")
+                .AndExpectBodyContains("Content-Disposition: form-data; name=\"lat\"")
+                .AndExpectBodyContains("123.1")
+                .AndExpectBodyContains("Content-Disposition: form-data; name=\"long\"")
+                .AndExpectBodyContains("-111.2")
+                .AndExpectBodyContains("Content-Disposition: form-data; name=\"media\"; filename=\"Logo.png\"")
+                .AndExpectBodyContains("Content-Type: image/png")
                 .AndRespondWith(JsonResource("Status"), responseHeaders);
 
             IResource photo = new AssemblyResource("assembly://Spring.Social.Twitter.Tests/Spring.Social.Twitter.Api.Impl/Logo.png");
