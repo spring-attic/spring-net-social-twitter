@@ -148,7 +148,7 @@ Console.WriteLine("Hi " + profile.Name + "!");]]></programlisting>
 
       <listitem>
         <emphasis role="bold">Asynchronuous methods</emphasis>
-        <para>Available on .NET 2.0, .NET 3.5, Silverlight 4 and Windows Phone</para>
+        <para>Available on .NET 2.0, .NET 3.5 and Windows Phone</para>
         <programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfileAsync(
   r =>
   {
@@ -159,7 +159,7 @@ Console.WriteLine("Hi " + profile.Name + "!");]]></programlisting>
 
       <listitem>
         <emphasis role="bold">Task-based asynchronuous methods (Task Parallel Library)</emphasis>
-        <para>Available on .NET 4.0 and Silverlight 5</para>
+        <para>Available on .NET 4.0</para>
         <programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfileAsync()
   .ContinueWith(task =>
   {
