@@ -49,10 +49,6 @@ Response.Redirect(authorizeUrl);
 OAuthToken accessToken = oauthOperations.ExchangeForAccessToken(new AuthorizedRequestToken(requestToken, oauthVerifier), null);
 ITwitter twitterApi = serviceProvider.GetApi(accessToken.Value, accessToken.Secret);]]></programlisting>
   </para>
-
-  <note>
-    See <ulink url="http://www.springframework.net/social/">Spring.NET Social</ulink> project for OAuth1 based samples.
-  </note>
 	
 	<para>
 		Once you have a <interfacename>ITwitter</interfacename>, you can perform a several operations against Twitter.
@@ -140,10 +136,47 @@ ITwitter twitterApi = serviceProvider.GetApi(accessToken.Value, accessToken.Secr
 		</tgroup>
 	</table>
 	
+    <para>
+    There are 3 ways to call a method depending on the target Framework:
+    <itemizedlist>
+      <listitem>
+        <emphasis role="bold">Synchronuous methods</emphasis>
+        <para>Available on .NET 2.0 and .NET 3.5</para>
+        <programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfile();
+Console.WriteLine("Hi " + profile.Name + "!");]]></programlisting>
+      </listitem>
+
+      <listitem>
+        <emphasis role="bold">Asynchronuous methods</emphasis>
+        <para>Available on .NET 2.0, .NET 3.5, Silverlight 4 and Windows Phone</para>
+        <programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfileAsync(
+  r =>
+  {
+    Console.WriteLine("Hi " + r.Response.Name + "!");
+  });]]>
+        </programlisting>
+      </listitem>
+
+      <listitem>
+        <emphasis role="bold">Task-based asynchronuous methods (Task Parallel Library)</emphasis>
+        <para>Available on .NET 4.0 and Silverlight 5</para>
+        <programlisting language="csharp"><![CDATA[TwitterProfile profile = twitter.UserOperations.GetUserProfileAsync()
+  .ContinueWith(task =>
+  {
+    Console.WriteLine("Hi " + task.Result.Name + "!");
+  });]]>
+        </programlisting>
+      </listitem>
+    </itemizedlist>
+  </para>
+
+  <para/>
+  
 	<para>
 		What follows is a survey of common tasks you may perform with <interfacename>ITwitter</interfacename> and its sub-APIs.
 		<sbr/>For complete details on the Spring.NET Social's entire Twitter API binding, refer to the API documentation.
-	</para>
+	  <sbr/>Samples are provided in the 'examples' directory of the distribution.
+  </para>
 
 	<section id="twitter-getProfile">
 		<title>Retrieving a user's Twitter profile data</title>

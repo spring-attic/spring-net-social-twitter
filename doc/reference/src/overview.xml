@@ -10,6 +10,8 @@
   <para>
     The Spring.NET Social Twitter project is an extension to <ulink url="http://www.springframework.net/social/">Spring.NET Social</ulink>
     that enables integration with Twitter.
+    <sbr/>The <ulink url="http://www.springframework.net/rest/">Spring.NET REST Client Framework</ulink>
+    is used to consume <ulink url="https://dev.twitter.com/docs/api">Twitter REST API</ulink>.
   </para>
   
   <para>
