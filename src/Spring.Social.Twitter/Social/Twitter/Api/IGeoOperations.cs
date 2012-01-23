@@ -46,7 +46,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a <see cref="Place"/>.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<Place> GetPlaceAsync(string id);
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<Place>> ReverseGeoCodeAsync(double latitude, double longitude);
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<Place>> ReverseGeoCodeAsync(double latitude, double longitude, PlaceType? granularity, string accuracy);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<Place>> SearchAsync(double latitude, double longitude);
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<Place>> SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query);
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<SimilarPlaces> FindSimilarPlacesAsync(double latitude, double longitude, string name);
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<SimilarPlaces> FindSimilarPlacesAsync(double latitude, double longitude, string name, string streetAddress, string containedWithin);
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a <see cref="Place"/> object with the newly created place data.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<Place> CreatePlaceAsync(PlacePrototype placePrototype);
 #else
 #if !SILVERLIGHT
@@ -169,7 +169,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="id">The place ID.</param>
         /// <returns>A <see cref="Place"/>.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Place GetPlace(string id);
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         IList<Place> ReverseGeoCode(double latitude, double longitude);
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         IList<Place> ReverseGeoCode(double latitude, double longitude, PlaceType? granularity, string accuracy);
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         IList<Place> Search(double latitude, double longitude);
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         IList<Place> Search(double latitude, double longitude, PlaceType? granularity, string accuracy, string query);
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         SimilarPlaces FindSimilarPlaces(double latitude, double longitude, string name);
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         SimilarPlaces FindSimilarPlaces(double latitude, double longitude, string name, string streetAddress, string containedWithin);
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace Spring.Social.Twitter.Api
         /// The place prototype returned in a <see cref="SimilarPlaces"/> from a call to FindSimilarPlaces().
         /// </param>
         /// <returns>A <see cref="Place"/> object with the newly created place data.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Place CreatePlace(PlacePrototype placePrototype);
 #endif
 
@@ -289,7 +289,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetPlaceAsync(string id, Action<RestOperationCompletedEventArgs<Place>> operationCompleted);
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler ReverseGeoCodeAsync(double latitude, double longitude, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler ReverseGeoCodeAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler SearchAsync(double latitude, double longitude, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler FindSimilarPlacesAsync(double latitude, double longitude, string name, Action<RestOperationCompletedEventArgs<SimilarPlaces>> operationCompleted);
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler FindSimilarPlacesAsync(double latitude, double longitude, string name, string streetAddress, string containedWithin, Action<RestOperationCompletedEventArgs<SimilarPlaces>> operationCompleted);
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler CreatePlaceAsync(PlacePrototype placePrototype, Action<RestOperationCompletedEventArgs<Place>> operationCompleted);
 #endif
     }

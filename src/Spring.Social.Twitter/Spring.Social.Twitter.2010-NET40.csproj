@@ -110,6 +110,8 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\CursoredUserListListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\UserListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\ListTemplate.cs" />
+    <Compile Include="Social\Twitter\Api\TwitterApiError.cs" />
+    <Compile Include="Social\Twitter\Api\TwitterApiException.cs" />
     <Compile Include="Social\Twitter\Api\UserList.cs" />
     <Compile Include="Social\Twitter\Api\IListOperations.cs" />
     <Compile Include="Social\Twitter\Api\CursoredList.cs" />

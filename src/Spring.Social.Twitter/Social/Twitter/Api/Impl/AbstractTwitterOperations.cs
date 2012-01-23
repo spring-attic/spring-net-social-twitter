@@ -48,7 +48,9 @@ namespace Spring.Social.Twitter.Api.Impl
         {
 		    if (!this.isAuthorized) 
             {
-			    throw new NotAuthorizedException("Authorization is required for the operation, but the API binding was created without authorization.");
+			    throw new TwitterApiException(
+                    "Authorization is required for the operation, but the API binding was created without authorization.", 
+                    TwitterApiError.NotAuthorized);
 		    }
 	    }
 

@@ -857,7 +857,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 this.restTemplate.Exchange(url, HttpMethod.GET, null);
                 return true;
             } 
-            catch (ApiException) 
+            catch (TwitterApiException) 
             {
                 return false;
             }

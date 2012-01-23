@@ -96,17 +96,31 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 #if NET_4_0 || SILVERLIGHT_5
-        protected void AssertAggregateException(AggregateException ae, Type expectedException, string expectedMessage)
+        protected void AssertTwitterApiException(AggregateException ae, string expectedMessage, TwitterApiError error)
         {
             ae.Handle(ex =>
             {
-                if (expectedException.Equals(ex.GetType()))
+                if (ex is TwitterApiException)
                 {
                     Assert.AreEqual(expectedMessage, ex.Message);
+                    Assert.AreEqual(error, ((TwitterApiException)ex).Error);
                     return true;
                 }
                 return false;
             });
+        }
+#else
+        protected void AssertTwitterApiException(Exception ex, string expectedMessage, TwitterApiError error)
+        {
+            if (ex is TwitterApiException)
+            {
+                Assert.AreEqual(expectedMessage, ex.Message);
+                Assert.AreEqual(error, ((TwitterApiException)ex).Error);
+            }
+            else
+            {
+                Assert.Fail("TwitterApiException expected");
+            }
         }
 #endif
     }

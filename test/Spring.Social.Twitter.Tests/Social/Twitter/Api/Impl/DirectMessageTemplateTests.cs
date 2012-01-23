@@ -18,6 +18,7 @@
 
 #endregion
 
+using System;
 using System.Net;
 using System.Collections.Generic;
 
@@ -86,7 +87,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetDirectMessagesReceived_Unauthorized() 
         {
@@ -146,7 +147,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetDirectMessagesSent_Unauthorized() 
         {
@@ -190,11 +191,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException),
-            ExpectedMessage = "There was an error sending your message: The text of your direct message is over 140 characters.")]
-#endif
         public void SendDirectMessage_ToScreenName_TooLong() 
         {
 		    mockServer.ExpectNewRequest()
@@ -207,16 +203,24 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.DirectMessageOperations.SendDirectMessageAsync("habuma", "Really long message")
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "There was an error sending your message: The text of your direct message is over 140 characters.");
+                    AssertTwitterApiException(task.Exception, "There was an error sending your message: The text of your direct message is over 140 characters.", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.DirectMessageOperations.SendDirectMessage("habuma", "Really long message");
+            try
+            {
+                twitter.DirectMessageOperations.SendDirectMessage("habuma", "Really long message");
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "There was an error sending your message: The text of your direct message is over 140 characters.", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void SendDirectMessaage_ToScreenName_Unauthorized() 
         {
@@ -245,7 +249,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void SendDirectMessaage_ToUserId_Unauthorized() 
         {
@@ -272,7 +276,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void DeleteDirectMessage_Unauthorized() 
         {

@@ -121,7 +121,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetSavedSearches_Unauthorized() 
         {
@@ -152,7 +152,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
         [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetSavedSearch_Unauthorized() 
         {
@@ -184,7 +184,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         [Test]
-        [ExpectedException(typeof(NotAuthorizedException), 
+        [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void CreateSavedSearch_Unauthorized() 
         {
@@ -211,7 +211,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void DeleteSavedSearch_Unauthorized() 
         {

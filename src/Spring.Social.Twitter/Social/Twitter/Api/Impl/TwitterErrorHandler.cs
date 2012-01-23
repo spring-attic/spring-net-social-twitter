@@ -61,14 +61,14 @@ namespace Spring.Social.Twitter.Api.Impl
                 this.HandleServerErrors(response.StatusCode);
             }
 
-            // if not otherwise handled, do default handling and wrap with ApiException
+            // if not otherwise handled, do default handling and wrap with TwitterApiException
             try
             {
                 base.HandleError(response);
             }
             catch (Exception ex)
             {
-                throw new ApiException("Error consuming Twitter REST API.", ex);
+                throw new TwitterApiException("Error consuming Twitter REST API.", ex);
             }
         }
 
@@ -100,34 +100,32 @@ namespace Spring.Social.Twitter.Api.Impl
 
 		    if (response.StatusCode == HttpStatusCode.Unauthorized) 
             {
-			    if(errorText == null) 
+                if (errorText == "Could not authenticate you.")
                 {
-				    throw new NotAuthorizedException(response.StatusDescription);
-			    } 
-                else if (errorText == "Could not authenticate you.") // missing token
-                {
-                    throw new NotAuthorizedException("Authorization is required for the operation, but the API binding was created without authorization.");
+                    throw new TwitterApiException(
+                        "Authorization is required for the operation, but the API binding was created without authorization.", 
+                        TwitterApiError.NotAuthorized);
 			    }
-                else if (errorText == "Could not authenticate with OAuth.") // revoked token
+                else if (errorText == "Could not authenticate with OAuth.")
                 {
-                    throw new NotAuthorizedException("The authorization has been revoked.");
-			    } 
+                    throw new TwitterApiException("The authorization has been revoked.", TwitterApiError.NotAuthorized);
+			    }
                 else 
                 {
-				    throw new NotAuthorizedException(errorText);
+                    throw new TwitterApiException(errorText ?? response.StatusDescription, TwitterApiError.NotAuthorized);
 			    }
 		    } 
             else if (response.StatusCode == HttpStatusCode.Forbidden) 
             {
-			    throw new OperationNotPermittedException(errorText);
+                throw new TwitterApiException(errorText, TwitterApiError.OperationNotPermitted);
 		    } 
             else if (response.StatusCode == HttpStatusCode.NotFound) 
             {
-			    throw new ApiException(errorText);
+                throw new TwitterApiException(errorText, TwitterApiError.ResourceNotFound);
 		    }
             else if (response.StatusCode == (HttpStatusCode)420)
             {
-                throw new ApiException("The rate limit has been exceeded.");
+                throw new TwitterApiException("The rate limit has been exceeded.", TwitterApiError.RateLimitExceeded);
             }
 	    }
 
@@ -135,31 +133,32 @@ namespace Spring.Social.Twitter.Api.Impl
         {
 		    if (statusCode == HttpStatusCode.InternalServerError) 
             {
-			    throw new ServerException("Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", statusCode);
+                throw new TwitterApiException(
+                    "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", 
+                    TwitterApiError.Server);
 		    } 
             else if (statusCode == HttpStatusCode.BadGateway) 
             {
-                throw new ServerException("Twitter is down or is being upgraded.", statusCode);
+                throw new TwitterApiException("Twitter is down or is being upgraded.", TwitterApiError.ServerDown);
 		    } 
             else if (statusCode == HttpStatusCode.ServiceUnavailable) 
             {
-                throw new ServerException("Twitter is overloaded with requests. Try again later.", statusCode);
+                throw new TwitterApiException("Twitter is overloaded with requests. Try again later.", TwitterApiError.ServerOverloaded);
 		    }
 	    }
 
         private JsonValue ExtractErrorDetailsFromResponse(HttpResponseMessage<byte[]> response) 
         {
+            if (response.Body == null)
+            {
+                return null;
+            }
             MediaType contentType = response.Headers.ContentType;
             Encoding charset = (contentType != null && contentType.CharSet != null) ? contentType.CharSet : DEFAULT_CHARSET;
             string errorDetails = charset.GetString(response.Body, 0, response.Body.Length);
-		    try 
-            {
-                return JsonValue.Parse(errorDetails);
-		    } 
-            catch (JsonException) 
-            {
-			    return null;
-		    }
+            
+            JsonValue result;
+            return JsonValue.TryParse(errorDetails, out result) ? result : null;
 	    }
     }
 }

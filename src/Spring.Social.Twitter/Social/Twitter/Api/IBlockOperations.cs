@@ -46,8 +46,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// the <see cref="TwitterProfile"/> of the blocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<TwitterProfile> BlockAsync(long userId);
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// the <see cref="TwitterProfile"/> of the blocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<TwitterProfile> BlockAsync(string screenName);
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// the <see cref="TwitterProfile"/> of the unblocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<TwitterProfile> UnblockAsync(long userId);
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// the <see cref="TwitterProfile"/> of the unblocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<TwitterProfile> UnblockAsync(string screenName);
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> GetBlockedUsersAsync();
 
         /// <summary>
@@ -106,8 +106,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> GetBlockedUsersAsync(int page, int pageSize);
 
         /// <summary>
@@ -117,8 +117,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of user IDs for the users that are blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<long>> GetBlockedUserIdsAsync();
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a value indicating whether or not the user is blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<bool> IsBlockingAsync(long userId);
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a value indicating whether or not the user is blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<bool> IsBlockingAsync(string screenName);
 #else
 #if !SILVERLIGHT
@@ -151,8 +151,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// The <see cref="TwitterProfile"/> of the blocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         TwitterProfile Block(long userId);
 
         /// <summary>
@@ -162,8 +162,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// The <see cref="TwitterProfile"/> of the blocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         TwitterProfile Block(string screenName);
 
         /// <summary>
@@ -173,8 +173,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// The <see cref="TwitterProfile"/> of the unblocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         TwitterProfile Unblock(long userId);
 
         /// <summary>
@@ -184,8 +184,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// The <see cref="TwitterProfile"/> of the unblocked user.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         TwitterProfile Unblock(string screenName);
 
         /// <summary>
@@ -194,8 +194,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<TwitterProfile> GetBlockedUsers();
 
         /// <summary>
@@ -206,16 +206,16 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<TwitterProfile> GetBlockedUsers(int page, int pageSize);
 
         /// <summary>
         /// Retrieves a list of user IDs for the users that the authenticating user has blocked.
         /// </summary>
         /// <returns>A list of user IDs for the users that are blocked.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<long> GetBlockedUserIds();
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// <see langword="true"/> if the user is blocked; <see langword="false"/> otherwise.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         bool IsBlocking(long userId);
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// <see langword="true"/> if the user is blocked; <see langword="false"/> otherwise.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         bool IsBlocking(string screenName);
 #endif
 
@@ -250,8 +250,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler BlockAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -265,8 +265,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler BlockAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -280,8 +280,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler UnblockAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -295,8 +295,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler UnblockAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -309,8 +309,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetBlockedUsersAsync(Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -325,8 +325,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetBlockedUsersAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -339,8 +339,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetBlockedUserIdsAsync(Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted);
         /// <summary>
         /// Asynchronously determines if the user has blocked a specific user.
@@ -353,7 +353,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler IsBlockingAsync(long userId, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler IsBlockingAsync(string screenName, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
 #endif
     }

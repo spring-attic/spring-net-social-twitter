@@ -18,6 +18,7 @@
 
 #endregion
 
+using System;
 using System.Net;
 
 using NUnit.Framework;
@@ -36,11 +37,6 @@ namespace Spring.Social.Twitter.Api.Impl
     public class ErrorHandlerTests : AbstractTwitterOperationsTests 
     {    
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(NotAuthorizedException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-#endif
 	    public void MissingAccessToken() 
         {
 		    mockServer.ExpectNewRequest()
@@ -52,19 +48,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.UserOperations.GetUserProfileAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(NotAuthorizedException), "Authorization is required for the operation, but the API binding was created without authorization.");
+                    AssertTwitterApiException(task.Exception, "Authorization is required for the operation, but the API binding was created without authorization.", TwitterApiError.NotAuthorized);
                 })
                 .Wait();
 #else
-            twitter.UserOperations.GetUserProfile();
+            try
+            {
+                twitter.UserOperations.GetUserProfile();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Authorization is required for the operation, but the API binding was created without authorization.", TwitterApiError.NotAuthorized);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(NotAuthorizedException), ExpectedMessage = "Invalid / expired Token")]
-#endif
         public void BadAccessToken() 
         {
             // token is fabricated or fails signature validation
@@ -77,19 +77,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.UserOperations.GetUserProfileAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(NotAuthorizedException), "Invalid / expired Token");
+                    AssertTwitterApiException(task.Exception, "Invalid / expired Token", TwitterApiError.NotAuthorized);
                 })
                 .Wait();
 #else
-            twitter.UserOperations.GetUserProfile();
+            try
+            {
+                twitter.UserOperations.GetUserProfile();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Invalid / expired Token", TwitterApiError.NotAuthorized);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(NotAuthorizedException), ExpectedMessage = "The authorization has been revoked.")]
-#endif
         public void RevokedToken() 
         {
             mockServer.ExpectNewRequest()
@@ -101,19 +105,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.UserOperations.GetUserProfileAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(NotAuthorizedException), "The authorization has been revoked.");
+                    AssertTwitterApiException(task.Exception, "The authorization has been revoked.", TwitterApiError.NotAuthorized);
                 })
                 .Wait();
 #else
-            twitter.UserOperations.GetUserProfile();		
+            try
+            {
+                twitter.UserOperations.GetUserProfile();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "The authorization has been revoked.", TwitterApiError.NotAuthorized);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(ApiException), ExpectedMessage = "The rate limit has been exceeded.")]
-#endif
         public void EnhanceYourCalm() 
         {
             mockServer.ExpectNewRequest()
@@ -125,20 +133,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.SearchOperations.SearchAsync("#spring")
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(ApiException), "The rate limit has been exceeded.");
+                    AssertTwitterApiException(task.Exception, "The rate limit has been exceeded.", TwitterApiError.RateLimitExceeded);
                 })
                 .Wait();
 #else
-            twitter.SearchOperations.Search("#spring");
+            try
+            {
+                twitter.SearchOperations.Search("#spring");
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "The rate limit has been exceeded.", TwitterApiError.RateLimitExceeded);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(ServerException), 
-            ExpectedMessage = "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.")]
-#endif
         public void TwitterIsBroken() 
         {
             mockServer.ExpectNewRequest()
@@ -150,19 +161,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.GetHomeTimelineAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(ServerException), "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.");
+                    AssertTwitterApiException(task.Exception, "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", TwitterApiError.Server);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.GetHomeTimeline();
+            try
+            {
+                twitter.TimelineOperations.GetHomeTimeline();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", TwitterApiError.Server);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(ServerException), ExpectedMessage = "Twitter is down or is being upgraded.")]
-#endif
         public void TwitterIsDownOrBeingUpgraded()
         {
             mockServer.ExpectNewRequest()
@@ -174,19 +189,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.GetHomeTimelineAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(ServerException), "Twitter is down or is being upgraded.");
+                    AssertTwitterApiException(task.Exception, "Twitter is down or is being upgraded.", TwitterApiError.ServerDown);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.GetHomeTimeline();
+            try
+            {
+                twitter.TimelineOperations.GetHomeTimeline();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Twitter is down or is being upgraded.", TwitterApiError.ServerDown);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(ServerException), ExpectedMessage = "Twitter is overloaded with requests. Try again later.")]
-#endif
         public void TwitterIsOverloaded()
         {
             mockServer.ExpectNewRequest()
@@ -198,19 +217,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.GetHomeTimelineAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(ServerException), "Twitter is overloaded with requests. Try again later.");
+                    AssertTwitterApiException(task.Exception, "Twitter is overloaded with requests. Try again later.", TwitterApiError.ServerOverloaded);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.GetHomeTimeline();
+            try
+            {
+                twitter.TimelineOperations.GetHomeTimeline();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Twitter is overloaded with requests. Try again later.", TwitterApiError.ServerOverloaded);
+            }
 #endif
         }
 
         [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(ApiException), ExpectedMessage = "Error consuming Twitter REST API.")]
-#endif
         public void NonJsonErrorResponse()
         {
             mockServer.ExpectNewRequest()
@@ -222,36 +245,19 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.GetHomeTimelineAsync()
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(ApiException), "Error consuming Twitter REST API.");
+                    AssertTwitterApiException(task.Exception, "Error consuming Twitter REST API.", TwitterApiError.Unknown);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.GetHomeTimeline();
-#endif
-        }
-
-        [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(Spring.Json.JsonException), ExpectedMessage = "Could not parse JSON string 'Unparseable {text}'.")]
-#endif
-        [Ignore("Need to handle cases where there isn't an error, but the body is unparseable.")]
-        public void UnparseableSuccessResponse()
-        {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/statuses/home_timeline.json?page=1&count=20")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith("Unparseable {text}", responseHeaders, HttpStatusCode.OK, "");
-
-#if NET_4_0 || SILVERLIGHT_5
-            twitter.TimelineOperations.GetHomeTimelineAsync()
-                .ContinueWith(task =>
-                {
-                    AssertAggregateException(task.Exception, typeof(Spring.Json.JsonException), "Could not parse JSON string 'Unparseable {text}'.");
-                })
-                .Wait();
-#else
-            twitter.TimelineOperations.GetHomeTimeline();
+            try
+            {
+                twitter.TimelineOperations.GetHomeTimeline();
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Error consuming Twitter REST API.", TwitterApiError.Unknown);
+            }
 #endif
         }
     }

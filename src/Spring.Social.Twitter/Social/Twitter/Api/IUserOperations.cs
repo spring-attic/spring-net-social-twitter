@@ -45,8 +45,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a <see cref="TwitterProfile"/>object representing the user's profile.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    Task<TwitterProfile> GetUserProfileAsync();
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a <see cref="TwitterProfile"/> object representing the user's profile.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<TwitterProfile> GetUserProfileAsync(string screenName);
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="userId">The user ID for the user whose details are to be retrieved.</param>
         /// <returns>A <see cref="TwitterProfile"/> object representing the user's profile.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<TwitterProfile> GetUserProfileAsync(long userId);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// an array of bytes containing the user's profile image.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<byte[]> GetUserProfileImageAsync(string screenName);
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// an array of bytes containing the user's profile image.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<byte[]> GetUserProfileImageAsync(string screenName, ImageSize size);
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile">user's profiles</see>.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<TwitterProfile>> GetUsersAsync(params long[] userIds);
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile">user's profiles</see>.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<TwitterProfile>> GetUsersAsync(params string[] screenNames);
 
         /// <summary>
@@ -123,8 +123,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile">user's profiles</see>.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> SearchForUsersAsync(string query);
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile">user's profiles</see>.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> SearchForUsersAsync(string query, int page, int pageSize);
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of suggestion categories.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<SuggestionCategory>> GetSuggestionCategoriesAsync();
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="TwitterProfile">user's profiles</see>.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<IList<TwitterProfile>> GetSuggestionsAsync(string slug);
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Spring.Social.Twitter.Api
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// the rate limit status.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         Task<RateLimitStatus> GetRateLimitStatusAsync();
 #else
 #if !SILVERLIGHT
@@ -186,8 +186,8 @@ namespace Spring.Social.Twitter.Api
         /// Retrieves the authenticated user's Twitter profile details.
 	    /// </summary>
         /// <returns>A <see cref="TwitterProfile"/>object representing the user's profile.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    TwitterProfile GetUserProfile();
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="screenName">The screen name for the user whose details are to be retrieved.</param>
         /// <returns>A <see cref="TwitterProfile"/> object representing the user's profile.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    TwitterProfile GetUserProfile(string screenName);
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="userId">The user ID for the user whose details are to be retrieved.</param>
         /// <returns>A <see cref="TwitterProfile"/> object representing the user's profile.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    TwitterProfile GetUserProfile(long userId);
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="screenName">The screen name of the user.</param>
         /// <returns>An array of bytes containing the user's profile image.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    byte[] GetUserProfileImage(string screenName);
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The screen name of the user.</param>
         /// <param name="size">The size of the image.</param>
         /// <returns>An array of bytes containing the user's profile image.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    byte[] GetUserProfileImage(string screenName, ImageSize size);
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="userIds">The list of user IDs.</param>
         /// <returns>A list of <see cref="TwitterProfile">user's profiles</see>.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    IList<TwitterProfile> GetUsers(params long[] userIds);
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="screenNames">The list of screen names.</param>
         /// <returns>A list of <see cref="TwitterProfile">user's profiles</see>.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    IList<TwitterProfile> GetUsers(params string[] screenNames);
 
         /// <summary>
@@ -246,8 +246,8 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="query">The search query string.</param>
         /// <returns>A list of <see cref="TwitterProfile">user's profiles</see>.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<TwitterProfile> SearchForUsers(string query);
 
         /// <summary>
@@ -257,15 +257,15 @@ namespace Spring.Social.Twitter.Api
         /// <param name="page">The page of search results to return.</param>
         /// <param name="pageSize">The number of <see cref="TwitterProfile"/>s per page. Maximum of 20 per page.</param>
         /// <returns>A list of <see cref="TwitterProfile">user's profiles</see>.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<TwitterProfile> SearchForUsers(string query, int page, int pageSize);
 
         /// <summary>
         /// Retrieves a list of categories from which suggested users to follow may be found.
         /// </summary>
         /// <returns>A list of suggestion categories.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    IList<SuggestionCategory> GetSuggestionCategories();
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="slug">The category's slug.</param>
         /// <returns>A list of <see cref="TwitterProfile">user's profiles</see>.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    IList<TwitterProfile> GetSuggestions(string slug);
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Spring.Social.Twitter.Api
         /// </para>
         /// </remarks>
         /// <returns>The rate limit status.</returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
 	    RateLimitStatus GetRateLimitStatus();
 #endif
 
@@ -303,8 +303,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetUserProfileAsync(Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetUserProfileAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetUserProfileAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetUserProfileImageAsync(string screenName, Action<RestOperationCompletedEventArgs<byte[]>> operationCompleted);
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetUserProfileImageAsync(string screenName, ImageSize size, Action<RestOperationCompletedEventArgs<byte[]>> operationCompleted);
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetUsersAsync(long[] userIds, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetUsersAsync(string[] screenNames, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -405,8 +405,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchForUsersAsync(string query, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -422,8 +422,8 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="NotAuthorizedException">If OAuth credentials was not provided.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchForUsersAsync(string query, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetSuggestionCategoriesAsync(Action<RestOperationCompletedEventArgs<IList<SuggestionCategory>>> operationCompleted);
 
         /// <summary>
@@ -450,7 +450,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetSuggestionsAsync(string slug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -472,7 +472,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
-        /// <exception cref="ApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         RestOperationCanceler GetRateLimitStatusAsync(Action<RestOperationCompletedEventArgs<RateLimitStatus>> operationCompleted);
 #endif
     }

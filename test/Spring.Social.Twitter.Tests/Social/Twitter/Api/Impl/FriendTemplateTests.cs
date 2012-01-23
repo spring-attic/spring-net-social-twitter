@@ -78,7 +78,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetFriends_CurrentUser_Unauthorized() 
         {
@@ -238,7 +238,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetFriendIds_CurrentUser_Unauthorized() 
         {
@@ -374,7 +374,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetFollowers_currentUser_Unauthorized() 
         {
@@ -558,7 +558,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetFollowerIds_CurrentUser_Unauthorized() 
         {
@@ -650,7 +650,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void Follow_ByUserId_Unauthorized() 
         {
@@ -678,7 +678,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void Follow_ByScreenName_Unauthorized() 
         {
@@ -706,7 +706,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void Unfollow_ByUserId_Unauthorized() 
         {
@@ -734,7 +734,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void Unfollow_ByScreenName_Unauthorized() 
         {
@@ -762,7 +762,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void EnableNotifications_ByUserId_Unauthorized() 
         {
@@ -790,7 +790,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void EnableNotifications_ByScreenName_Unauthorized() 
         {
@@ -818,7 +818,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void DisableNotifications_ByUserId_Unauthorized() 
         {
@@ -846,7 +846,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void disableNotifications_ByScreenName_Unauthorized() 
         {
@@ -911,7 +911,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetIncomingFriendships_Unauthorized() 
         {
@@ -955,7 +955,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(NotAuthorizedException), 
+	    [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetOutgoingFriendships_Unauthorized() 
         {

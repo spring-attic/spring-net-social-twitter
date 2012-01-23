@@ -46,7 +46,7 @@ namespace Spring.Social.Twitter.Api.Impl
     /// In those cases, you may use a <see cref="TwitterTemplate"/> that is created through 
     /// the default constructor and without any OAuth details.
     /// Attempts to perform secured operations through such an instance, however, 
-    /// will result in <see cref="NotAuthorizedException"/> being thrown.
+    /// will result in <see cref="TwitterApiException"/> being thrown.
     /// </para>
     /// </remarks>
     /// <author>Craig Walls</author>
@@ -70,7 +70,7 @@ namespace Spring.Social.Twitter.Api.Impl
         /// <remarks>
         /// Some operations, such as search, do not require OAuth authentication. 
         /// A TwitterTemplate created with this constructor will support those operations. 
-        /// Any operations requiring authentication will throw an <see cref="NotAuthorizedException"/>.
+        /// Any operations requiring authentication will throw an <see cref="TwitterApiException"/>.
         /// </remarks>
 	    public TwitterTemplate() 
             : base()

@@ -230,6 +230,8 @@
     <Compile Include="Social\Twitter\Api\Tweet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\TwitterApiError.cs" />
+    <Compile Include="Social\Twitter\Api\TwitterApiException.cs" />
     <Compile Include="Social\Twitter\Api\TwitterProfile.cs">
       <SubType>Code</SubType>
     </Compile>

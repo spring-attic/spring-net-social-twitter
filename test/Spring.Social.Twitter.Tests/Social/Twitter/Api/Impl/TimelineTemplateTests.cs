@@ -18,6 +18,7 @@
 
 #endregion
 
+using System;
 using System.Net;
 using System.Collections.Generic;
 
@@ -102,7 +103,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException), 
+        [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetHomeTimeline_Unauthorized()
         {
@@ -161,7 +162,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetUserTimeline_Unauthorized()
         {
@@ -317,7 +318,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetMentions_Unauthorized()
         {
@@ -473,7 +474,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetRetweetedByMe_Unauthorized()
         {
@@ -533,7 +534,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetRetweetedToMe_Unauthorized()
         {
@@ -688,7 +689,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException), 
+        [ExpectedException(typeof(TwitterApiException), 
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetRetweetsOfMe_Unauthorized()
         {
@@ -733,7 +734,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void UpdateStatus_Unauthorized()
         {
@@ -876,7 +877,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void UpdateStatus_WithLocation_Unauthorized() 
         {
@@ -891,10 +892,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException), ExpectedMessage = "You already said that")]
-#endif
 	    public void UpdateStatus_DuplicateTweet() 
         {
 		    mockServer.ExpectNewRequest()
@@ -907,19 +904,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.UpdateStatusAsync("Test Message")
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "You already said that");
+                    AssertTwitterApiException(task.Exception, "You already said that", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.UpdateStatus("Test Message");
+            try
+            {
+                twitter.TimelineOperations.UpdateStatus("Test Message");
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "You already said that", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 	
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException), ExpectedMessage = "Status is over 140 characters.")]
-#endif
 	    public void UpdateStatus_TweetTooLong() 
         {
 		    mockServer.ExpectNewRequest()
@@ -932,19 +933,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.UpdateStatusAsync("Really long message")
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "Status is over 140 characters.");
+                    AssertTwitterApiException(task.Exception, "Status is over 140 characters.", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.UpdateStatus("Really long message");
+            try
+            {
+                twitter.TimelineOperations.UpdateStatus("Really long message");
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Status is over 140 characters.", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 	
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException), ExpectedMessage = "Forbidden")]
-#endif
 	    public void UpdateStatus_Forbidden() 
         {
 		    mockServer.ExpectNewRequest()
@@ -957,11 +962,19 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.UpdateStatusAsync("Test Message")
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "Forbidden");
+                    AssertTwitterApiException(task.Exception, "Forbidden", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.UpdateStatus("Test Message");
+            try
+            {
+                twitter.TimelineOperations.UpdateStatus("Test Message");
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Forbidden", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 
@@ -981,7 +994,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void DeleteStatus_Unauthorized()
         {
@@ -1008,7 +1021,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void Retweet_Unauthorized()
         {
@@ -1020,10 +1033,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException), ExpectedMessage = "You already said that")]
-#endif
 	    public void Retweet_DuplicateTweet() 
         {
 		    mockServer.ExpectNewRequest()
@@ -1035,19 +1044,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.RetweetAsync(12345)
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "You already said that");
+                    AssertTwitterApiException(task.Exception, "You already said that", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.Retweet(12345);
+            try
+            {
+                twitter.TimelineOperations.Retweet(12345);
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "You already said that", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException), ExpectedMessage = "Forbidden")]
-#endif
 	    public void Retweet_Forbidden() 
         {
 		    mockServer.ExpectNewRequest()
@@ -1059,19 +1072,23 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.RetweetAsync(12345)
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "Forbidden");
+                    AssertTwitterApiException(task.Exception, "Forbidden", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.Retweet(12345);
+            try
+            {
+                twitter.TimelineOperations.Retweet(12345);
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "Forbidden", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 
 	    [Test]
-#if NET_4_0 || SILVERLIGHT_5
-#else
-        [ExpectedException(typeof(OperationNotPermittedException), ExpectedMessage = "sharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)")]
-#endif
 	    public void Retweet_SharingNotAllowed() 
         {
 		    mockServer.ExpectNewRequest()
@@ -1083,11 +1100,19 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.RetweetAsync(12345)
                 .ContinueWith(task =>
                 {
-                    AssertAggregateException(task.Exception, typeof(OperationNotPermittedException), "sharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)");
+                    AssertTwitterApiException(task.Exception, "sharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)", TwitterApiError.OperationNotPermitted);
                 })
                 .Wait();
 #else
-            twitter.TimelineOperations.Retweet(12345);
+            try
+            {
+                twitter.TimelineOperations.Retweet(12345);
+                Assert.Fail("Exception expected");
+            }
+            catch (Exception ex)
+            {
+                AssertTwitterApiException(ex, "sharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)\nsharing is not permissable for this status (Share validations failed)", TwitterApiError.OperationNotPermitted);
+            }
 #endif
         }
 	
@@ -1198,7 +1223,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetRetweetedByIds_Unauthorized()
         {
@@ -1244,7 +1269,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void GetFavorites_Unauthorized()
         {
@@ -1271,7 +1296,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void AddToFavorites_Unauthorized()
         {
@@ -1298,7 +1323,7 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-        [ExpectedException(typeof(NotAuthorizedException),
+        [ExpectedException(typeof(TwitterApiException),
             ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
 	    public void RemoveFromFavorites_Unauthorized()
         {
