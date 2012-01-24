@@ -76,17 +76,8 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<byte[]> GetUserProfileImageAsync(string screenName, ImageSize size) 
         {
-            return this.restTemplate.GetForMessageAsync<byte[]>(
-                "users/profile_image/{screenName}?size={size}", screenName, size.ToString().ToLowerInvariant())
-                .ContinueWith<byte[]>(task =>
-                {
-                    // TODO: Test
-                    if (task.Result.StatusCode == HttpStatusCode.Found)
-                    {
-                        throw new NotSupportedException("Attempt to fetch image resulted in a redirect which could not be followed");
-                    }
-                    return task.Result.Body;
-                });
+            return this.restTemplate.GetForObjectAsync<byte[]>(
+                "users/profile_image/{screenName}?size={size}", screenName, size.ToString().ToLowerInvariant());
         }
 
         public Task<IList<TwitterProfile>> GetUsersAsync(params long[] userIds) 
@@ -153,15 +144,8 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public byte[] GetUserProfileImage(string screenName, ImageSize size) 
         {
-            HttpResponseMessage<byte[]> httpResponseMessage = this.restTemplate.GetForMessage<byte[]>(
+            return this.restTemplate.GetForObject<byte[]>(
                 "users/profile_image/{screenName}?size={size}", screenName, size.ToString().ToLowerInvariant());
-            
-            // TODO: Test
-            if (httpResponseMessage.StatusCode == HttpStatusCode.Found)
-            {
-                throw new NotSupportedException("Attempt to fetch image resulted in a redirect which could not be followed");
-            }
-            return httpResponseMessage.Body;
         }
 
 	    public IList<TwitterProfile> GetUsers(params long[] userIds) 
@@ -228,23 +212,8 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetUserProfileImageAsync(string screenName, ImageSize size, Action<RestOperationCompletedEventArgs<byte[]>> operationCompleted)
         {
-            return this.restTemplate.GetForMessageAsync<byte[]>("users/profile_image/{screenName}?size={size}",  
-                r =>
-                {
-                    // TODO: Test
-                    if (r.Error == null)
-                    {
-                        if (r.Response.StatusCode == HttpStatusCode.Found)
-                        {
-                            operationCompleted(new RestOperationCompletedEventArgs<byte[]>(null, new NotSupportedException("Attempt to fetch image resulted in a redirect which could not be followed"), r.Cancelled, r.UserState));
-                        }
-                        operationCompleted(new RestOperationCompletedEventArgs<byte[]>(r.Response.Body, r.Error, r.Cancelled, r.UserState));
-                    }
-                    else
-                    {
-                        operationCompleted(new RestOperationCompletedEventArgs<byte[]>(null, r.Error, r.Cancelled, r.UserState));
-                    }
-                }, screenName, size.ToString().ToLowerInvariant());
+            return this.restTemplate.GetForObjectAsync<byte[]>(
+                "users/profile_image/{screenName}?size={size}", operationCompleted, screenName, size.ToString().ToLowerInvariant());
         }
 
         public RestOperationCanceler GetUsersAsync(long[] userIds, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)

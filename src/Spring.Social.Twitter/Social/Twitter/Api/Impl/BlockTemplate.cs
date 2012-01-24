@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Net;
 using System.Collections.Generic;
 #if SILVERLIGHT
 using Spring.Collections.Specialized;
@@ -246,22 +247,15 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.ExchangeAsync(blockingExistsUrl, HttpMethod.GET, null, CancellationToken.None)
                 .ContinueWith<bool>(task =>
                 {
-                    return !task.IsFaulted;
+                    return task.Result.StatusCode != HttpStatusCode.NotFound;
                 });
         }
 #else
 #if !SILVERLIGHT
         private bool InternalIsBlocking(string blockingExistsUrl) 
         {
-            try 
-            {
-                this.restTemplate.Exchange(blockingExistsUrl, HttpMethod.GET, null);
-                return true;
-            } 
-            catch (TwitterApiException) 
-            {
-                return false;
-            }
+            HttpResponseMessage response = this.restTemplate.Exchange(blockingExistsUrl, HttpMethod.GET, null);
+            return response.StatusCode != HttpStatusCode.NotFound;
         }
 #endif
 
@@ -272,7 +266,8 @@ namespace Spring.Social.Twitter.Api.Impl
                 {
                     if (r.Error == null)
                     {
-                        operationCompleted(new RestOperationCompletedEventArgs<bool>(true, r.Error, r.Cancelled, r.UserState));
+                        operationCompleted(new RestOperationCompletedEventArgs<bool>(
+                            r.Response.StatusCode != HttpStatusCode.NotFound, r.Error, r.Cancelled, r.UserState));
                     }
                     else
                     {
