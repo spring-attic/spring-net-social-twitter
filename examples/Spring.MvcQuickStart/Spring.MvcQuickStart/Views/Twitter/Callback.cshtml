@@ -1,0 +1,9 @@
+﻿@model Spring.Social.Twitter.Api.TwitterProfile
+@{
+    ViewBag.Title = "Callback";
+}
+
+<h2>Welcome @Model.Name!</h2>
+
+@Html.ActionLink("Update your status", "UpdateStatus")
+
