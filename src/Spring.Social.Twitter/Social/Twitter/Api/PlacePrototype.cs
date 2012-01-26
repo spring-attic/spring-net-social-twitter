@@ -33,6 +33,9 @@ namespace Spring.Social.Twitter.Api
     /// and when creating a new place so that the create token will be valid. 
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
+#if !SILVERLIGHT
+    [Serializable]
+#endif
     public class PlacePrototype
     {
         /// <summary>

@@ -65,7 +65,7 @@ namespace Spring.Social.Twitter.Api
             this.error = TwitterApiError.Unknown;
         }
 
-#if !SILVERLIGHT && !CF_3_5
+#if !SILVERLIGHT
         /// <summary>
         /// Creates a new instance of the <see cref="TwitterApiException"/> class.
         /// </summary>

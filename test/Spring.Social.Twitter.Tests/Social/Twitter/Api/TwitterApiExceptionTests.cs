@@ -18,37 +18,32 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
+using Spring.Util;
+
+using NUnit.Framework;
 
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Represents a list of trending topics at a specific point in time.
+    /// Unit tests for the TwitterApiException class.
     /// </summary>
-    /// <author>Craig Walls</author>
-    /// <author>Bruno Baia (.NET)</author>
-#if !SILVERLIGHT
-    [Serializable]
-#endif
-    public class Trends
+    /// <author>Bruno Baia</author>
+    [TestFixture]
+    public class TwitterApiExceptionTests
     {
-        /// <summary>
-        /// Gets or sets the time of trending topics.
-        /// </summary>
-        public DateTime? Time { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of trending topics.
-        /// </summary>
-        public IList<Trend> Items { get; set; }
-
-        /// <summary>
-        /// Creates a new instance of <see cref="Trends"/>.
-        /// </summary>
-        public Trends()
+        [Test]
+        public void BinarySerialization()
         {
-            this.Items = new List<Trend>();
+            string message = "Error message";
+            TwitterApiError error = TwitterApiError.RateLimitExceeded;
+
+            TwitterApiException exBefore = new TwitterApiException(message, error);
+
+            TwitterApiException exAfter = SerializationTestUtils.BinarySerializeAndDeserialize(exBefore) as TwitterApiException;
+
+            Assert.IsNotNull(exAfter);
+            Assert.AreEqual(message, exAfter.Message, "Invalid message");
+            Assert.AreEqual(error, exAfter.Error, "Invalid error");
         }
     }
 }

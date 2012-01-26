@@ -123,6 +123,8 @@
     <Compile Include="Social\Twitter\Api\Impl\SearchTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TimelineTemplateTests.cs" />
     <Compile Include="Social\Twitter\Api\Impl\TwitterTemplateTests.cs" />
+    <Compile Include="Social\Twitter\Api\TwitterApiExceptionTests.cs" />
+    <Compile Include="Util\SerializationTestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Timeline.json" />

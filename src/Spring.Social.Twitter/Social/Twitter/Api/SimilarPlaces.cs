@@ -30,6 +30,9 @@ namespace Spring.Social.Twitter.Api
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
+#if !SILVERLIGHT
+    [Serializable]
+#endif
     public class SimilarPlaces : List<Place>
     {
         /// <summary>
