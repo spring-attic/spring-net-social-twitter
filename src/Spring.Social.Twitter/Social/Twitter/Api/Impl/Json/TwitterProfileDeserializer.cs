@@ -36,6 +36,8 @@ namespace Spring.Social.Twitter.Api.Impl.Json
 
         public object Deserialize(JsonValue value, JsonMapper mapper)
         {
+            // TODO: Use JsonValue.GetValueOrDefault<T>()
+            JsonValue isTranslatorValue = value.GetValue("is_translator");
             return new TwitterProfile()
             {
                 ID = value.GetValue<long>("id"),
@@ -59,7 +61,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 IsVerified = value.GetValue<bool>("verified"),
                 IsGeoEnabled = value.GetValue<bool>("geo_enabled"),
                 IsContributorsEnabled = value.GetValue<bool>("contributors_enabled"),
-                IsTranslator = value.GetValue<bool>("is_translator"),
+                IsTranslator = isTranslatorValue != null ? isTranslatorValue.GetValue<bool>() : false,
                 TimeZone = value.GetValue<string>("time_zone"),
                 UtcOffset = value.GetValue<int>("utc_offset"),
                 UseBackgroundImage = value.GetValue<bool>("profile_use_background_image"),
