@@ -38,6 +38,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
         {
             // TODO: Use JsonValue.GetValueOrDefault<T>()
             JsonValue isTranslatorValue = value.GetValue("is_translator");
+            JsonValue showAllInlineMediaValue = value.GetValue("show_all_inline_media");
             return new TwitterProfile()
             {
                 ID = value.GetValue<long>("id"),
@@ -72,7 +73,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 IsBackgroundImageTiled = value.GetValue<bool>("profile_background_tile"),
                 TextColor = value.GetValue<string>("profile_text_color"),
                 LinkColor = value.GetValue<string>("profile_link_color"),
-                ShowAllInlineMedia = value.GetValue<bool>("show_all_inline_media"),
+                ShowAllInlineMedia = showAllInlineMediaValue != null ? showAllInlineMediaValue.GetValue<bool>() : false,
             };
         }
     }
