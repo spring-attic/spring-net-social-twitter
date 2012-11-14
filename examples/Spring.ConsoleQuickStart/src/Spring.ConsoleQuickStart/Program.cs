@@ -13,7 +13,7 @@ namespace Spring.ConsoleQuickStart
 {
     class Program
     {
-        // Register your own Twitter app at https://dev.twitter.com/apps/new with "Read & Write" access type.
+        // Register your own Twitter app at https://dev.twitter.com/apps/new with "Read, Write and Access direct messages" access type.
         // Set your consumer key & secret here
         private const string TwitterConsumerKey = TODO;
         private const string TwitterConsumerSecret = TODO;

@@ -21,7 +21,7 @@ namespace Spring.WindowsPhoneQuickStart
 {
     public partial class App : Application
     {
-        // Register your own Twitter app at https://dev.twitter.com/apps/new with "Read & Write" access type
+        // Register your own Twitter app at https://dev.twitter.com/apps/new with "Read, Write and Access direct messages" access type
         // Configure the Callback URL with 'http://localhost/Twitter/Callback'
         // Set your consumer key & secret here
         private const string TwitterConsumerKey = TODO;
