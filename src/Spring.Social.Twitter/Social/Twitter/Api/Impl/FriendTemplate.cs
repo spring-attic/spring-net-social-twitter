@@ -275,7 +275,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 .ContinueWith<bool>(task =>
                 {
                     return task.Result.GetValue<bool>();
-                });
+                }, TaskContinuationOptions.ExecuteSynchronously);
 	    }
 
         public Task<CursoredList<long>> GetIncomingFriendshipsAsync() 

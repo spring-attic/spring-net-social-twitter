@@ -96,7 +96,7 @@ namespace Spring.Social.Twitter.Api.Impl
                     task.Result.PlacePrototype.StreetAddress = streetAddress;
                     task.Result.PlacePrototype.ContainedWithin = containedWithin;
                     return task.Result;
-                });
+                }, TaskContinuationOptions.ExecuteSynchronously);
 
 	    }
 

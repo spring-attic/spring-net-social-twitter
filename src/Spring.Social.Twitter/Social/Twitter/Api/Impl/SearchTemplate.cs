@@ -114,7 +114,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 .ContinueWith<IList<Trends>>(task =>
                 {
                     return task.Result;
-                });
+                }, TaskContinuationOptions.ExecuteSynchronously);
 	    }
 
         public Task<IList<Trends>> GetWeeklyTrendsAsync() 
@@ -134,7 +134,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 .ContinueWith<IList<Trends>>(task =>
                 {
                     return task.Result;
-                });
+                }, TaskContinuationOptions.ExecuteSynchronously);
 	    }
 
         public Task<Trends> GetLocalTrendsAsync(long whereOnEarthId) 
@@ -153,7 +153,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 .ContinueWith<Trends>(task =>
                 {
                     return task.Result;
-                });
+                }, TaskContinuationOptions.ExecuteSynchronously);
         }
 #else
 #if !SILVERLIGHT

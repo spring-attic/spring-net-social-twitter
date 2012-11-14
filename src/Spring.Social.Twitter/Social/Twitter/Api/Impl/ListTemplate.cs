@@ -847,7 +847,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 .ContinueWith<bool>(task =>
                 {
                     return task.Result.StatusCode != HttpStatusCode.NotFound;
-                });
+                }, TaskContinuationOptions.ExecuteSynchronously);
         }
 #else
 #if !SILVERLIGHT
