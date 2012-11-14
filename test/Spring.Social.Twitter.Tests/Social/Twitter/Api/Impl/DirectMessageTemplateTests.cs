@@ -179,7 +179,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
 		    mockServer.ExpectNewRequest()
                 .AndExpectUri("https://api.twitter.com/1/direct_messages/new.json").AndExpectMethod(HttpMethod.POST)
-				.AndExpectBody("screen_name=habuma&text=Hello+there!")
+				.AndExpectBody("screen_name=habuma&text=Hello+there%21")
                 .AndRespondWith(JsonResource("Direct_Message"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
@@ -237,7 +237,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    mockServer.ExpectNewRequest()
                 .AndExpectUri("https://api.twitter.com/1/direct_messages/new.json")
                 .AndExpectMethod(HttpMethod.POST)
-				.AndExpectBody("user_id=11223&text=Hello+there!")
+				.AndExpectBody("user_id=11223&text=Hello+there%21")
                 .AndRespondWith(JsonResource("Direct_Message"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
