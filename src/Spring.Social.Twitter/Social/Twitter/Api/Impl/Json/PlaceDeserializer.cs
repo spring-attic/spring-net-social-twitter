@@ -38,8 +38,11 @@ namespace Spring.Social.Twitter.Api.Impl.Json
             place.ID = json.GetValue<string>("id");
             place.Name = json.GetValue<string>("name");
             place.FullName = json.GetValue<string>("full_name");
-            JsonValue jsonValue = json.GetValue("attributes").GetValue("street_address");
-            place.StreetAddress = jsonValue != null ? jsonValue.GetValue<string>() : null;
+            JsonValue attributesValue = json.GetValue("attributes");
+            if (attributesValue != null)
+            {
+                place.StreetAddress = attributesValue.GetValueOrDefault<string>("street_address");
+            }
             place.Country = json.GetValue<string>("country");
             place.CountryCode = json.GetValue<string>("country_code");
             place.PlaceType = (PlaceType)Enum.Parse(typeof(PlaceType), json.GetValue<string>("place_type"), true);

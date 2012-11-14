@@ -61,12 +61,9 @@ namespace Spring.Social.Twitter.Api.Impl.Json
             }
             tweet.CreatedAt = JsonUtils.ToDateTime(value.GetValue<string>("created_at"), dateFormat);
             tweet.Source = value.GetValue<string>("source");
-            JsonValue toUserIdValue = value.GetValue("in_reply_to_user_id");
-            tweet.ToUserId = (toUserIdValue != null) ? toUserIdValue.GetValue<long?>() : null;
-            JsonValue languageCodeValue = value.GetValue("iso_language_code");
-            tweet.LanguageCode = (languageCodeValue != null) ? languageCodeValue.GetValue<string>() : null;
-            JsonValue inReplyToStatusIdValue = value.GetValue("in_reply_to_status_id");
-            tweet.InReplyToStatusId = ((inReplyToStatusIdValue != null) && !inReplyToStatusIdValue.IsNull) ? inReplyToStatusIdValue.GetValue<long?>() : null;
+            tweet.ToUserId = value.GetValueOrDefault<long?>("in_reply_to_user_id");
+            tweet.LanguageCode = value.GetValueOrDefault<string>("iso_language_code");
+            tweet.InReplyToStatusId = value.GetValueOrDefault<long?>("in_reply_to_status_id");
 
             return tweet;
         }

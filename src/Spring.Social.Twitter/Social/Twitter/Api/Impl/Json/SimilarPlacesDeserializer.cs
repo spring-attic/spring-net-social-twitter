@@ -35,9 +35,8 @@ namespace Spring.Social.Twitter.Api.Impl.Json
         public object Deserialize(JsonValue json, JsonMapper mapper)
         {
             SimilarPlaces similarPlaces = new SimilarPlaces(mapper.Deserialize<IList<Place>>(json));
-            JsonValue jsonValue = json.GetValue("result");
             similarPlaces.PlacePrototype = new PlacePrototype();
-            similarPlaces.PlacePrototype.CreateToken = jsonValue.GetValue<string>("token");
+            similarPlaces.PlacePrototype.CreateToken = json.GetValue("result").GetValue<string>("token");
             return similarPlaces;
         }
     }
