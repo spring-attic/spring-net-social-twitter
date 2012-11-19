@@ -1,0 +1,16 @@
+SPRING.NET SOCIAL TWITTER CHANGELOG
+===================================
+http://www.springframework.net/social-twitter/
+
+Release Version 1.0.1 November 19, 2012
+
+Bug
+[SPRNETSOCIALTW-2] - Add support for missing 'is_translator' field in Twitter user object
+[SPRNETSOCIALTW-3] - Add support for missing 'show_all_inline_media' field in Twitter user object
+[SPRNETSOCIALTW-4] - Avoid JSON parsing issues when fields are missing
+
+Improvement
+[SPRNETSOCIALTW-1] - Make data model classes serializable
+
+Task
+[SPRNETSOCIALTW-6] - Update Spring Social version to 1.0.1
