@@ -1,11 +1,11 @@
-The Spring.NET Social Twitter project, Release 1.0.1 (November 19, 2012)
-------------------------------------------------------------------------
+The Spring.NET Social Twitter project, Release 2.0.0 GA (TO BE DEFINED)
+-----------------------------------------------------------------------
 http://www.springframework.net/social-twitter/
 
 
 1. INTRODUCTION
 
-The 1.0.1 release of Spring.NET Social Twitter contains
+The 2.0.0 release of Spring.NET Social Twitter contains
 	
 	* A Spring.NET Social extension with connection support and an API binding for Twitter.
 
