@@ -41,7 +41,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Block_UserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/create.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("user_id=12345")
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
@@ -70,7 +70,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Block_ScreenName()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/create.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("screen_name=habuma")
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
@@ -99,7 +99,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Unblock_UserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/destroy.json")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/destroy.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("user_id=12345")
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
@@ -128,7 +128,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Unblock_ScreenName()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/destroy.json")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/destroy.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("screen_name=habuma")
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
@@ -157,32 +157,36 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetBlockedUsers()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/blocking.json?page=1&per_page=20")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/list.json?skip_status=true&cursor=-1")
                 .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Profiles"), responseHeaders);
+                .AndRespondWith(JsonResource("CursoredList_Of_Profiles"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsersAsync().Result;
+            CursoredList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsersAsync().Result;
 #else
-            IList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsers();
+            CursoredList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsers();
 #endif
             Assert.AreEqual(2, blockedUsers.Count);
+            Assert.AreEqual(12, blockedUsers.PreviousCursor);
+            Assert.AreEqual(65, blockedUsers.NextCursor);
         }
 
         [Test]
-        public void GetBlockedUsers_Paged()
+        public void GetBlockedUsers_Cursored()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/blocking.json?page=3&per_page=25")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/list.json?skip_status=true&cursor=25")
                 .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Profiles"), responseHeaders);
+                .AndRespondWith(JsonResource("CursoredList_Of_Profiles"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsersAsync(3, 25).Result;
+            CursoredList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsersAsync(25).Result;
 #else
-            IList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsers(3, 25);
+            CursoredList<TwitterProfile> blockedUsers = twitter.BlockOperations.GetBlockedUsers(25);
 #endif
             Assert.AreEqual(2, blockedUsers.Count);
+            Assert.AreEqual(12, blockedUsers.PreviousCursor);
+            Assert.AreEqual(65, blockedUsers.NextCursor);
         }
 
         [Test]
@@ -201,16 +205,36 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetBlockedUserIds()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/blocking/ids.json")
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/ids.json?cursor=-1")
                 .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Ids"), responseHeaders);
+                .AndRespondWith(JsonResource("CursoredList_Of_Ids"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<long> blockedUsers = twitter.BlockOperations.GetBlockedUserIdsAsync().Result;
+            CursoredList<long> blockedUsers = twitter.BlockOperations.GetBlockedUserIdsAsync().Result;
 #else
-            IList<long> blockedUsers = twitter.BlockOperations.GetBlockedUserIds();
+            CursoredList<long> blockedUsers = twitter.BlockOperations.GetBlockedUserIds();
 #endif
             Assert.AreEqual(4, blockedUsers.Count);
+            Assert.AreEqual(12, blockedUsers.PreviousCursor);
+            Assert.AreEqual(65, blockedUsers.NextCursor);
+        }
+
+        [Test]
+        public void GetBlockedUserIds_Cursored()
+        {
+            mockServer.ExpectNewRequest()
+                .AndExpectUri("https://api.twitter.com/1.1/blocks/ids.json?cursor=21")
+                .AndExpectMethod(HttpMethod.GET)
+                .AndRespondWith(JsonResource("CursoredList_Of_Ids"), responseHeaders);
+
+#if NET_4_0 || SILVERLIGHT_5
+            CursoredList<long> blockedUsers = twitter.BlockOperations.GetBlockedUserIdsAsync(21).Result;
+#else
+            CursoredList<long> blockedUsers = twitter.BlockOperations.GetBlockedUserIds(21);
+#endif
+            Assert.AreEqual(4, blockedUsers.Count);
+            Assert.AreEqual(12, blockedUsers.PreviousCursor);
+            Assert.AreEqual(65, blockedUsers.NextCursor);
         }
 
         [Test]
@@ -222,66 +246,6 @@ namespace Spring.Social.Twitter.Api.Impl
             unauthorizedTwitter.BlockOperations.GetBlockedUserIdsAsync().Wait();
 #else
             unauthorizedTwitter.BlockOperations.GetBlockedUserIds();
-#endif
-        }
-
-        [Test]
-        public void IsBlocking_UserId_True()
-        {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/exists.json?user_id=12345")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-            Assert.IsTrue(twitter.BlockOperations.IsBlockingAsync(12345).Result);
-#else
-            Assert.IsTrue(twitter.BlockOperations.IsBlocking(12345));
-#endif
-        }
-
-        [Test]
-        public void IsBlocking_UserId_False()
-        {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/exists.json?user_id=12345")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith("{\"request\": \"/1/blocks/exists.json?screen_name=episod\", \"error\": \"You are not blocking this user.\"}", responseHeaders, HttpStatusCode.NotFound, "Not Found");
-
-#if NET_4_0 || SILVERLIGHT_5
-            Assert.IsFalse(twitter.BlockOperations.IsBlockingAsync(12345).Result);
-#else
-            Assert.IsFalse(twitter.BlockOperations.IsBlocking(12345));
-#endif
-        }
-
-        [Test]
-        public void IsBlocking_ScreenName_True() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/exists.json?screen_name=habuma")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    Assert.IsTrue(twitter.BlockOperations.IsBlockingAsync("habuma").Result);
-#else
-            Assert.IsTrue(twitter.BlockOperations.IsBlocking("habuma"));
-#endif
-	    }
-
-        [Test]
-        public void IsBlocking_ScreenName_False() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/blocks/exists.json?screen_name=habuma")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith("{\"request\": \"/1/blocks/exists.json?screen_name=episod\", \"error\": \"You are not blocking this user.\"}", responseHeaders, HttpStatusCode.NotFound, "Not Found");
-
-#if NET_4_0 || SILVERLIGHT_5
-		    Assert.IsFalse(twitter.BlockOperations.IsBlockingAsync("habuma").Result);	
-#else
-            Assert.IsFalse(twitter.BlockOperations.IsBlocking("habuma"));	
 #endif
         }
 

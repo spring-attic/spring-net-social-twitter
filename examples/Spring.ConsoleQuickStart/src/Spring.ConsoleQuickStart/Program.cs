@@ -53,23 +53,61 @@ namespace Spring.ConsoleQuickStart
 
                 // Use step by step debugging
 /*
+                // IBlockOperations
+                TwitterProfile blockedProfile = twitter.BlockOperations.BlockAsync("brbaia").Result;
+                CursoredList<TwitterProfile> blockedIserProfiles = twitter.BlockOperations.GetBlockedUsersAsync().Result;
+                CursoredList<long> blockedUserIds = twitter.BlockOperations.GetBlockedUserIdsAsync().Result;
+                blockedProfile = twitter.BlockOperations.UnblockAsync(blockedProfile.ID).Result;
+
+                // IDirectMessageOperations
+                IList<DirectMessage> directMessagesSent = twitter.DirectMessageOperations.GetDirectMessagesSentAsync().Result;
+                IList<DirectMessage> directMessagesReceived = twitter.DirectMessageOperations.GetDirectMessagesReceivedAsync().Result;
+                DirectMessage directMessage = twitter.DirectMessageOperations.SendDirectMessageAsync("brbaia", "Hi from #Spring.NET Social Twitter!").Result;
+                directMessage = twitter.DirectMessageOperations.GetDirectMessageAsync(directMessage.ID).Result;
+                directMessage = twitter.DirectMessageOperations.DeleteDirectMessageAsync(directMessage.ID).Result;
+
+                // IFriendOperations
+                CursoredList<TwitterProfile> followers = twitter.FriendOperations.GetFollowersAsync().Result;
+                CursoredList<TwitterProfile> friends = twitter.FriendOperations.GetFriendsAsync().Result;
+                TwitterProfile newFriend = twitter.FriendOperations.FollowAsync("brbaia").Result;
+                twitter.FriendOperations.EnableNotificationsAsync("brbaia").Wait();
+
+                // IGeoOperations
+                IList<Place> places = twitter.GeoOperations.SearchAsync(37.7821120598956, -122.400612831116).Result;
+
+                // IListOperations
+                IList<UserList> myLists = twitter.ListOperations.GetListsAsync().Result;
+                IList<UserList> s2Lists = twitter.ListOperations.GetListsAsync("SpringSource").Result;
+                IList<TwitterProfile> listMembers = twitter.ListOperations.GetListMembersAsync(s2Lists[0].ID).Result;
+                IList<TwitterProfile> listSubscribers = twitter.ListOperations.GetListSubscribersAsync(s2Lists[0].ID).Result;
+                IList<Tweet> listTweets = twitter.ListOperations.GetListStatusesAsync(s2Lists[0].ID).Result;
+                CursoredList<UserList> listMemberships = twitter.ListOperations.GetMembershipsAsync(listMembers[0].ID).Result;
+                UserList myNewList = twitter.ListOperations.CreateListAsync("My list", "List description", true).Result;
+                twitter.ListOperations.AddToListAsync(myNewList.ID, "brbaia").Wait();
+                twitter.ListOperations.DeleteListAsync(myNewList.ID).Wait();
+
+                // ISearchOperations
+                SearchResults searchResults = twitter.SearchOperations.SearchAsync("#spring").Result;
+                SavedSearch savedSearch = twitter.SearchOperations.CreateSavedSearchAsync("@brbaia").Result;
+                IList<SavedSearch> savedSearches = twitter.SearchOperations.GetSavedSearchesAsync().Result;
+                twitter.SearchOperations.DeleteSavedSearchAsync(savedSearch.ID).Wait();
+                Trends globalTrends = twitter.SearchOperations.GetTrendsAsync(1).Result;
+
+                // ITimelineOperations
                 Tweet tweet = twitter.TimelineOperations.UpdateStatusAsync(
                     "Hi from #Spring.NET Social Twitter! http://bit.ly/x2rvlC", new AssemblyResource("Image.png", typeof(Program))).Result;
-                twitter.UserOperations.GetUserProfileImageAsync("twitter", ImageSize.Original)
-                    .ContinueWith(task =>
-                    {
-                        // Save file to "C:\twitter.jpg"
-                        using (FileStream fileStream = new FileStream(@"C:\twitter.jpg", FileMode.Create))
-                        {
-                            fileStream.Write(task.Result, 0, task.Result.Length);
-                        }
-                    });
-                SearchResults searchResults = twitter.SearchOperations.SearchAsync("Portugal").Result;
-                CursoredList<UserList> s2Lists = twitter.ListOperations.GetListsAsync("SpringSource").Result;
-                IList<Place> places = twitter.GeoOperations.SearchAsync(33.050278, -96.745833).Result;
-                bool friendshipExists = twitter.FriendOperations.FriendshipExistsAsync("brbaia", "sbohlen").Result;
-                IList<DirectMessage> myDmReceived = twitter.DirectMessageOperations.GetDirectMessagesReceivedAsync().Result;
-                bool isBlocking = twitter.BlockOperations.IsBlockingAsync("brbaia").Result;
+                twitter.TimelineOperations.DeleteStatusAsync(tweet.ID).Wait();
+                IList<Tweet> homeTimeline = twitter.TimelineOperations.GetHomeTimelineAsync().Result;
+                IList<Tweet> userTimeline = twitter.TimelineOperations.GetUserTimelineAsync().Result;
+                IList<Tweet> mentions = twitter.TimelineOperations.GetMentionsAsync().Result;
+                IList<Tweet> retweetsOfMe = twitter.TimelineOperations.GetRetweetsOfMeAsync().Result;
+                IList<Tweet> retweets = twitter.TimelineOperations.GetRetweetsAsync(homeTimeline[0].ID).Result;
+                IList<Tweet> favorites = twitter.TimelineOperations.GetFavoritesAsync().Result;
+
+                // IUserOperations
+                TwitterProfile userProfile = twitter.UserOperations.GetUserProfileAsync().Result;
+                IList<TwitterProfile> searchProfiles = twitter.UserOperations.SearchForUsersAsync("spring").Result;
+                IList<RateLimitStatus> limits = twitter.UserOperations.GetRateLimitStatusAsync("users", "search", "statuses").Result;
 */
             }
             catch (AggregateException ae)
@@ -113,28 +151,66 @@ namespace Spring.ConsoleQuickStart
 
                 // Use step by step debugging
 /*
+                // IBlockOperations
+                TwitterProfile blockedProfile = twitter.BlockOperations.Block("brbaia");
+                CursoredList<TwitterProfile> blockedIserProfiles = twitter.BlockOperations.GetBlockedUsers();
+                CursoredList<long> blockedUserIds = twitter.BlockOperations.GetBlockedUserIds();
+                blockedProfile = twitter.BlockOperations.Unblock(blockedProfile.ID);
+
+                // IDirectMessageOperations
+                IList<DirectMessage> directMessagesSent = twitter.DirectMessageOperations.GetDirectMessagesSent();
+                IList<DirectMessage> directMessagesReceived = twitter.DirectMessageOperations.GetDirectMessagesReceived();
+                DirectMessage directMessage = twitter.DirectMessageOperations.SendDirectMessage("brbaia", "Hi from #Spring.NET Social Twitter!");
+                directMessage = twitter.DirectMessageOperations.GetDirectMessage(directMessage.ID);
+                directMessage = twitter.DirectMessageOperations.DeleteDirectMessage(directMessage.ID);
+
+                // IFriendOperations
+                CursoredList<TwitterProfile> followers = twitter.FriendOperations.GetFollowers();
+                CursoredList<TwitterProfile> friends = twitter.FriendOperations.GetFriends();
+                TwitterProfile newFriend = twitter.FriendOperations.Follow("brbaia");
+                twitter.FriendOperations.EnableNotifications("brbaia");
+
+                // IGeoOperations
+                IList<Place> places = twitter.GeoOperations.Search(37.7821120598956, -122.400612831116);
+
+                // IListOperations
+                IList<UserList> myLists = twitter.ListOperations.GetLists();
+                IList<UserList> s2Lists = twitter.ListOperations.GetLists("SpringSource");
+                IList<TwitterProfile> listMembers = twitter.ListOperations.GetListMembers(s2Lists[0].ID);
+                IList<TwitterProfile> listSubscribers = twitter.ListOperations.GetListSubscribers(s2Lists[0].ID);
+                IList<Tweet> listTweets = twitter.ListOperations.GetListStatuses(s2Lists[0].ID);
+                CursoredList<UserList> listMemberships = twitter.ListOperations.GetMemberships(listMembers[0].ID);
+                UserList myNewList = twitter.ListOperations.CreateList("My list", "List description", true);
+                twitter.ListOperations.AddToList(myNewList.ID, "brbaia");
+                twitter.ListOperations.DeleteList(myNewList.ID);
+
+                // ISearchOperations
+                SearchResults searchResults = twitter.SearchOperations.Search("#spring");
+                SavedSearch savedSearch = twitter.SearchOperations.CreateSavedSearch("@brbaia");
+                IList<SavedSearch> savedSearches = twitter.SearchOperations.GetSavedSearches();
+                twitter.SearchOperations.DeleteSavedSearch(savedSearch.ID);
+                Trends globalTrends = twitter.SearchOperations.GetTrends(1);
+
+                // ITimelineOperations
                 Tweet tweet = twitter.TimelineOperations.UpdateStatus(
                     "Hi from #Spring.NET Social Twitter! http://bit.ly/x2rvlC", new AssemblyResource("Image.png", typeof(Program)));
-                twitter.UserOperations.GetUserProfileImageAsync("twitter", ImageSize.Original, 
-                    r =>
-                    {
-                        // Save file to "C:\twitter.jpg"
-                        using (FileStream fileStream = new FileStream(@"C:\twitter.jpg", FileMode.Create))
-                        {
-                            fileStream.Write(r.Response, 0, r.Response.Length);
-                        }
-                    });
-                SearchResults searchResults = twitter.SearchOperations.Search("Portugal");
-                CursoredList<UserList> s2Lists = twitter.ListOperations.GetLists("SpringSource");
-                IList<Place> places = twitter.GeoOperations.Search(33.050278, -96.745833);
-                bool friendshipExists = twitter.FriendOperations.FriendshipExists("brbaia", "sbohlen");
-                IList<DirectMessage> myDmReceived = twitter.DirectMessageOperations.GetDirectMessagesReceived();
-                bool isBlocking = twitter.BlockOperations.IsBlocking("brbaia");
+                twitter.TimelineOperations.DeleteStatus(tweet.ID);
+                IList<Tweet> homeTimeline = twitter.TimelineOperations.GetHomeTimeline();
+                IList<Tweet> userTimeline = twitter.TimelineOperations.GetUserTimeline();
+                IList<Tweet> mentions = twitter.TimelineOperations.GetMentions();
+                IList<Tweet> retweetsOfMe = twitter.TimelineOperations.GetRetweetsOfMe();
+                IList<Tweet> retweets = twitter.TimelineOperations.GetRetweets(homeTimeline[0].ID);
+                IList<Tweet> favorites = twitter.TimelineOperations.GetFavorites();
+
+                // IUserOperations
+                TwitterProfile userProfile = twitter.UserOperations.GetUserProfile();
+                IList<TwitterProfile> searchProfiles = twitter.UserOperations.SearchForUsers("spring");
+                IList<RateLimitStatus> limits = twitter.UserOperations.GetRateLimitStatus("users", "search", "statuses");
 */
             }
             catch (TwitterApiException ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
             }
 #endif
             catch (Exception ex)

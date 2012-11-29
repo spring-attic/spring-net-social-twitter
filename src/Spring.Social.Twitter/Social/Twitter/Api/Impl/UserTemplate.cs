@@ -61,33 +61,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> GetUserProfileAsync(string screenName) 
         {
+            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "screen_name", screenName));
 	    }
 
         public Task<TwitterProfile> GetUserProfileAsync(long userId) 
         {
+            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "user_id", userId.ToString()));
 	    }
 
-        public Task<byte[]> GetUserProfileImageAsync(string screenName) 
-        {
-            return this.GetUserProfileImageAsync(screenName, ImageSize.Normal);
-	    }
-
-        public Task<byte[]> GetUserProfileImageAsync(string screenName, ImageSize size) 
-        {
-            return this.restTemplate.GetForObjectAsync<byte[]>(
-                "users/profile_image/{screenName}?size={size}", screenName, size.ToString().ToLowerInvariant());
-        }
-
         public Task<IList<TwitterProfile>> GetUsersAsync(params long[] userIds) 
         {
+            this.EnsureIsAuthorized();
 		    string joinedIds = ArrayUtils.Join(userIds);
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds));
 	    }
 
         public Task<IList<TwitterProfile>> GetUsersAsync(params string[] screenNames) 
         {
+            this.EnsureIsAuthorized();
 		    string joinedScreenNames = ArrayUtils.Join(screenNames);
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "screen_name", joinedScreenNames));
 	    }
@@ -107,17 +100,25 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<SuggestionCategory>> GetSuggestionCategoriesAsync() 
         {
+            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObjectAsync<IList<SuggestionCategory>>("users/suggestions.json");
 	    }
 
         public Task<IList<TwitterProfile>> GetSuggestionsAsync(String slug) 
         {
+            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>("users/suggestions/{slug}.json", slug);
 	    }
 
-	    public Task<RateLimitStatus> GetRateLimitStatusAsync() 
+        public Task<IList<RateLimitStatus>> GetRateLimitStatusAsync(params string[] resources) 
         {
-		    return this.restTemplate.GetForObjectAsync<RateLimitStatus>("account/rate_limit_status.json");
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = new NameValueCollection();
+            if (resources.Length > 0)
+            {
+                parameters.Add("resources", ArrayUtils.Join(resources));
+            }
+            return this.restTemplate.GetForObjectAsync<IList<RateLimitStatus>>(this.BuildUrl("application/rate_limit_status.json", parameters));
 	    }
 #else
 #if !SILVERLIGHT
@@ -129,33 +130,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public TwitterProfile GetUserProfile(string screenName) 
         {
+            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<TwitterProfile>(this.BuildUrl("users/show.json", "screen_name", screenName));
 	    }
 	
 	    public TwitterProfile GetUserProfile(long userId) 
         {
+            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<TwitterProfile>(this.BuildUrl("users/show.json", "user_id", userId.ToString()));
 	    }
-	
-	    public byte[] GetUserProfileImage(string screenName) 
-        {
-		    return this.GetUserProfileImage(screenName, ImageSize.Normal);
-	    }
-	
-	    public byte[] GetUserProfileImage(string screenName, ImageSize size) 
-        {
-            return this.restTemplate.GetForObject<byte[]>(
-                "users/profile_image/{screenName}?size={size}", screenName, size.ToString().ToLowerInvariant());
-        }
 
 	    public IList<TwitterProfile> GetUsers(params long[] userIds) 
         {
+            this.EnsureIsAuthorized();
 		    string joinedIds = ArrayUtils.Join(userIds);
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds));
 	    }
 
 	    public IList<TwitterProfile> GetUsers(params string[] screenNames) 
         {
+            this.EnsureIsAuthorized();
 		    string joinedScreenNames = ArrayUtils.Join(screenNames);
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "screen_name", joinedScreenNames));
 	    }
@@ -175,17 +169,25 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<SuggestionCategory> GetSuggestionCategories() 
         {
+            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<IList<SuggestionCategory>>("users/suggestions.json");
 	    }
 
 	    public IList<TwitterProfile> GetSuggestions(String slug) 
         {
+            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>("users/suggestions/{slug}.json", slug);
 	    }
 
-	    public RateLimitStatus GetRateLimitStatus() 
+	    public IList<RateLimitStatus> GetRateLimitStatus(params string[] resources) 
         {
-		    return this.restTemplate.GetForObject<RateLimitStatus>("account/rate_limit_status.json");
+            this.EnsureIsAuthorized();
+		    NameValueCollection parameters = new NameValueCollection();
+            if (resources.Length > 0)
+            {
+                parameters.Add("resources", ArrayUtils.Join(resources));
+            }
+            return this.restTemplate.GetForObject<IList<RateLimitStatus>>(this.BuildUrl("application/rate_limit_status.json", parameters));
 	    }
 #endif
 
@@ -197,33 +199,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetUserProfileAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "screen_name", screenName), operationCompleted);
         }
 
         public RestOperationCanceler GetUserProfileAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "user_id", userId.ToString()), operationCompleted);
-        }
-
-        public RestOperationCanceler GetUserProfileImageAsync(string screenName, Action<RestOperationCompletedEventArgs<byte[]>> operationCompleted)
-        {
-            return this.GetUserProfileImageAsync(screenName, ImageSize.Normal, operationCompleted);
-        }
-
-        public RestOperationCanceler GetUserProfileImageAsync(string screenName, ImageSize size, Action<RestOperationCompletedEventArgs<byte[]>> operationCompleted)
-        {
-            return this.restTemplate.GetForObjectAsync<byte[]>(
-                "users/profile_image/{screenName}?size={size}", operationCompleted, screenName, size.ToString().ToLowerInvariant());
         }
 
         public RestOperationCanceler GetUsersAsync(long[] userIds, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             string joinedIds = ArrayUtils.Join(userIds);
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds), operationCompleted);
         }
 
         public RestOperationCanceler GetUsersAsync(string[] screenNames, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             string joinedScreenNames = ArrayUtils.Join(screenNames);
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "screen_name", joinedScreenNames), operationCompleted);
         }
@@ -243,25 +238,27 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetSuggestionCategoriesAsync(Action<RestOperationCompletedEventArgs<IList<SuggestionCategory>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<SuggestionCategory>>("users/suggestions.json", operationCompleted);
         }
 
         public RestOperationCanceler GetSuggestionsAsync(String slug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>("users/suggestions/{slug}.json", operationCompleted, slug);
         }
 
-        public RestOperationCanceler GetRateLimitStatusAsync(Action<RestOperationCompletedEventArgs<RateLimitStatus>> operationCompleted)
+        public RestOperationCanceler GetRateLimitStatusAsync(string[] resources, Action<RestOperationCompletedEventArgs<IList<RateLimitStatus>>> operationCompleted)
         {
-            return this.restTemplate.GetForObjectAsync<RateLimitStatus>("account/rate_limit_status.json", operationCompleted);
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = new NameValueCollection();
+            if (resources.Length > 0)
+            {
+                parameters.Add("resources", ArrayUtils.Join(resources));
+            }
+            return this.restTemplate.GetForObjectAsync<IList<RateLimitStatus>>(this.BuildUrl("application/rate_limit_status.json", parameters), operationCompleted);
         }
 #endif
-
-        #endregion
-
-        #region Private Methods
-
-
 
         #endregion
     }

@@ -40,7 +40,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetLists_CurrentUser()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists.json?cursor=-1")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/list.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
 
@@ -48,21 +48,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertListOfLists(twitter.ListOperations.GetListsAsync().Result);
 #else
             AssertListOfLists(twitter.ListOperations.GetLists());
-#endif
-        }
-
-        [Test]
-        public void GetListsInCursor_CurrentUser()
-        {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists.json?cursor=11223344")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-            AssertListOfLists(twitter.ListOperations.GetListsInCursorAsync(11223344).Result);
-#else
-            AssertListOfLists(twitter.ListOperations.GetListsInCursor(11223344));
 #endif
         }
 
@@ -82,7 +67,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetLists_ById()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists.json?user_id=161064614&cursor=-1")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/list.json?user_id=161064614")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
 
@@ -94,17 +79,14 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        public void GetListsInCursor_ById()
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetLists_ById_Unauthorized()
         {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists.json?user_id=161064614&cursor=44332211")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
-
 #if NET_4_0 || SILVERLIGHT_5
-            AssertListOfLists(twitter.ListOperations.GetListsInCursorAsync(161064614, 44332211).Result);
+            unauthorizedTwitter.ListOperations.GetListsAsync(161064614).Wait();
 #else
-            AssertListOfLists(twitter.ListOperations.GetListsInCursor(161064614, 44332211));
+            unauthorizedTwitter.ListOperations.GetLists(161064614);
 #endif
         }
 
@@ -112,29 +94,26 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetLists_ByScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists.json?screen_name=habuma&cursor=-1")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/list.json?screen_name=habuma")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    AssertListOfLists(twitter.ListOperations.GetListsAsync("habuma").Result);
+            AssertListOfLists(twitter.ListOperations.GetListsAsync("habuma").Result);
 #else
             AssertListOfLists(twitter.ListOperations.GetLists("habuma"));
 #endif
         }
 
         [Test]
-        public void GetListsInCursor_ByScreenName()
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetLists_ByScreenName_Unauthorized()
         {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists.json?screen_name=habuma&cursor=11335577")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
-
 #if NET_4_0 || SILVERLIGHT_5
-            AssertListOfLists(twitter.ListOperations.GetListsInCursorAsync("habuma", 11335577).Result);
+            unauthorizedTwitter.ListOperations.GetListsAsync("habuma").Wait();
 #else
-            AssertListOfLists(twitter.ListOperations.GetListsInCursor("habuma", 11335577));
+            unauthorizedTwitter.ListOperations.GetLists("habuma");
 #endif
         }
 
@@ -142,7 +121,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetList_ByListId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/show.json?list_id=40841803")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/show.json?list_id=40841803")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
 
@@ -154,10 +133,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetList_ByListId_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetListAsync(40841803).Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetList(40841803);
+#endif
+        }
+
+        [Test]
         public void CreateList_PublicListForUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/create.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("name=forfun&description=Just+for+Fun&mode=public")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -173,7 +164,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void CreateList_PrivateListForUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/create.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("name=forfun2&description=Just+for+Fun%2C+too&mode=private")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -201,7 +192,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void UpdateList_PublicListForUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/update.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/update.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("name=forfun&description=Just+for+Fun&mode=public&list_id=40841803")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -217,7 +208,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void UpdateList_PrivateListForUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/update.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/update.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("name=forfun2&description=Just+for+Fun%2C+too&mode=private&list_id=40841803")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -245,15 +236,17 @@ namespace Spring.Social.Twitter.Api.Impl
         public void DeleteList_ForUserIdByListId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/destroy.json?list_id=40841803")
-                .AndExpectMethod(HttpMethod.DELETE)
-                .AndRespondWith("{}", responseHeaders);
+                .AndExpectUri("https://api.twitter.com/1.1/lists/destroy.json")
+                .AndExpectMethod(HttpMethod.POST)
+                .AndExpectBody("list_id=40841803")
+                .AndRespondWith(JsonResource("Single_List"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            twitter.ListOperations.DeleteListAsync(40841803).Wait();
+            UserList deletedList = twitter.ListOperations.DeleteListAsync(40841803).Result;
 #else
-            twitter.ListOperations.DeleteList(40841803);
+            UserList deletedList = twitter.ListOperations.DeleteList(40841803);
 #endif
+            AssertSingleList(deletedList);
         }
 
         [Test]
@@ -272,7 +265,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetListMembers_ByUserIdAndListId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members.json?list_id=40841803")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members.json?list_id=40841803")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Members"), responseHeaders);
 
@@ -284,10 +277,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetListMembers_ByUserIdAndListId_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetListMembersAsync(40841803).Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetListMembers(40841803);
+#endif
+        }
+
+        [Test]
         public void GetListMembers_ByScreenNameAndListSlug() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members.json?owner_screen_name=habuma&slug=forfun")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members.json?owner_screen_name=habuma&slug=forfun")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("List_Members"), responseHeaders);
 
@@ -299,10 +304,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetListMembers_ByScreenNameAndListSlug_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetListMembersAsync("habuma", "forfun").Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetListMembers("habuma", "forfun");
+#endif
+        }
+
+        [Test]
         public void AddToList_ForUserIdListIdSingle()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/create_all.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/create_all.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("user_id=123456&list_id=40841803")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -318,7 +335,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void AddToList_ForUserIdListIdMultiple()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/create_all.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/create_all.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("user_id=123456%2C234567%2C345678&list_id=40841803")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -346,7 +363,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void AddToList_ForScreenNameMultiple() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/create_all.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/create_all.json")
 			    .AndExpectMethod(HttpMethod.POST)
 			    .AndExpectBody("screen_name=habuma%2Croyclarkson&list_id=40841803")
 			    .AndRespondWith(JsonResource("Single_List"), responseHeaders);		
@@ -374,7 +391,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void RemoveFromList_OwnerIdListIdMemberId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/destroy.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/destroy.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("user_id=12345&list_id=40841803")
                 .AndRespondWith("{}", responseHeaders);
@@ -402,7 +419,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void RemoveFromList_ScreenName()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/destroy.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/destroy.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("screen_name=habuma&list_id=40841803")
                 .AndRespondWith("{}", responseHeaders);
@@ -430,7 +447,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetListSubscribers_ByUserIdAndListId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers.json?list_id=40841803")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers.json?list_id=40841803")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Members"), responseHeaders);
 
@@ -442,10 +459,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetListSubscribers_ByUserIdAndListId_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetListSubscribersAsync(40841803).Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetListSubscribers(40841803);
+#endif
+        }
+
+        [Test]
         public void GetListSubscribers_ByScreenNameAndListSlug() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers.json?owner_screen_name=habuma&slug=forfun")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers.json?owner_screen_name=habuma&slug=forfun")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("List_Members"), responseHeaders);
 
@@ -457,17 +486,41 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetListSubscribers_ByScreenNameAndListSlug_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetListSubscribersAsync("habuma", "forfun").Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetListSubscribers("habuma", "forfun");
+#endif
+        }
+
+        [Test]
         public void GetMemberships_ForUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/memberships.json?user_id=161064614")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/memberships.json?user_id=161064614")
                 .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
+                .AndRespondWith(JsonResource("CursoredList_Of_Lists"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            AssertListOfLists(twitter.ListOperations.GetMembershipsAsync(161064614).Result);
+            AssertCursoredListOfLists(twitter.ListOperations.GetMembershipsAsync(161064614).Result);
 #else
-            AssertListOfLists(twitter.ListOperations.GetMemberships(161064614));
+            AssertCursoredListOfLists(twitter.ListOperations.GetMemberships(161064614));
+#endif
+        }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetMemberships_ForUserId_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetMembershipsAsync(161064614).Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetMemberships(161064614);
 #endif
         }
 
@@ -475,14 +528,26 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetMemberships_ForScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/memberships.json?screen_name=habuma")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/memberships.json?screen_name=habuma")
 			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
+			    .AndRespondWith(JsonResource("CursoredList_Of_Lists"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    AssertListOfLists(twitter.ListOperations.GetMembershipsAsync("habuma").Result);
+		    AssertCursoredListOfLists(twitter.ListOperations.GetMembershipsAsync("habuma").Result);
 #else
-            AssertListOfLists(twitter.ListOperations.GetMemberships("habuma"));
+            AssertCursoredListOfLists(twitter.ListOperations.GetMemberships("habuma"));
+#endif
+        }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetMemberships_ForScreenName_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetMembershipsAsync("habuma").Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetMemberships("habuma");
 #endif
         }
 
@@ -490,14 +555,26 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetSubscriptions_ForUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscriptions.json?user_id=161064614")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscriptions.json?user_id=161064614")
                 .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
+                .AndRespondWith(JsonResource("CursoredList_Of_Lists"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            AssertListOfLists(twitter.ListOperations.GetSubscriptionsAsync(161064614).Result);
+            AssertCursoredListOfLists(twitter.ListOperations.GetSubscriptionsAsync(161064614).Result);
 #else
-            AssertListOfLists(twitter.ListOperations.GetSubscriptions(161064614));
+            AssertCursoredListOfLists(twitter.ListOperations.GetSubscriptions(161064614));
+#endif
+        }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetSubscriptions_ForUserId_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetSubscriptionsAsync(161064614).Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetSubscriptions(161064614);
 #endif
         }
 
@@ -505,14 +582,26 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetSubscriptions_ForScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscriptions.json?screen_name=habuma")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscriptions.json?screen_name=habuma")
 			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("List_Of_Lists"), responseHeaders);
+			    .AndRespondWith(JsonResource("CursoredList_Of_Lists"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    AssertListOfLists(twitter.ListOperations.GetSubscriptionsAsync("habuma").Result);
+		    AssertCursoredListOfLists(twitter.ListOperations.GetSubscriptionsAsync("habuma").Result);
 #else
-            AssertListOfLists(twitter.ListOperations.GetSubscriptions("habuma"));
+            AssertCursoredListOfLists(twitter.ListOperations.GetSubscriptions("habuma"));
+#endif
+        }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetSubscriptions_ForScreenName_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.ListOperations.GetSubscriptionsAsync("habuma").Wait();
+#else
+            unauthorizedTwitter.ListOperations.GetSubscriptions("habuma");
 #endif
         }
 
@@ -520,11 +609,11 @@ namespace Spring.Social.Twitter.Api.Impl
         public void IsMember_ByUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/show.json?list_id=40841803&user_id=123456")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/show.json?list_id=40841803&user_id=123456")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/show.json?list_id=40841803&user_id=987654")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/show.json?list_id=40841803&user_id=987654")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith("{}", responseHeaders, HttpStatusCode.NotFound, "");
 
@@ -541,11 +630,11 @@ namespace Spring.Social.Twitter.Api.Impl
         public void IsMember_ByScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/show.json?owner_screen_name=habuma&slug=forfun&screen_name=royclarkson")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/show.json?owner_screen_name=habuma&slug=forfun&screen_name=royclarkson")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/members/show.json?owner_screen_name=habuma&slug=forfun&screen_name=kdonald")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/members/show.json?owner_screen_name=habuma&slug=forfun&screen_name=kdonald")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith("{}", responseHeaders, HttpStatusCode.NotFound, "");
 
@@ -562,11 +651,11 @@ namespace Spring.Social.Twitter.Api.Impl
         public void IsSubscriber_ByUserId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/show.json?list_id=40841803&user_id=123456")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/show.json?list_id=40841803&user_id=123456")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/show.json?list_id=40841803&user_id=987654")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/show.json?list_id=40841803&user_id=987654")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith("{}", responseHeaders, HttpStatusCode.NotFound, "");
 
@@ -583,11 +672,11 @@ namespace Spring.Social.Twitter.Api.Impl
         public void IsSubscriber_ByScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/show.json?owner_screen_name=habuma&slug=forfun&screen_name=royclarkson")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/show.json?owner_screen_name=habuma&slug=forfun&screen_name=royclarkson")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/show.json?owner_screen_name=habuma&slug=forfun&screen_name=kdonald")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/show.json?owner_screen_name=habuma&slug=forfun&screen_name=kdonald")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith("{}", responseHeaders, HttpStatusCode.NotFound, "");
 
@@ -604,7 +693,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Subscribe()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/create.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("list_id=54321")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -633,7 +722,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Subscribe_usernameAndSlug()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/create.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("owner_screen_name=habuma&slug=somelist")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -661,7 +750,8 @@ namespace Spring.Social.Twitter.Api.Impl
         [Test]
         public void Unsubscribe()
         {
-            mockServer.ExpectNewRequest().AndExpectUri("https://api.twitter.com/1/lists/subscribers/destroy.json")
+            mockServer.ExpectNewRequest()
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/destroy.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("list_id=54321")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -690,7 +780,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Unsubscribe_UsernameAndSlug()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/subscribers/destroy.json")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/subscribers/destroy.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("owner_screen_name=habuma&slug=somelist")
                 .AndRespondWith(JsonResource("Single_List"), responseHeaders);
@@ -719,7 +809,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetListStatuses_ListId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/statuses.json?page=1&per_page=20&list_id=1234")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/statuses.json?list_id=1234")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Timeline"), responseHeaders);
 
@@ -732,33 +822,33 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        public void GetListStatuses_ListId_Paged()
+        public void GetListStatuses_ListId_WithCount()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/statuses.json?page=3&per_page=30&list_id=1234")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/statuses.json?count=30&list_id=1234")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Timeline"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync(1234, 3, 30).Result;
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync(1234, 30).Result;
 #else
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses(1234, 3, 30);
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses(1234, 30);
 #endif
             AssertTimelineTweets(timeline);
         }
 
         [Test]
-        public void GetListStatuses_ListId_Paged_WithSinceIdAndMaxId()
+        public void GetListStatuses_ListId_WithCountAndSinceIdAndMaxId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/statuses.json?page=3&per_page=30&since_id=12345&max_id=54321&list_id=1234")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/statuses.json?count=30&since_id=12345&max_id=54321&list_id=1234")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Timeline"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync(1234, 3, 30, 12345, 54321).Result;
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync(1234, 30, 12345, 54321).Result;
 #else
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses(1234, 3, 30, 12345, 54321);
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses(1234, 30, 12345, 54321);
 #endif
             AssertTimelineTweets(timeline);
         }
@@ -767,7 +857,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetListStatuses_Slug()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/statuses.json?page=1&per_page=20&owner_screen_name=habuma&slug=mylist")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/statuses.json?owner_screen_name=habuma&slug=mylist")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Timeline"), responseHeaders);
 
@@ -780,37 +870,36 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        public void GetListStatuses_Slug_Paged()
+        public void GetListStatuses_Slug_WithCount()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/statuses.json?page=3&per_page=30&owner_screen_name=habuma&slug=mylist")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/statuses.json?count=30&owner_screen_name=habuma&slug=mylist")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Timeline"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync("habuma", "mylist", 3, 30).Result;
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync("habuma", "mylist", 30).Result;
 #else
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses("habuma", "mylist", 3, 30);
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses("habuma", "mylist", 30);
 #endif
             AssertTimelineTweets(timeline);
         }
 
         [Test]
-        public void GetListStatuses_Slug_Paged_WithSinceIdAndMaxId()
+        public void GetListStatuses_Slug_WithCountAndSinceIdAndMaxId()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/lists/statuses.json?page=3&per_page=30&since_id=12345&max_id=54321&owner_screen_name=habuma&slug=mylist")
+                .AndExpectUri("https://api.twitter.com/1.1/lists/statuses.json?count=30&since_id=12345&max_id=54321&owner_screen_name=habuma&slug=mylist")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Timeline"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync("habuma", "mylist", 3, 30, 12345, 54321).Result;
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatusesAsync("habuma", "mylist", 30, 12345, 54321).Result;
 #else
-            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses("habuma", "mylist", 3, 30, 12345, 54321);
+            IList<Tweet> timeline = twitter.ListOperations.GetListStatuses("habuma", "mylist", 30, 12345, 54321);
 #endif
             AssertTimelineTweets(timeline);
         }
-
 
 
         // test helpers
@@ -828,7 +917,14 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.IsFalse(list.IsPublic);
         }
 
-        private void AssertListOfLists(CursoredList<UserList> lists)
+        private void AssertCursoredListOfLists(CursoredList<UserList> lists)
+        {
+            AssertListOfLists(lists);
+            Assert.AreEqual(123456, lists.PreviousCursor);
+            Assert.AreEqual(234567, lists.NextCursor);
+        }
+
+        private void AssertListOfLists(IList<UserList> lists)
         {
             Assert.AreEqual(2, lists.Count);
             UserList list1 = lists[0];
@@ -851,8 +947,6 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual(100, list2.SubscriberCount);
             Assert.AreEqual("/habuma/forfun", list2.UriPath);
             Assert.IsFalse(list2.IsPublic);
-            Assert.AreEqual(123456, lists.PreviousCursor);
-            Assert.AreEqual(234567, lists.NextCursor);
         }
 
         private void AssertListMembers(IList<TwitterProfile> members)

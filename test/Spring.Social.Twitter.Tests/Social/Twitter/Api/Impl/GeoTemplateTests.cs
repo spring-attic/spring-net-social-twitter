@@ -41,7 +41,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void GetPlace()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/id/0bba15b36bd9e8cc.json")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/id/0bba15b36bd9e8cc.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Geo_Place"), responseHeaders);
 
@@ -54,10 +54,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetPlace_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.GeoOperations.GetPlaceAsync("0bba15b36bd9e8cc").Wait();
+#else
+            unauthorizedTwitter.GeoOperations.GetPlace("0bba15b36bd9e8cc");
+#endif
+        }
+
+        [Test]
         public void ReverseGeoCode_PointOnly()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -73,7 +85,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void ReverseGeoCode_PointAndGranularity()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&granularity=city")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&granularity=city")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -89,7 +101,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void ReverseGeoCode_PointAndPOIGranularity()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&granularity=poi")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&granularity=poi")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -105,7 +117,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void ReverseGeoCode_PointGranularityAndAccuracy()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&granularity=city&accuracy=5280ft")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&granularity=city&accuracy=5280ft")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -121,7 +133,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void ReverseGeoCode_PointAndAccuracy()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&accuracy=5280ft")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/reverse_geocode.json?lat=33.050278&long=-96.745833&accuracy=5280ft")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -134,10 +146,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void ReverseGeoCode_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.GeoOperations.ReverseGeoCodeAsync(33.050278, -96.745833).Wait();
+#else
+            unauthorizedTwitter.GeoOperations.ReverseGeoCode(33.050278, -96.745833);
+#endif
+        }
+
+        [Test]
         public void Search_PointOnly()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/search.json?lat=33.050278&long=-96.745833")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/search.json?lat=33.050278&long=-96.745833")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -153,7 +177,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Search_PointAndGranularity()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/search.json?lat=33.050278&long=-96.745833&granularity=city")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/search.json?lat=33.050278&long=-96.745833&granularity=city")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -169,7 +193,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Search_PointAndPOIGranularity()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/search.json?lat=33.050278&long=-96.745833&granularity=poi")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/search.json?lat=33.050278&long=-96.745833&granularity=poi")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -185,7 +209,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Search_PointGranularityAndAccuracy()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/search.json?lat=33.050278&long=-96.745833&granularity=city&accuracy=5280ft")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/search.json?lat=33.050278&long=-96.745833&granularity=city&accuracy=5280ft")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -201,7 +225,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Search_PointAndAccuracy()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/search.json?lat=33.050278&long=-96.745833&accuracy=5280ft")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/search.json?lat=33.050278&long=-96.745833&accuracy=5280ft")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -217,7 +241,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void Search_PointGranularityAccuracyAndQuery()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/search.json?lat=33.050278&long=-96.745833&granularity=city&accuracy=5280ft&query=Public%20School")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/search.json?lat=33.050278&long=-96.745833&granularity=city&accuracy=5280ft&query=Public%20School")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Places_List"), responseHeaders);
 
@@ -230,10 +254,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void Search_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.GeoOperations.SearchAsync(33.050278, -96.745833).Wait();
+#else
+            unauthorizedTwitter.GeoOperations.Search(33.050278, -96.745833);
+#endif
+        }
+
+        [Test]
         public void FindSimilarPlaces()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/similar_places.json?lat=37.7821120598956&long=-122.400612831116&name=Twitter%20HQ&attribute%3Astreet_address=795%20Folsom%20St&contained_within=2e056b6d9c0ff3cd")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/similar_places.json?lat=37.7821120598956&long=-122.400612831116&name=Twitter%20HQ&attribute%3Astreet_address=795%20Folsom%20St&contained_within=2e056b6d9c0ff3cd")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Similar_Places"), responseHeaders);
 
@@ -265,10 +301,22 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void FindSimilarPlaces_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.GeoOperations.FindSimilarPlacesAsync(37.7821120598956, -122.400612831116, "Twitter HQ", "795 Folsom St", "2e056b6d9c0ff3cd").Wait();
+#else
+            unauthorizedTwitter.GeoOperations.FindSimilarPlaces(37.7821120598956, -122.400612831116, "Twitter HQ", "795 Folsom St", "2e056b6d9c0ff3cd");
+#endif
+        }
+
+        [Test]
         public void CreatePlace()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/geo/place.json")
+                .AndExpectUri("https://api.twitter.com/1.1/geo/place.json")
                 .AndExpectMethod(HttpMethod.POST)
                 .AndExpectBody("lat=33.153661&long=-94.973045&name=Restaurant+Mexico&attribute%3Astreet_address=301+W+Ferguson+Rd&contained_within=2e056b6d9c0ff3cd&token=0b699bfda6514e84c7b69cf993c0c23e")
                 .AndRespondWith(JsonResource("Geo_Place"), responseHeaders);
@@ -288,6 +336,18 @@ namespace Spring.Social.Twitter.Api.Impl
             Place place = twitter.GeoOperations.CreatePlace(placePrototype);
 #endif
             AssertPlace(place);
+        }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void CreatePlace_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.GeoOperations.CreatePlaceAsync(new PlacePrototype()).Wait();
+#else
+            unauthorizedTwitter.GeoOperations.CreatePlace(new PlacePrototype());
+#endif
         }
 
 

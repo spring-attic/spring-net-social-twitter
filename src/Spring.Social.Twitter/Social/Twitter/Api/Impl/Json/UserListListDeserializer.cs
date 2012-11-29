@@ -18,11 +18,26 @@
 
 #endregion
 
-using System;
+using System.Collections.Generic;
 
-namespace Spring.Social.Twitter.Api.Impl
+using Spring.Json;
+
+namespace Spring.Social.Twitter.Api.Impl.Json
 {
-    class LocalTrends : Trends
+    /// <summary>
+    /// JSON deserializer for list of user-defined lists. 
+    /// </summary>
+    /// <author>Bruno Baia</author>
+    class UserListListDeserializer : IJsonDeserializer
     {
+        public object Deserialize(JsonValue value, JsonMapper mapper)
+        {
+            IList<UserList> userLists = new List<UserList>();
+            foreach (JsonValue itemValue in value.GetValues())
+            {
+                userLists.Add(mapper.Deserialize<UserList>(itemValue));
+            }
+            return userLists;
+        }
     }
 }

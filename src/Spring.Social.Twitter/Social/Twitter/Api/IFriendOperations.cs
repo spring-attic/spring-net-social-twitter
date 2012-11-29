@@ -88,6 +88,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFriendsAsync(long userId);
 
         /// <summary>
@@ -106,6 +107,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(long userId, long cursor);
 
         /// <summary>
@@ -123,6 +125,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFriendsAsync(string screenName);
 
         /// <summary>
@@ -141,6 +144,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(string screenName, long cursor);
 
         /// <summary>
@@ -181,6 +185,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFriendIdsAsync(long userId);
 
         /// <summary>
@@ -193,6 +198,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFriendIdsInCursorAsync(long userId, long cursor);
 
         /// <summary>
@@ -204,6 +210,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFriendIdsAsync(string screenName);
 
         /// <summary>
@@ -216,6 +223,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFriendIdsInCursorAsync(string screenName, long cursor);
 
         /// <summary>
@@ -268,6 +276,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFollowersAsync(long userId);
 
         /// <summary>
@@ -286,6 +295,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(long userId, long cursor);
 
         /// <summary>
@@ -303,6 +313,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFollowersAsync(string screenName);
 
         /// <summary>
@@ -321,6 +332,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(string screenName, long cursor);
 
         /// <summary>
@@ -355,6 +367,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFollowerIdsAsync(long userId);
 
         /// <summary>
@@ -367,6 +380,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFollowerIdsInCursorAsync(long userId, long cursor);
 
         /// <summary>
@@ -378,6 +392,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFollowerIdsAsync(string screenName);
 
         /// <summary>
@@ -390,6 +405,7 @@ namespace Spring.Social.Twitter.Api
         /// a cursored list of user IDs.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<long>> GetFollowerIdsInCursorAsync(string screenName, long cursor);
 
         /// <summary>
@@ -445,60 +461,44 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="userId">The Twitter ID of the user to receive notifications for.</param>
         /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// the <see cref="TwitterProfile"/> for the user.
+        /// A <code>Task</code> that represents the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<TwitterProfile> EnableNotificationsAsync(long userId);
+        Task EnableNotificationsAsync(long userId);
 
         /// <summary>
         /// Asynchronously enables mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="screenName">The Twitter screen name of the user to receive notifications for.</param>
         /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// the <see cref="TwitterProfile"/> for the user.
+        /// A <code>Task</code> that represents the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<TwitterProfile> EnableNotificationsAsync(string screenName);
+        Task EnableNotificationsAsync(string screenName);
 
         /// <summary>
         /// Asynchronously disable mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="userId">The Twitter ID of the user to stop notifications for.</param>
         /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// the <see cref="TwitterProfile"/> for the user.
+        /// A <code>Task</code> that represents the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<TwitterProfile> DisableNotificationsAsync(long userId);
+        Task DisableNotificationsAsync(long userId);
 
         /// <summary>
         /// Asynchronously disable mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="screenName">The Twitter screen name of the user to stop notifications for.</param>
         /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// the <see cref="TwitterProfile"/> for the user.
+        /// A <code>Task</code> that represents the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<TwitterProfile> DisableNotificationsAsync(string screenName);
-
-        /// <summary>
-        /// Asynchronously checks for a friendship between two users.
-        /// </summary>
-        /// <param name="screenNameA">The screen name of userA.</param>
-        /// <param name="screenNameB">The screen name of userB.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a value indicating whether a user follows another user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<bool> FriendshipExistsAsync(string screenNameA, string screenNameB);
+        Task DisableNotificationsAsync(string screenName);
 
         /// <summary>
         /// Asynchronously returns an array of numeric IDs for every user who has a pending request to follow the authenticating user.
@@ -588,6 +588,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFriends(long userId);
 
         /// <summary>
@@ -603,6 +604,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFriendsInCursor(long userId, long cursor);
 
         /// <summary>
@@ -617,6 +619,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFriends(string screenName);
 
         /// <summary>
@@ -632,6 +635,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFriendsInCursor(string screenName, long cursor);
 
         /// <summary>
@@ -663,6 +667,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFriendIds(long userId);
 
         /// <summary>
@@ -672,6 +677,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFriendIdsInCursor(long userId, long cursor);
 
         /// <summary>
@@ -680,6 +686,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFriendIds(string screenName);
 
         /// <summary>
@@ -689,6 +696,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFriendIdsInCursor(string screenName, long cursor);
 
         /// <summary>
@@ -732,6 +740,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFollowers(long userId);
 
         /// <summary>
@@ -747,6 +756,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFollowersInCursor(long userId, long cursor);
 
         /// <summary>
@@ -761,6 +771,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFollowers(string screenName);
 
         /// <summary>
@@ -776,6 +787,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<TwitterProfile> GetFollowersInCursor(string screenName, long cursor);
 
         /// <summary>
@@ -801,6 +813,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFollowerIds(long userId);
 
         /// <summary>
@@ -810,6 +823,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFollowerIdsInCursor(long userId, long cursor);
 
         /// <summary>
@@ -818,6 +832,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFollowerIds(string screenName);
 
         /// <summary>
@@ -827,6 +842,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="cursor">The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.</param>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         CursoredList<long> GetFollowerIdsInCursor(string screenName, long cursor);
 
         /// <summary>
@@ -869,46 +885,33 @@ namespace Spring.Social.Twitter.Api
         /// Enables mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="userId">The Twitter ID of the user to receive notifications for.</param>
-        /// <returns>The <see cref="TwitterProfile"/> for the user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        TwitterProfile EnableNotifications(long userId);
+        void EnableNotifications(long userId);
 
         /// <summary>
         /// Enables mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="screenName">The Twitter screen name of the user to receive notifications for.</param>
-        /// <returns>The <see cref="TwitterProfile"/> for the user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        TwitterProfile EnableNotifications(string screenName);
+        void EnableNotifications(string screenName);
 
         /// <summary>
         /// Disable mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="userId">The Twitter ID of the user to stop notifications for.</param>
-        /// <returns>The <see cref="TwitterProfile"/> for the user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        TwitterProfile DisableNotifications(long userId);
+        void DisableNotifications(long userId);
 
         /// <summary>
         /// Disable mobile device notifications from Twitter for the specified user.
         /// </summary>
         /// <param name="screenName">The Twitter screen name of the user to stop notifications for.</param>
-        /// <returns>The <see cref="TwitterProfile"/> for the user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        TwitterProfile DisableNotifications(string screenName);
-
-        /// <summary>
-        /// Checks for a friendship between two users.
-        /// </summary>
-        /// <param name="screenNameA">The screen name of userA.</param>
-        /// <param name="screenNameB">The screen name of userB.</param>
-        /// <returns>Returns true if userA follows userB.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        bool FriendshipExists(string screenNameA, string screenNameB);
+        void DisableNotifications(string screenName);
 
         /// <summary>
         /// Returns an array of numeric IDs for every user who has a pending request to follow the authenticating user.
@@ -1004,6 +1007,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1025,6 +1029,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1045,6 +1050,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1066,6 +1072,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1115,6 +1122,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendIdsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1130,6 +1138,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendIdsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1144,6 +1153,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendIdsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1159,6 +1169,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFriendIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1220,6 +1231,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowersAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1241,6 +1253,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowersInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1261,6 +1274,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowersAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1282,6 +1296,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowersInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1325,6 +1340,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowerIdsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1340,6 +1356,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowerIdsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1354,6 +1371,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowerIdsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1369,6 +1387,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetFollowerIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
@@ -1437,14 +1456,13 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The Twitter ID of the user to receive notifications for.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides the <see cref="TwitterProfile"/> for the user.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler EnableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
+        RestOperationCanceler EnableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
 
         /// <summary>
         /// Asynchronously enables mobile device notifications from Twitter for the specified user.
@@ -1452,14 +1470,13 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The Twitter screen name of the user to receive notifications for.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides the <see cref="TwitterProfile"/> for the user.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler EnableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
+        RestOperationCanceler EnableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
 
         /// <summary>
         /// Asynchronously disable mobile device notifications from Twitter for the specified user.
@@ -1467,14 +1484,13 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The Twitter ID of the user to stop notifications for.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides the <see cref="TwitterProfile"/> for the user.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler DisableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
+        RestOperationCanceler DisableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
 
         /// <summary>
         /// Asynchronously disable mobile device notifications from Twitter for the specified user.
@@ -1482,29 +1498,13 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The Twitter screen name of the user to stop notifications for.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides the <see cref="TwitterProfile"/> for the user.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler DisableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously checks for a friendship between two users.
-        /// </summary>
-        /// <param name="screenNameA">The screen name of userA.</param>
-        /// <param name="screenNameB">The screen name of userB.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a value indicating whether a user follows another user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler FriendshipExistsAsync(string screenNameA, string screenNameB, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
+        RestOperationCanceler DisableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted);
 
         /// <summary>
         /// Asynchronously returns an array of numeric IDs for every user who has a pending request to follow the authenticating user.

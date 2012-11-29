@@ -34,8 +34,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
     /// <author>Bruno Baia (.NET)</author>
     class TweetDeserializer : IJsonDeserializer
     {
-        private const string SEARCH_DATE_FORMAT = "ddd, dd MMM yyyy HH:mm:ss zzz";
-        private const string TIMELINE_DATE_FORMAT = "ddd MMM dd HH:mm:ss zzz yyyy";
+        private const string TWEET_DATE_FORMAT = "ddd MMM dd HH:mm:ss zzz yyyy";
 
         public object Deserialize(JsonValue value, JsonMapper mapper)
         {
@@ -44,22 +43,13 @@ namespace Spring.Social.Twitter.Api.Impl.Json
             tweet.ID = value.GetValue<long>("id");
             tweet.Text = value.GetValue<string>("text");
             JsonValue fromUserValue = value.GetValue("user");
-            string dateFormat;
             if (fromUserValue != null)
             {
                 tweet.FromUser = fromUserValue.GetValue<string>("screen_name");
                 tweet.FromUserId = fromUserValue.GetValue<long>("id");
                 tweet.ProfileImageUrl = fromUserValue.GetValue<string>("profile_image_url");
-                dateFormat = TIMELINE_DATE_FORMAT;
             }
-            else
-            {
-                tweet.FromUser = value.GetValue<string>("from_user");
-                tweet.FromUserId = value.GetValue<long>("from_user_id");
-                tweet.ProfileImageUrl = value.GetValue<string>("profile_image_url");
-                dateFormat = SEARCH_DATE_FORMAT;
-            }
-            tweet.CreatedAt = JsonUtils.ToDateTime(value.GetValue<string>("created_at"), dateFormat);
+            tweet.CreatedAt = JsonUtils.ToDateTime(value.GetValue<string>("created_at"), TWEET_DATE_FORMAT);
             tweet.Source = value.GetValue<string>("source");
             tweet.ToUserId = value.GetValueOrDefault<long?>("in_reply_to_user_id");
             tweet.LanguageCode = value.GetValueOrDefault<string>("iso_language_code");

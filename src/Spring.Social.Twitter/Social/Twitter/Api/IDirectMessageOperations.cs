@@ -191,11 +191,12 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="messageId">The ID of the message to be removed.</param>
         /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation.
+        /// A <code>Task</code> that represents the asynchronous operation that can return 
+        /// the deleted <see cref="DirectMessage"/>, if successful.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task DeleteDirectMessageAsync(long messageId);
+        Task<DirectMessage> DeleteDirectMessageAsync(long messageId);
 #else
 #if !SILVERLIGHT
         /// <summary>
@@ -335,9 +336,10 @@ namespace Spring.Social.Twitter.Api
         /// Deletes a direct message for the authenticated user.
         /// </summary>
         /// <param name="messageId">The ID of the message to be removed.</param>
+        /// <returns>The deleted <see cref="DirectMessage"/>, if successful.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        void DeleteDirectMessage(long messageId);
+        DirectMessage DeleteDirectMessage(long messageId);
 #endif
 
         /// <summary>
@@ -521,13 +523,14 @@ namespace Spring.Social.Twitter.Api
         /// <param name="messageId">The ID of the message to be removed.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the deleted <see cref="DirectMessage"/>, if successful.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler DeleteDirectMessageAsync(long messageId, Action<RestOperationCompletedEventArgs<object>> operationCompleted);
+        RestOperationCanceler DeleteDirectMessageAsync(long messageId, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted);
 #endif
     }
 }

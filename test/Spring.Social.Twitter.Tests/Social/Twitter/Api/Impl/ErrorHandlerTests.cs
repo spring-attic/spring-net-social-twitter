@@ -40,7 +40,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void MissingAccessToken() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/account/verify_credentials.json")
+                .AndExpectUri("https://api.twitter.com/1.1/account/verify_credentials.json")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("Error_No_Token"), responseHeaders, HttpStatusCode.Unauthorized, "");
 
@@ -69,7 +69,7 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             // token is fabricated or fails signature validation
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/account/verify_credentials.json")
+                .AndExpectUri("https://api.twitter.com/1.1/account/verify_credentials.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Error_Invalid_Token"), responseHeaders, HttpStatusCode.Unauthorized, "");
             
@@ -97,7 +97,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void RevokedToken() 
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/account/verify_credentials.json")
+                .AndExpectUri("https://api.twitter.com/1.1/account/verify_credentials.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Error_Revoked_Token"), responseHeaders, HttpStatusCode.Unauthorized, "");
 
@@ -122,12 +122,12 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        public void EnhanceYourCalm() 
+        public void TooManyRequests() 
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://search.twitter.com/search.json?q=%23spring&rpp=50&page=1")
+                .AndExpectUri("https://api.twitter.com/1.1/search/tweets.json?q=%23spring")
                 .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("Error_Rate_Limited"), responseHeaders, (HttpStatusCode)420, "");		
+                .AndRespondWith(JsonResource("Error_Rate_Limited"), responseHeaders, (HttpStatusCode)429, "");		
             
 #if NET_4_0 || SILVERLIGHT_5
             twitter.SearchOperations.SearchAsync("#spring")
@@ -153,7 +153,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void TwitterIsBroken() 
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/statuses/home_timeline.json?page=1&count=20")
+                .AndExpectUri("https://api.twitter.com/1.1/statuses/home_timeline.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith("", responseHeaders, HttpStatusCode.InternalServerError, "");
 
@@ -181,7 +181,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void TwitterIsDownOrBeingUpgraded()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/statuses/home_timeline.json?page=1&count=20")
+                .AndExpectUri("https://api.twitter.com/1.1/statuses/home_timeline.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith("", responseHeaders, HttpStatusCode.BadGateway, "");
 
@@ -209,7 +209,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void TwitterIsOverloaded()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/statuses/home_timeline.json?page=1&count=20")
+                .AndExpectUri("https://api.twitter.com/1.1/statuses/home_timeline.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith("", responseHeaders, HttpStatusCode.ServiceUnavailable, "");
 
@@ -237,7 +237,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void NonJsonErrorResponse()
         {
             mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/statuses/home_timeline.json?page=1&count=20")
+                .AndExpectUri("https://api.twitter.com/1.1/statuses/home_timeline.json")
                 .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith("<h1>HTML response</h1>", responseHeaders, HttpStatusCode.BadRequest, "");
 

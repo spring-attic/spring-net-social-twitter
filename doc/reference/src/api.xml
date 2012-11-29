@@ -244,17 +244,15 @@ twitter.TimelineOperations.Retweet(tweetId);]]></programlisting>
 	</section>
 
 	<section id="twitter-timelines">
-		<title>Reading Twitter timelines</title> <!-- and mentions -->
+		<title>Reading Twitter timelines</title>
 		
 		<para>
-			From a Twitter user's perspective, Twitter organizes tweets into four different timelines:
+			From a Twitter user's perspective, Twitter organizes tweets into two different timelines:
 		</para>
 		
 		<itemizedlist>
 			<listitem><para>User - Includes tweets posted by the user.</para></listitem>
-			<listitem><para>Friends - Includes tweets from the user's timeline and the timeline of anyone that they follow, with the exception of any retweets.</para></listitem>
 			<listitem><para>Home - Includes tweets from the user's timeline and the timeline of anyone that they follow.</para></listitem>
-			<listitem><para>Public - Includes tweets from all Twitter users.</para></listitem>
 		</itemizedlist>
 		
 		<para>
@@ -273,12 +271,6 @@ twitter.TimelineOperations.Retweet(tweetId);]]></programlisting>
 		</para>
 		
 		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetHomeTimeline();]]></programlisting>
-		
-		<para>
-			Similarly, <literal>GetFriendsTimeline()</literal> retrieves the 20 most recent tweets from the user's friends timeline:
-		</para>
-		
-		<programlisting language="csharp"><![CDATA[IList<Tweet> tweets = twitter.TimelineOperations.GetFriendsTimeline();]]></programlisting>
 		
 		<para>
 			To get tweets from the authenticating user's own timeline, call the <literal>GetUserTimeline()</literal> method:
@@ -407,24 +399,14 @@ twitter.TimelineOperations.Retweet(tweetId);]]></programlisting>
 			The <literal>Search()</literal> method will return a <classname>SearchResults</classname> object that includes a list of 50 most recent matching tweets as well as some metadata concerning the result set. 
 			<sbr/>The metadata includes the maximum tweet ID in the search results list as well as the ID of a tweet that precedes the resulting tweets. 
 			<sbr/>The <literal>sinceId</literal> and <literal>maxId</literal> properties effectively define the boundaries of the result set. 
-			<sbr/>Additionally, there's a boolean <literal>lastPage</literal> property that, if <literal>true</literal>, indicates that this result set is the page of results.  
   </para>
-		
+			
 		<para>
-			To gain better control over the paging of results, you may choose to pass in the page and results per page to <methodname>Search()</methodname>:
+      To gain better control over the paging of results, you may choose to confine the bounds of the search results to fit between two tweet IDs,
+      you may pass in the since and maximum tweet ID values to <literal>Search()</literal>:
 		</para>
 		
-		<programlisting language="csharp"><![CDATA[SearchResults results = twitter.SearchOperations.Search("#Spring.NET", 2, 10);]]></programlisting>
-		
-		<para>
-			Here, we're asking for the 2nd page of results where the pages have 10 tweets per page.
-		</para>
-		
-		<para>
-			Finally, if you'd like to confine the bounds of the search results to fit between two tweet IDs, you may pass in the since and maximum tweet ID values to <literal>Search()</literal>:
-		</para>
-		
-		<programlisting language="csharp"><![CDATA[SearchResults results = twitter.SearchOperations.Search("#Spring.NET", 2, 10, 145962, 210112);]]></programlisting>
+		<programlisting language="csharp"><![CDATA[SearchResults results = twitter.SearchOperations.Search("#Spring.NET", 10, 145962, 210112);]]></programlisting>
 		
 		<para>
 			This ensures that the result set will not contain any tweets posted before the tweet whose ID is 146962 nor any tweets posted after the tweet whose ID is 210112.

@@ -41,23 +41,6 @@ namespace Spring.Social.Twitter.Api
     {
 #if NET_4_0 || SILVERLIGHT_5
         /// <summary>
-        /// Asynchronously retrieves the 20 most recently posted tweets from the public timeline. 
-        /// The public timeline is the timeline containing tweets from all Twitter users. 
-        /// As this is the public timeline, authentication is not required to use this method.
-        /// </summary>
-        /// <remarks>
-        /// Note that Twitter caches public timeline results for 60 seconds. 
-        /// Calling this method more frequently than that will count against rate limits 
-        /// and will not return any new results.
-        /// </remarks>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s in the public timeline.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetPublicTimelineAsync();
-
-        /// <summary>
         /// Asynchronously retrieves the 20 most recently posted tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
@@ -73,9 +56,8 @@ namespace Spring.Social.Twitter.Api
         /// Asynchronously retrieves tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>
@@ -84,15 +66,14 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetHomeTimelineAsync(int page, int pageSize);
+        Task<IList<Tweet>> GetHomeTimelineAsync(int count);
 
         /// <summary>
         /// Asynchronously retrieves tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -103,7 +84,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetHomeTimelineAsync(int page, int pageSize, long sinceId, long maxId);
+        Task<IList<Tweet>> GetHomeTimelineAsync(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets posted by the authenticating user.
@@ -119,9 +100,8 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>
@@ -130,14 +110,13 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetUserTimelineAsync(int page, int pageSize);
+        Task<IList<Tweet>> GetUserTimelineAsync(int count);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -148,7 +127,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetUserTimelineAsync(int page, int pageSize, long sinceId, long maxId);
+        Task<IList<Tweet>> GetUserTimelineAsync(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets posted by the given user.
@@ -159,15 +138,15 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Tweet>> GetUserTimelineAsync(string screenName);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>
@@ -175,15 +154,15 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetUserTimelineAsync(string screenName, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetUserTimelineAsync(string screenName, int count);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -193,7 +172,8 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetUserTimelineAsync(string screenName, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetUserTimelineAsync(string screenName, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets posted by the given user.
@@ -204,15 +184,15 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Tweet>> GetUserTimelineAsync(long userId);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>
@@ -220,15 +200,15 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetUserTimelineAsync(long userId, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetUserTimelineAsync(long userId, int count);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -238,7 +218,8 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/>s from the specified user's timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetUserTimelineAsync(long userId, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetUserTimelineAsync(long userId, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets that mention the authenticated user.
@@ -254,9 +235,8 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>
@@ -265,14 +245,13 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetMentionsAsync(int page, int pageSize);
+        Task<IList<Tweet>> GetMentionsAsync(int count);
 
         /// <summary>
         /// Asynchronously retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -283,289 +262,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetMentionsAsync(int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by the authenticated user.
-        /// </summary>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByMeAsync();
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByMeAsync(int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByMeAsync(int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by the specified user.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByUserAsync(long userId);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByUserAsync(long userId, int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByUserAsync(long userId, int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by the specified user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByUserAsync(string screenName);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByUserAsync(string screenName, int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedByUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by users the authenticating user follow.
-        /// </summary>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToMeAsync();
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToMeAsync(int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToMeAsync(int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by users that the specified user follows.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToUserAsync(long userId);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToUserAsync(long userId, int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToUserAsync(long userId, int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets by users that the specified user follows.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToUserAsync(string screenName);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToUserAsync(string screenName, int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetedToUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId);
+        Task<IList<Tweet>> GetMentionsAsync(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets of the authenticated user that have been retweeted by others.
@@ -581,9 +278,8 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 100. 
         /// (Will return at most 100 entries, even if pageSize is greater than 100)
         /// </param>
         /// <returns>
@@ -592,14 +288,13 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetsOfMeAsync(int page, int pageSize);
+        Task<IList<Tweet>> GetRetweetsOfMeAsync(int count);
 
         /// <summary>
         /// Asynchronously retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 100. 
         /// (Will return at most 100 entries, even if pageSize is greater than 100)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -610,7 +305,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetRetweetsOfMeAsync(int page, int pageSize, long sinceId, long maxId);
+        Task<IList<Tweet>> GetRetweetsOfMeAsync(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously returns a single tweet.
@@ -621,6 +316,7 @@ namespace Spring.Social.Twitter.Api
         /// the <see cref="Tweet"/> from the specified ID.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<Tweet> GetStatusAsync(long tweetId);
 
         /// <summary>
@@ -693,10 +389,13 @@ namespace Spring.Social.Twitter.Api
         /// Asynchronously removes a status entry.
         /// </summary>
         /// <param name="tweetId">The tweet's ID to be removed.</param>
-        /// <returns>A <code>Task</code> that represents the asynchronous operation.</returns>
+        /// <returns>
+        /// A <code>Task</code> that represents the asynchronous operation that can return 
+        /// the deleted <see cref="Tweet"/>, if successful.
+        /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task DeleteStatusAsync(long tweetId);
+        Task<Tweet> DeleteStatusAsync(long tweetId);
 
         /// <summary>
         /// Asynchronously posts a retweet of an existing tweet.
@@ -716,6 +415,7 @@ namespace Spring.Social.Twitter.Api
         /// the retweets of the specified tweet.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Tweet>> GetRetweetsAsync(long tweetId);
 
         /// <summary>
@@ -731,63 +431,8 @@ namespace Spring.Social.Twitter.Api
         /// the retweets of the specified tweet.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Tweet>> GetRetweetsAsync(long tweetId, int count);
-
-        /// <summary>
-        /// Asynchronously retrieves the profiles of up to 100 users how have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<TwitterProfile>> GetRetweetedByAsync(long tweetId);
-
-        /// <summary>
-        /// Asynchronously retrieves the profiles of users how have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="TwitterProfile"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<TwitterProfile>> GetRetweetedByAsync(long tweetId, int page, int pageSize);
-
-        /// <summary>
-        /// Asynchronously retrieves the IDs of up to 100 users who have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<long>> GetRetweetedByIdsAsync(long tweetId);
-
-        /// <summary>
-        /// Asynchronously retrieves the IDs of users who have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of entiers per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of user's ids who have retweeted the specified tweet.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<long>> GetRetweetedByIdsAsync(long tweetId, int page, int pageSize);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets favorited by the authenticated user.
@@ -803,15 +448,14 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets favorited by the authenticated user.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Tweet"/>s from the specified user's favorite timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<Tweet>> GetFavoritesAsync(int page, int pageSize);
+        Task<IList<Tweet>> GetFavoritesAsync(int count);
 
         /// <summary>
         /// Asynchronously adds a tweet to the user's collection of favorite tweets.
@@ -833,20 +477,6 @@ namespace Spring.Social.Twitter.Api
 #else
 #if !SILVERLIGHT
         /// <summary>
-        /// Retrieves the 20 most recently posted tweets from the public timeline. 
-        /// The public timeline is the timeline containing tweets from all Twitter users. 
-        /// As this is the public timeline, authentication is not required to use this method.
-        /// </summary>
-        /// <remarks>
-        /// Note that Twitter caches public timeline results for 60 seconds. 
-        /// Calling this method more frequently than that will count against rate limits 
-        /// and will not return any new results.
-        /// </remarks>
-        /// <returns>A list of <see cref="Tweet"/>s in the public timeline.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<Tweet> GetPublicTimeline();
-
-        /// <summary>
         /// Retrieves the 20 most recently posted tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
@@ -859,23 +489,21 @@ namespace Spring.Social.Twitter.Api
         /// Retrieves tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>A list of <see cref="Tweet"/>s in the authenticating user's home timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetHomeTimeline(int page, int pageSize);
+        IList<Tweet> GetHomeTimeline(int count);
 
         /// <summary>
         /// Retrieves tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -883,7 +511,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>A list of <see cref="Tweet"/>s in the authenticating user's home timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetHomeTimeline(int page, int pageSize, long sinceId, long maxId);
+        IList<Tweet> GetHomeTimeline(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the 20 most recent tweets posted by the authenticating user.
@@ -896,22 +524,20 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>A list of <see cref="Tweet"/>s that have been posted by the authenticating user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetUserTimeline(int page, int pageSize);
+        IList<Tweet> GetUserTimeline(int count);
 
         /// <summary>
         /// Retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -919,7 +545,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>A list of <see cref="Tweet"/>s that have been posted by the authenticating user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetUserTimeline(int page, int pageSize, long sinceId, long maxId);
+        IList<Tweet> GetUserTimeline(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the 20 most recent tweets posted by the given user.
@@ -927,35 +553,36 @@ namespace Spring.Social.Twitter.Api
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Tweet> GetUserTimeline(string screenName);
 
         /// <summary>
         /// Retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<Tweet> GetUserTimeline(string screenName, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        IList<Tweet> GetUserTimeline(string screenName, int count);
 
         /// <summary>
         /// Retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<Tweet> GetUserTimeline(string screenName, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        IList<Tweet> GetUserTimeline(string screenName, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the 20 most recent tweets posted by the given user.
@@ -963,35 +590,36 @@ namespace Spring.Social.Twitter.Api
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Tweet> GetUserTimeline(long userId);
 
         /// <summary>
         /// Retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<Tweet> GetUserTimeline(long userId, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        IList<Tweet> GetUserTimeline(long userId, int count);
 
         /// <summary>
         /// Retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<Tweet> GetUserTimeline(long userId, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        IList<Tweet> GetUserTimeline(long userId, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the 20 most recent tweets that mention the authenticated user.
@@ -1004,22 +632,20 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <returns>A list of <see cref="Tweet"/>s that mention the authenticated user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetMentions(int page, int pageSize);
+        IList<Tweet> GetMentions(int count);
 
         /// <summary>
         /// Retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1027,235 +653,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>A list of <see cref="Tweet"/>s that mention the authenticated user.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetMentions(int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Retrieves the 20 most recent retweets posted by the authenticated user.
-        /// </summary>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByMe();
-
-        /// <summary>
-        /// Retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByMe(int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByMe(int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Retrieves the 20 most recent retweets posted by the specified user.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByUser(long userId);
-
-        /// <summary>
-        /// Retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByUser(long userId, int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByUser(long userId, int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Retrieves the 20 most recent retweets posted by the specified user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByUser(string screenName);
-
-        /// <summary>
-        /// Retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByUser(string screenName, int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedByUser(string screenName, int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Retrieves the 20 most recent retweets posted by users the authenticating user follow.
-        /// </summary>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToMe();
-
-        /// <summary>
-        /// Retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToMe(int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToMe(int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Retrieves the 20 most recent retweets posted by users that the specified user follows.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToUser(long userId);
-
-        /// <summary>
-        /// Retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToUser(long userId, int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToUser(long userId, int page, int pageSize, long sinceId, long maxId);
-
-        /// <summary>
-        /// Retrieves the 20 most recent retweets by users that the specified user follows.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToUser(string screenName);
-
-        /// <summary>
-        /// Retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToUser(string screenName, int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <returns>A list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetedToUser(string screenName, int page, int pageSize, long sinceId, long maxId);
+        IList<Tweet> GetMentions(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the 20 most recent tweets of the authenticated user that have been retweeted by others.
@@ -1268,22 +666,20 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 100. 
         /// (Will return at most 100 entries, even if pageSize is greater than 100)
         /// </param>
         /// <returns>A list of <see cref="Tweet"/>s from the authenticated user that have been retweeted by others.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetsOfMe(int page, int pageSize);
+        IList<Tweet> GetRetweetsOfMe(int count);
 
         /// <summary>
         /// Retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 100. 
         /// (Will return at most 100 entries, even if pageSize is greater than 100)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1291,7 +687,7 @@ namespace Spring.Social.Twitter.Api
         /// <returns>A list of <see cref="Tweet"/>s from the authenticated user that have been retweeted by others.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetRetweetsOfMe(int page, int pageSize, long sinceId, long maxId);
+        IList<Tweet> GetRetweetsOfMe(int count, long sinceId, long maxId);
 
         /// <summary>
         /// Returns a single tweet.
@@ -1299,6 +695,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="tweetId">The tweet's ID.</param>
         /// <returns>The <see cref="Tweet"/> from the specified ID.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Tweet GetStatus(long tweetId);
 
         /// <summary>
@@ -1359,9 +756,10 @@ namespace Spring.Social.Twitter.Api
         /// Removes a status entry.
         /// </summary>
         /// <param name="tweetId">The tweet's ID to be removed.</param>
+        /// <returns>The deleted <see cref="Tweet"/>, if successful.</returns>        
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        void DeleteStatus(long tweetId);
+        Tweet DeleteStatus(long tweetId);
 
         /// <summary>
         /// Posts a retweet of an existing tweet.
@@ -1377,6 +775,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="tweetId">The tweet's ID.</param>
         /// <returns>The retweets of the specified tweet.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Tweet> GetRetweets(long tweetId);
 
         /// <summary>
@@ -1389,51 +788,8 @@ namespace Spring.Social.Twitter.Api
         /// </param>
         /// <returns>The retweets of the specified tweet.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Tweet> GetRetweets(long tweetId, int count);
-
-        /// <summary>
-        /// Retrieves the profiles of up to 100 users how have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <returns>A list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<TwitterProfile> GetRetweetedBy(long tweetId);
-
-        /// <summary>
-        /// Retrieves the profiles of users how have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="TwitterProfile"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        IList<TwitterProfile> GetRetweetedBy(long tweetId, int page, int pageSize);
-
-        /// <summary>
-        /// Retrieves the IDs of up to 100 users who have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <returns>A list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<long> GetRetweetedByIds(long tweetId);
-
-        /// <summary>
-        /// Retrieves the IDs of users who have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of entiers per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <returns>A list of user's ids who have retweeted the specified tweet.</returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<long> GetRetweetedByIds(long tweetId, int page, int pageSize);
 
         /// <summary>
         /// Retrieves the 20 most recent tweets favorited by the authenticated user.
@@ -1446,12 +802,11 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Retrieves tweets favorited by the authenticated user.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <returns>A list of <see cref="Tweet"/>s from the specified user's favorite timeline.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<Tweet> GetFavorites(int page, int pageSize);
+        IList<Tweet> GetFavorites(int count);
 
         /// <summary>
         /// Adds a tweet to the user's collection of favorite tweets.
@@ -1469,26 +824,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         void RemoveFromFavorites(long tweetId);
 #endif
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recently posted tweets from the public timeline. 
-        /// The public timeline is the timeline containing tweets from all Twitter users. 
-        /// As this is the public timeline, authentication is not required to use this method.
-        /// </summary>
-        /// <remarks>
-        /// Note that Twitter caches public timeline results for 60 seconds. 
-        /// Calling this method more frequently than that will count against rate limits 
-        /// and will not return any new results.
-        /// </remarks>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s in the public timeline.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetPublicTimelineAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recently posted tweets, including retweets, from the authenticating user's home timeline. 
@@ -1509,9 +844,8 @@ namespace Spring.Social.Twitter.Api
         /// Asynchronously retrieves tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="operationCompleted">
@@ -1523,15 +857,14 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetHomeTimelineAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetHomeTimelineAsync(int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets, including retweets, from the authenticating user's home timeline. 
         /// The home timeline includes tweets from the user's timeline and the timeline of anyone that they follow.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1545,7 +878,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetHomeTimelineAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetHomeTimelineAsync(int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets posted by the authenticating user.
@@ -1564,9 +897,8 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="operationCompleted">
@@ -1578,14 +910,13 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetUserTimelineAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetUserTimelineAsync(int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the authenticating user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1599,7 +930,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetUserTimelineAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetUserTimelineAsync(int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets posted by the given user.
@@ -1613,15 +944,15 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetUserTimelineAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="operationCompleted">
@@ -1632,15 +963,15 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetUserTimelineAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(string screenName, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="screenName">The screen name of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1653,7 +984,8 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetUserTimelineAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(string screenName, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets posted by the given user.
@@ -1667,15 +999,15 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetUserTimelineAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="operationCompleted">
@@ -1686,15 +1018,15 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetUserTimelineAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(long userId, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets posted by the given user. The most recent tweets are listed first.
         /// </summary>
         /// <param name="userId">The user ID of the user whose timeline is being requested.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1707,7 +1039,8 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetUserTimelineAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetUserTimelineAsync(long userId, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets that mention the authenticated user.
@@ -1726,9 +1059,8 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="operationCompleted">
@@ -1740,14 +1072,13 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetMentionsAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetMentionsAsync(int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets that mention the authenticated user. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 200. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 200. 
         /// (Will return at most 200 entries, even if pageSize is greater than 200)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -1761,343 +1092,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetMentionsAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by the authenticated user.
-        /// </summary>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the authenticated user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the authenticating user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by the specified user.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByUserAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByUserAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by the specified user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByUserAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by the specified user. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by users the authenticating user follow.
-        /// </summary>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToMeAsync(Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users the authenticating user follow. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users the authenticating user follow.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets posted by users that the specified user follows.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToUserAsync(long userId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToUserAsync(long userId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets posted by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="userId">The user ID to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToUserAsync(long userId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the 20 most recent retweets by users that the specified user follows.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToUserAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToUserAsync(string screenName, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves retweets by users that the specified user follows. The most recent tweets are listed first.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to get retweets for.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="Tweet"/>s that have been 'retweeted' by users that the specified user follows.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedToUserAsync(string screenName, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetMentionsAsync(int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets of the authenticated user that have been retweeted by others.
@@ -2116,9 +1111,8 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 100. 
         /// (Will return at most 100 entries, even if pageSize is greater than 100)
         /// </param>
         /// <param name="operationCompleted">
@@ -2130,14 +1124,13 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetsOfMeAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetRetweetsOfMeAsync(int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves tweets of the authenticated user that have been retweeted by others. The most recent tweets are listed first.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="Tweet"/>s per page. Should be less than or equal to 100. 
+        /// <param name="count">
+        /// The number of <see cref="Tweet"/>s to retrieve. Should be less than or equal to 100. 
         /// (Will return at most 100 entries, even if pageSize is greater than 100)
         /// </param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
@@ -2151,7 +1144,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetsOfMeAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetRetweetsOfMeAsync(int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously returns a single tweet.
@@ -2165,6 +1158,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
 
         /// <summary>
@@ -2251,13 +1245,14 @@ namespace Spring.Social.Twitter.Api
         /// <param name="tweetId">The tweet's ID to be removed.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes.
+        /// Provides the deleted <see cref="Tweet"/>, if successful.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler DeleteStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<object>> operationCompleted);
+        RestOperationCanceler DeleteStatusAsync(long tweetId, Action<RestOperationCompletedEventArgs<Tweet>> operationCompleted);
 
         /// <summary>
         /// Asynchronously posts a retweet of an existing tweet.
@@ -2285,6 +1280,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetRetweetsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
@@ -2303,75 +1299,8 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetRetweetsAsync(long tweetId, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the profiles of up to 100 users how have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetRetweetedByAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the profiles of users how have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of <see cref="TwitterProfile"/>s per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetRetweetedByAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the IDs of up to 100 users who have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="TwitterProfile">user's profiles</see> who have retweeted the specified tweet.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves the IDs of users who have retweeted a specific tweet.
-        /// </summary>
-        /// <param name="tweetId">The tweet's ID.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">
-        /// The number of entiers per page. Should be less than or equal to 100. 
-        /// (Will return at most 100 entries, even if pageSize is greater than 100)
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of user's ids who have retweeted the specified tweet.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetRetweetedByIdsAsync(long tweetId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the 20 most recent tweets favorited by the authenticated user.
@@ -2390,8 +1319,7 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves tweets favorited by the authenticated user.
         /// </summary>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
         /// Provides a list of <see cref="Tweet"/>s from the specified user's favorite timeline.
@@ -2401,7 +1329,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetFavoritesAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        RestOperationCanceler GetFavoritesAsync(int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously adds a tweet to the user's collection of favorite tweets.

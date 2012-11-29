@@ -47,6 +47,7 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="Place"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<Place> GetPlaceAsync(string id);
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Place>> ReverseGeoCodeAsync(double latitude, double longitude);
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Place>> ReverseGeoCodeAsync(double latitude, double longitude, PlaceType? granularity, string accuracy);
 
         /// <summary>
@@ -90,6 +93,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Place>> SearchAsync(double latitude, double longitude);
 
         /// <summary>
@@ -112,6 +116,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Place>> SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query);
 
         /// <summary>
@@ -129,6 +134,7 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SimilarPlaces> FindSimilarPlacesAsync(double latitude, double longitude, string name);
 
         /// <summary>
@@ -148,6 +154,7 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SimilarPlaces> FindSimilarPlacesAsync(double latitude, double longitude, string name, string streetAddress, string containedWithin);
 
         /// <summary>
@@ -161,6 +168,7 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="Place"/> object with the newly created place data.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<Place> CreatePlaceAsync(PlacePrototype placePrototype);
 #else
 #if !SILVERLIGHT
@@ -170,6 +178,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="id">The place ID.</param>
         /// <returns>A <see cref="Place"/>.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Place GetPlace(string id);
 
         /// <summary>
@@ -181,6 +190,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Place> ReverseGeoCode(double latitude, double longitude);
 
         /// <summary>
@@ -199,6 +209,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Place> ReverseGeoCode(double latitude, double longitude, PlaceType? granularity, string accuracy);
 
         /// <summary>
@@ -210,6 +221,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Place> Search(double latitude, double longitude);
 
         /// <summary>
@@ -231,6 +243,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="Place"/>s that the point is within.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<Place> Search(double latitude, double longitude, PlaceType? granularity, string accuracy, string query);
 
         /// <summary>
@@ -247,6 +260,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SimilarPlaces FindSimilarPlaces(double latitude, double longitude, string name);
 
         /// <summary>
@@ -265,6 +279,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="SimilarPlaces"/> collection, including a token that can be used to create a new place.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SimilarPlaces FindSimilarPlaces(double latitude, double longitude, string name, string streetAddress, string containedWithin);
 
         /// <summary>
@@ -275,6 +290,7 @@ namespace Spring.Social.Twitter.Api
         /// </param>
         /// <returns>A <see cref="Place"/> object with the newly created place data.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Place CreatePlace(PlacePrototype placePrototype);
 #endif
 
@@ -290,6 +306,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetPlaceAsync(string id, Action<RestOperationCompletedEventArgs<Place>> operationCompleted);
 
         /// <summary>
@@ -305,6 +322,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler ReverseGeoCodeAsync(double latitude, double longitude, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -327,6 +345,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler ReverseGeoCodeAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -342,6 +361,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchAsync(double latitude, double longitude, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -367,6 +387,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted);
 
         /// <summary>
@@ -387,6 +408,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler FindSimilarPlacesAsync(double latitude, double longitude, string name, Action<RestOperationCompletedEventArgs<SimilarPlaces>> operationCompleted);
 
         /// <summary>
@@ -409,6 +431,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler FindSimilarPlacesAsync(double latitude, double longitude, string name, string streetAddress, string containedWithin, Action<RestOperationCompletedEventArgs<SimilarPlaces>> operationCompleted);
 
         /// <summary>
@@ -425,6 +448,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler CreatePlaceAsync(PlacePrototype placePrototype, Action<RestOperationCompletedEventArgs<Place>> operationCompleted);
 #endif
     }

@@ -87,61 +87,54 @@ namespace Spring.Social.Twitter.Api
         Task<TwitterProfile> UnblockAsync(string screenName);
 
         /// <summary>
-        /// Asynchronously retrieves a list of users that the authenticating user has blocked.
+        /// Asynchronously retrieves the first cursored list of users that the authenticating user has blocked.
         /// </summary>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="TwitterProfile"/>s for the users that are blocked.
+        /// a cursored list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<TwitterProfile>> GetBlockedUsersAsync();
+        Task<CursoredList<TwitterProfile>> GetBlockedUsersAsync();
 
         /// <summary>
-        /// Asynchronously retrieves a list of users that the authenticating user has blocked.
+        /// Asynchronously retrieves a cursored list of users that the authenticating user has blocked.
         /// </summary>
-        /// <param name="page">The page of blocked users to return.</param>
-        /// <param name="pageSize">The number of users per page.</param>
+        /// <param name="cursor">
+        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
+        /// </param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="TwitterProfile"/>s for the users that are blocked.
+        /// a cursored list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<TwitterProfile>> GetBlockedUsersAsync(int page, int pageSize);
+        Task<CursoredList<TwitterProfile>> GetBlockedUsersAsync(long cursor);
 
         /// <summary>
-        /// Asynchronously retrieves a list of user IDs for the users that the authenticating user has blocked.
+        /// Asynchronously retrieves the first cursored list of user IDs for the users that the authenticating user has blocked.
         /// </summary>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of user IDs for the users that are blocked.
+        /// a cursored list of user IDs for the users that are blocked.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<IList<long>> GetBlockedUserIdsAsync();
+        Task<CursoredList<long>> GetBlockedUserIdsAsync();
 
         /// <summary>
-        /// Asynchronously determines if the user has blocked a specific user.
+        /// Asynchronously retrieves a cursored list of user IDs for the users that the authenticating user has blocked.
         /// </summary>
-        /// <param name="userId">The ID of the user to check for a block.</param>
+        /// <param name="cursor">
+        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
+        /// </param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a value indicating whether or not the user is blocked.
+        /// a cursored list of user IDs for the users that are blocked.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<bool> IsBlockingAsync(long userId);
-
-        /// <summary>
-        /// Asynchronously determines if the user has blocked a specific user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to check for a block.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a value indicating whether or not the user is blocked.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<bool> IsBlockingAsync(string screenName);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<CursoredList<long>> GetBlockedUserIdsAsync(long cursor);
 #else
 #if !SILVERLIGHT
         /// <summary>
@@ -189,54 +182,46 @@ namespace Spring.Social.Twitter.Api
         TwitterProfile Unblock(string screenName);
 
         /// <summary>
-        /// Retrieves a list of users that the authenticating user has blocked.
+        /// Retrieves the first cursored list of users that the authenticating user has blocked.
         /// </summary>
         /// <returns>
-        /// A list of <see cref="TwitterProfile"/>s for the users that are blocked.
+        /// A cursored list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<TwitterProfile> GetBlockedUsers();
+        CursoredList<TwitterProfile> GetBlockedUsers();
 
         /// <summary>
-        /// Retrieves a list of users that the authenticating user has blocked.
+        /// Retrieves a cursored list of users that the authenticating user has blocked.
         /// </summary>
-        /// <param name="page">The page of blocked users to return.</param>
-        /// <param name="pageSize">The number of users per page.</param>
+        /// <param name="cursor">
+        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
+        /// </param>
         /// <returns>
-        /// A list of <see cref="TwitterProfile"/>s for the users that are blocked.
+        /// A cursored list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<TwitterProfile> GetBlockedUsers(int page, int pageSize);
+        CursoredList<TwitterProfile> GetBlockedUsers(long cursor);
 
         /// <summary>
-        /// Retrieves a list of user IDs for the users that the authenticating user has blocked.
+        /// Retrieves the first cursored list of user IDs for the users that the authenticating user has blocked.
         /// </summary>
-        /// <returns>A list of user IDs for the users that are blocked.</returns>
+        /// <returns>A cursored list of user IDs for the users that are blocked.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        IList<long> GetBlockedUserIds();
+        CursoredList<long> GetBlockedUserIds();
 
         /// <summary>
-        /// Determines if the user has blocked a specific user.
+        /// Retrieves a cursored list of user IDs for the users that the authenticating user has blocked.
         /// </summary>
-        /// <param name="userId">The ID of the user to check for a block.</param>
-        /// <returns>
-        /// <see langword="true"/> if the user is blocked; <see langword="false"/> otherwise.
-        /// </returns>
+        /// <param name="cursor">
+        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
+        /// </param>
+        /// <returns>A cursored list of user IDs for the users that are blocked.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        bool IsBlocking(long userId);
-
-        /// <summary>
-        /// Determines if the user has blocked a specific user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to check for a block.</param>
-        /// <returns>
-        /// <see langword="true"/> if the user is blocked; <see langword="false"/> otherwise.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        bool IsBlocking(string screenName);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        CursoredList<long> GetBlockedUserIds(long cursor);
 #endif
 
         /// <summary>
@@ -300,75 +285,66 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler UnblockAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of users that the authenticating user has blocked.
+        /// Asynchronously retrieves the first cursored list of users that the authenticating user has blocked.
         /// </summary>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="TwitterProfile"/>s for the users that are blocked.
+        /// Provides a cursored list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetBlockedUsersAsync(Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
+        RestOperationCanceler GetBlockedUsersAsync(Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves a list of users that the authenticating user has blocked.
         /// </summary>
-        /// <param name="page">The page of blocked users to return.</param>
-        /// <param name="pageSize">The number of users per page.</param>
+        /// <param name="cursor">
+        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
+        /// </param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="TwitterProfile"/>s for the users that are blocked.
+        /// Provides a cursored list of <see cref="TwitterProfile"/>s for the users that are blocked.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetBlockedUsersAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
+        RestOperationCanceler GetBlockedUsersAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
+
+        /// <summary>
+        /// Asynchronously retrieves the first cursored list of user IDs for the users that the authenticating user has blocked.
+        /// </summary>
+        /// <param name="operationCompleted">
+        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides a cursored list of user IDs for the users that are blocked.
+        /// </param>
+        /// <returns>
+        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
+        /// </returns>
+        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetBlockedUserIdsAsync(Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves a list of user IDs for the users that the authenticating user has blocked.
         /// </summary>
+        /// <param name="cursor">
+        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
+        /// </param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of user IDs for the users that are blocked.
+        /// Provides a cursored list of user IDs for the users that are blocked.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetBlockedUserIdsAsync(Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted);
-        /// <summary>
-        /// Asynchronously determines if the user has blocked a specific user.
-        /// </summary>
-        /// <param name="userId">The ID of the user to check for a block.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a value indicating whether or not the user is blocked.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler IsBlockingAsync(long userId, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously determines if the user has blocked a specific user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the user to check for a block.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a value indicating whether or not the user is blocked.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler IsBlockingAsync(string screenName, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
+        RestOperationCanceler GetBlockedUserIdsAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 #endif
     }
 }

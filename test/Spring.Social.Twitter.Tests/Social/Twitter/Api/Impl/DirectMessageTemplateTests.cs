@@ -42,7 +42,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessagesReceived() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages.json?page=1&count=20")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages.json?page=1&count=20")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Messages"), responseHeaders);
 
@@ -58,7 +58,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessagesReceived_Paged() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages.json?page=3&count=12")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages.json?page=3&count=12")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Messages"), responseHeaders);
 
@@ -74,7 +74,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessagesReceived_Paged_WithSinceIdAndMaxId() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages.json?page=3&count=12&since_id=112233&max_id=332211")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages.json?page=3&count=12&since_id=112233&max_id=332211")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Messages"), responseHeaders);
 
@@ -102,7 +102,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessagesSent() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/sent.json?page=1&count=20")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/sent.json?page=1&count=20")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Messages"), responseHeaders);
 
@@ -118,7 +118,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessagesSent_Paged() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/sent.json?page=3&count=25")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/sent.json?page=3&count=25")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Messages"), responseHeaders);
 
@@ -134,7 +134,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessagesSent_Paged_WithSinceIdAndMaxId() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/sent.json?page=3&count=25&since_id=2468&max_id=8642")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/sent.json?page=3&count=25&since_id=2468&max_id=8642")
 				.AndExpectMethod(HttpMethod.GET)
 				.AndRespondWith(JsonResource("Messages"), responseHeaders);
 
@@ -162,7 +162,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetDirectMessage() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/show/23456.json")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/show.json?id=23456")
 			    .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Direct_Message"), responseHeaders);
 
@@ -178,7 +178,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void SendDirectMessage_ToScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/new.json").AndExpectMethod(HttpMethod.POST)
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/new.json").AndExpectMethod(HttpMethod.POST)
 				.AndExpectBody("screen_name=habuma&text=Hello+there%21")
                 .AndRespondWith(JsonResource("Direct_Message"), responseHeaders);
 
@@ -194,7 +194,7 @@ namespace Spring.Social.Twitter.Api.Impl
         public void SendDirectMessage_ToScreenName_TooLong() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/new.json")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/new.json")
                 .AndExpectMethod(HttpMethod.POST)
 				.AndExpectBody("screen_name=habuma&text=Really+long+message")
 			    .AndRespondWith("{\"error\":\"There was an error sending your message: The text of your direct message is over 140 characters.\"}", responseHeaders, HttpStatusCode.Forbidden, "");		
@@ -235,7 +235,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void SendDirectMessage_ToUserId() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/new.json")
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/new.json")
                 .AndExpectMethod(HttpMethod.POST)
 				.AndExpectBody("user_id=11223&text=Hello+there%21")
                 .AndRespondWith(JsonResource("Direct_Message"), responseHeaders);
@@ -264,15 +264,17 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void DeleteDirectMessage() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/direct_messages/destroy/42.json")
-				.AndExpectMethod(HttpMethod.DELETE)
+                .AndExpectUri("https://api.twitter.com/1.1/direct_messages/destroy.json")
+				.AndExpectMethod(HttpMethod.POST)
+                .AndExpectBody("id=42")
 				.AndRespondWith(JsonResource("Direct_Message"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    twitter.DirectMessageOperations.DeleteDirectMessageAsync(42).Wait();
+		    DirectMessage message = twitter.DirectMessageOperations.DeleteDirectMessageAsync(42).Result;
 #else
-            twitter.DirectMessageOperations.DeleteDirectMessage(42);
+            DirectMessage message = twitter.DirectMessageOperations.DeleteDirectMessage(42);
 #endif
+            AssertSingleDirectMessage(message);
         }
 
         [Test]

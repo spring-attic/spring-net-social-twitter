@@ -25,19 +25,21 @@ using Spring.Json;
 namespace Spring.Social.Twitter.Api.Impl.Json
 {
     /// <summary>
-    /// JSON deserializer for list of weekly trends. 
+    /// JSON deserializer for cursored list of Twitter user's profiles. 
     /// </summary>
     /// <author>Bruno Baia</author>
-    class WeeklyTrendsListDeserializer : AbstractTrendsListDeserializer
+    class CursoredTwitterProfileListDeserializer : IJsonDeserializer
     {
-        protected override string GetDateFormat()
+        public object Deserialize(JsonValue value, JsonMapper mapper)
         {
-            return "yyyy-MM-dd";
-        }
-
-        protected override List<Trends> CreateTrendsList()
-        {
-            return new WeeklyTrendsList();
+            CursoredList<TwitterProfile> twitterProfiles = new CursoredList<TwitterProfile>();
+            twitterProfiles.PreviousCursor = value.GetValue<long>("previous_cursor");
+            twitterProfiles.NextCursor = value.GetValue<long>("next_cursor");
+            foreach (JsonValue itemValue in value.GetValues("users"))
+            {
+                twitterProfiles.Add(mapper.Deserialize<TwitterProfile>(itemValue));
+            }
+            return twitterProfiles;
         }
     }
 }

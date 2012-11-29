@@ -41,7 +41,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void Search_QueryOnly() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://search.twitter.com/search.json?q=%23spring&rpp=50&page=1")
+                .AndExpectUri("https://api.twitter.com/1.1/search/tweets.json?q=%23spring")
 				.AndExpectMethod(HttpMethod.GET)
 				.AndRespondWith(JsonResource("Search"), responseHeaders);
 
@@ -57,17 +57,17 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    public void Search_PageAndResultsPerPage() 
+	    public void Search_WithCount() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://search.twitter.com/search.json?q=%23spring&rpp=10&page=2")
+                .AndExpectUri("https://api.twitter.com/1.1/search/tweets.json?q=%23spring&count=10")
 				.AndExpectMethod(HttpMethod.GET)
 				.AndRespondWith(JsonResource("Search"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    SearchResults searchResults = twitter.SearchOperations.SearchAsync("#spring", 2, 10).Result;
+		    SearchResults searchResults = twitter.SearchOperations.SearchAsync("#spring", 10).Result;
 #else
-            SearchResults searchResults = twitter.SearchOperations.Search("#spring", 2, 10);
+            SearchResults searchResults = twitter.SearchOperations.Search("#spring", 10);
 #endif
 		    Assert.AreEqual(10, searchResults.SinceId);
 		    Assert.AreEqual(999, searchResults.MaxId);
@@ -76,29 +76,41 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    public void Search_SinceAndMaxId() 
+	    public void Search_WithSinceAndMaxId() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://search.twitter.com/search.json?q=%23spring&rpp=10&page=2&since_id=123&max_id=54321")
+                .AndExpectUri("https://api.twitter.com/1.1/search/tweets.json?q=%23spring&count=10&since_id=123&max_id=54321")
 				.AndExpectMethod(HttpMethod.GET)
 				.AndRespondWith(JsonResource("Search"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    SearchResults searchResults = twitter.SearchOperations.SearchAsync("#spring", 2, 10, 123, 54321).Result;
+		    SearchResults searchResults = twitter.SearchOperations.SearchAsync("#spring", 10, 123, 54321).Result;
 #else
-            SearchResults searchResults = twitter.SearchOperations.Search("#spring", 2, 10, 123, 54321);
+            SearchResults searchResults = twitter.SearchOperations.Search("#spring", 10, 123, 54321);
 #endif
 		    Assert.AreEqual(10, searchResults.SinceId);
 		    Assert.AreEqual(999, searchResults.MaxId);
 		    IList<Tweet> tweets = searchResults.Tweets;
 		    AssertSearchTweets(tweets);
 	    }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void Search_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.SearchOperations.SearchAsync("#spring").Wait();
+#else
+		    unauthorizedTwitter.SearchOperations.Search("#spring");
+#endif
+        }
 	
 	    [Test]
 	    public void GetSavedSearches() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/saved_searches.json")
+                .AndExpectUri("https://api.twitter.com/1.1/saved_searches/list.json")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("Saved_Searches"), responseHeaders);
 
@@ -136,7 +148,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetSavedSearch() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/saved_searches/show/26897775.json")
+                .AndExpectUri("https://api.twitter.com/1.1/saved_searches/show/26897775.json")
 				.AndExpectMethod(HttpMethod.GET)
 				.AndRespondWith(JsonResource("Saved_Search"), responseHeaders);
 
@@ -167,7 +179,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void CreateSavedSearch() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/saved_searches/create.json")
+                .AndExpectUri("https://api.twitter.com/1.1/saved_searches/create.json")
 			    .AndExpectMethod(HttpMethod.POST)
 			    .AndExpectBody("query=%23twitter")
 			    .AndRespondWith(JsonResource("Saved_Search"), responseHeaders);
@@ -199,16 +211,20 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void DeleteSavedSearch() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/saved_searches/destroy/26897775.json")
-			    .AndExpectMethod(HttpMethod.DELETE)
-			    .AndRespondWith("{}", responseHeaders);
+                .AndExpectUri("https://api.twitter.com/1.1/saved_searches/destroy/26897775.json")
+			    .AndExpectMethod(HttpMethod.POST)
+                .AndRespondWith(JsonResource("Saved_Search"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    twitter.SearchOperations.DeleteSavedSearchAsync(26897775).Wait();
+            SavedSearch deletedSavedSearch = twitter.SearchOperations.DeleteSavedSearchAsync(26897775).Result;
 #else
-            twitter.SearchOperations.DeleteSavedSearch(26897775);
+            SavedSearch deletedSavedSearch = twitter.SearchOperations.DeleteSavedSearch(26897775);
 #endif
-	    }
+            Assert.AreEqual(26897775, deletedSavedSearch.ID);
+            Assert.AreEqual("#springsocial", deletedSavedSearch.Query);
+            Assert.AreEqual("#springsocial", deletedSavedSearch.Name);
+            Assert.AreEqual(0, deletedSavedSearch.Position);
+        }
 
         [Test]
         [ExpectedException(typeof(TwitterApiException),
@@ -223,168 +239,17 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-	    public void GetDailyTrends() 
+	    public void GetTrends() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/daily.json")
+                .AndExpectUri("https://api.twitter.com/1.1/trends/place.json?id=2442047")
 			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Daily_Trends"), responseHeaders);
+			    .AndRespondWith(JsonResource("Trends"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrendsAsync().Result;
+		    Trends localTrends = twitter.SearchOperations.GetTrendsAsync(2442047).Result;
 #else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrends();
-#endif
-		    Assert.AreEqual(24, dailyTrends.Count);
-		    int i = 0;
-		    foreach(Trends currentTrends in dailyTrends) 
-            {
-			    IList<Trend> trends = currentTrends.Items;
-			    Assert.AreEqual(2, trends.Count);
-			    Assert.AreEqual("Cool Stuff" + i, trends[0].Name);
-			    Assert.AreEqual("Cool Stuff" + i, trends[0].Query);
-			    Assert.AreEqual("#springsocial" + i, trends[1].Name);
-			    Assert.AreEqual("#springsocial" + i, trends[1].Query);
-			    i++;
-		    }
-	    }
-	
-	    [Test]
-	    public void GetDailyTrends_ExcludeHashtags() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/daily.json?exclude=hashtags")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Daily_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrendsAsync(true).Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrends(true);
-#endif
-            Assert.AreEqual(24, dailyTrends.Count);
-	    }
-
-	    [Test]
-	    public void GetDailyTrends_WithStartDate() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/daily.json?date=2011-03-17")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Daily_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrendsAsync(false, "2011-03-17").Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrends(false, "2011-03-17");
-#endif
-            Assert.AreEqual(24, dailyTrends.Count);
-	    }
-
-	    [Test]
-	    public void GetDailyTrends_WithStartDateAndExcludeHashtags() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/daily.json?exclude=hashtags&date=2011-03-17")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Daily_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrendsAsync(true, "2011-03-17").Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetDailyTrends(true, "2011-03-17");
-#endif
-            Assert.AreEqual(24, dailyTrends.Count);
-		    mockServer.Verify();
-	    }
-
-        [Test]
-        public void GetWeeklyTrends()
-        {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/weekly.json")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("Weekly_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrendsAsync().Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrends();
-#endif
-            Assert.AreEqual(7, dailyTrends.Count);
-            int i = 0;
-            foreach (Trends currentTrends in dailyTrends)
-            {
-                IList<Trend> trends = currentTrends.Items;
-                Assert.AreEqual(2, trends.Count);
-                Assert.AreEqual("Cool Stuff" + i, trends[0].Name);
-                Assert.AreEqual("Cool Stuff" + i, trends[0].Query);
-                Assert.AreEqual("#springsocial" + i, trends[1].Name);
-                Assert.AreEqual("#springsocial" + i, trends[1].Query);
-                i++;
-            }
-        }
-	
-	    [Test]
-	    public void GetWeeklyTrends_ExcludeHashtags() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/weekly.json?exclude=hashtags")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Weekly_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrendsAsync(true).Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrends(true);
-#endif
-            Assert.AreEqual(7, dailyTrends.Count);
-	    }
-	
-	    [Test]
-	    public void GetWeeklyTrends_WithStartDate() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/weekly.json?date=2011-03-18")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Weekly_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrendsAsync(false, "2011-03-18").Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrends(false, "2011-03-18");
-#endif
-            Assert.AreEqual(7, dailyTrends.Count);
-	    }
-	
-	    [Test]
-	    public void GetWeeklyTrends_WithStartDateAndExcludeHashtags() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/weekly.json?exclude=hashtags&date=2011-03-18")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Weekly_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrendsAsync(true, "2011-03-18").Result;
-#else
-            IList<Trends> dailyTrends = twitter.SearchOperations.GetWeeklyTrends(true, "2011-03-18");
-#endif
-            Assert.AreEqual(7, dailyTrends.Count);
-	    }
-	
-	    [Test]
-	    public void GetLocalTrends() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/2442047.json")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Local_Trends"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    Trends localTrends = twitter.SearchOperations.GetLocalTrendsAsync(2442047).Result;
-#else
-            Trends localTrends = twitter.SearchOperations.GetLocalTrends(2442047);
+            Trends localTrends = twitter.SearchOperations.GetTrends(2442047);
 #endif
             IList<Trend> trends = localTrends.Items;
 		    Assert.AreEqual(2, trends.Count);
@@ -397,21 +262,33 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-	    public void GetLocalTrends_excludeHashtags() 
+	    public void GetTrends_excludeHashtags() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/trends/2442047.json?exclude=hashtags")
+                .AndExpectUri("https://api.twitter.com/1.1/trends/place.json?id=2442047&exclude=hashtags")
 			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Local_Trends"), responseHeaders);
+			    .AndRespondWith(JsonResource("Trends"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    Trends localTrends = twitter.SearchOperations.GetLocalTrendsAsync(2442047, true).Result;
+		    Trends localTrends = twitter.SearchOperations.GetTrendsAsync(2442047, true).Result;
 #else
-            Trends localTrends = twitter.SearchOperations.GetLocalTrends(2442047, true);
+            Trends localTrends = twitter.SearchOperations.GetTrends(2442047, true);
 #endif
             IList<Trend> trends = localTrends.Items;
 		    Assert.AreEqual(2, trends.Count);
-	    }	
+	    }
+
+        [Test]
+        [ExpectedException(typeof(TwitterApiException),
+            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
+        public void GetTrends_Unauthorized()
+        {
+#if NET_4_0 || SILVERLIGHT_5
+            unauthorizedTwitter.SearchOperations.GetTrendsAsync(2442047).Wait();
+#else
+            unauthorizedTwitter.SearchOperations.GetTrends(2442047);
+#endif
+        }
 	
 
 	    // test helpers

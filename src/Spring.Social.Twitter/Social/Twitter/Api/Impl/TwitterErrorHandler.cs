@@ -137,7 +137,7 @@ namespace Spring.Social.Twitter.Api.Impl
             {
                 throw new TwitterApiException(errorText, TwitterApiError.ResourceNotFound);
 		    }
-            else if (response.StatusCode == (HttpStatusCode)420)
+            else if (response.StatusCode == (HttpStatusCode)429) // Too Many Requests
             {
                 throw new TwitterApiException("The rate limit has been exceeded.", TwitterApiError.RateLimitExceeded);
             }

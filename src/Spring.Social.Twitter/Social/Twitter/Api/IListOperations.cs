@@ -47,21 +47,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-	    Task<CursoredList<UserList>> GetListsAsync();
-
-        /// <summary>
-        /// Asynchronously retrieves user lists for the authenticated user.
-        /// </summary>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="UserList"/>s for the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<CursoredList<UserList>> GetListsInCursorAsync(long cursor);
+        Task<IList<UserList>> GetListsAsync();
 
         /// <summary>
         /// Asynchronously retrieves user lists for the given user.
@@ -73,47 +59,19 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<CursoredList<UserList>> GetListsAsync(long userId);
+        Task<IList<UserList>> GetListsAsync(long userId);
 
         /// <summary>
         /// Asynchronously retrieves user lists for the given user.
         /// </summary>
-        /// <param name="userId">The ID of the Twitter user.</param>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
+        /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="UserList"/>s for the specified user.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task<CursoredList<UserList>> GetListsInCursorAsync(long userId, long cursor);
-
-        /// <summary>
-        /// Asynchronously retrieves user lists for the given user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the Twitter user.</param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="UserList"/>s for the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<CursoredList<UserList>> GetListsAsync(string screenName);
-
-        /// <summary>
-        /// Asynchronously retrieves user lists for the given user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the Twitter user.</param>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
-        /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation that can return 
-        /// a list of <see cref="UserList"/>s for the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<CursoredList<UserList>> GetListsInCursorAsync(string screenName, long cursor);
+        Task<IList<UserList>> GetListsAsync(string screenName);
 
         /// <summary>
         /// Asynchronously retrieves a specific user list.
@@ -124,6 +82,7 @@ namespace Spring.Social.Twitter.Api
         /// the requested <see cref="UserList"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<UserList> GetListAsync(long listId);
 
         /// <summary>
@@ -136,6 +95,7 @@ namespace Spring.Social.Twitter.Api
         /// the requested <see cref="UserList"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<UserList> GetListAsync(string screenName, string listSlug);
 
         /// <summary>
@@ -147,27 +107,27 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Tweet>> GetListStatusesAsync(long listId);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="listId">The ID of the list to retrieve.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetListStatusesAsync(long listId, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetListStatusesAsync(long listId, int count);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="listId">The ID of the list to retrieve.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>
@@ -175,7 +135,8 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetListStatusesAsync(long listId, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetListStatusesAsync(long listId, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
@@ -187,6 +148,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<Tweet>> GetListStatusesAsync(string screenName, string listSlug);
 
         /// <summary>
@@ -194,22 +156,21 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="listSlug">The list's slug.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
         /// a list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetListStatusesAsync(string screenName, string listSlug, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetListStatusesAsync(string screenName, string listSlug, int count);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="listSlug">The list's slug.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>
@@ -217,7 +178,8 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        Task<IList<Tweet>> GetListStatusesAsync(string screenName, string listSlug, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        Task<IList<Tweet>> GetListStatusesAsync(string screenName, string listSlug, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Asynchronously creates a new user list.
@@ -253,11 +215,12 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="listId">The ID of the list to be removed.</param>
         /// <returns>
-        /// A <code>Task</code> that represents the asynchronous operation.
+        /// A <code>Task</code> that represents the asynchronous operation that can return 
+        /// the deleted <see cref="UserList"/>, if successful.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        Task DeleteListAsync(long listId);
+        Task<UserList> DeleteListAsync(long listId);
 
 	    /// <summary>
         /// Asynchronously retrieves a list of Twitter profiles whose users are members of the list.
@@ -268,6 +231,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> GetListMembersAsync(long listId);
 
         /// <summary>
@@ -280,6 +244,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="TwitterProfile"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> GetListMembersAsync(string screenName, string listSlug);
 
         /// <summary>
@@ -391,6 +356,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="TwitterProfile"/>s for the list's subscribers.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> GetListSubscribersAsync(long listId);
 
         /// <summary>
@@ -403,6 +369,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="TwitterProfile"/>s for the list's subscribers.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<TwitterProfile>> GetListSubscribersAsync(string screenName, string listSlug);
 
 	    /// <summary>
@@ -414,6 +381,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="UserList"/>s that the user is a member of.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<UserList>> GetMembershipsAsync(long userId);
 
         /// <summary>
@@ -425,6 +393,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="UserList"/>s that the user is a member of.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<UserList>> GetMembershipsAsync(string screenName);
 
         /// <summary>
@@ -436,6 +405,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="UserList"/>s that the user is subscribed to.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<UserList>> GetSubscriptionsAsync(long userId);
 
         /// <summary>
@@ -447,6 +417,7 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="UserList"/>s that the user is subscribed to.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<CursoredList<UserList>> GetSubscriptionsAsync(string screenName);
 
         /// <summary>
@@ -486,6 +457,7 @@ namespace Spring.Social.Twitter.Api
         /// a value indicating whether or not the user subscribes to the list.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<bool> IsSubscriberAsync(long listId, long subscriberId);
 	
         /// <summary>
@@ -499,6 +471,7 @@ namespace Spring.Social.Twitter.Api
         /// a value indicating whether or not the user subscribes to the list.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<bool> IsSubscriberAsync(string screenName, string listSlug, string subscriberScreenName);
 #else
 #if !SILVERLIGHT
@@ -510,20 +483,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-	    CursoredList<UserList> GetLists();
-
-        /// <summary>
-        /// Retrieves user lists for the authenticated user.
-        /// </summary>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
-        /// <returns>
-        /// A list of <see cref="UserList"/>s for the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-	    CursoredList<UserList> GetListsInCursor(long cursor);
+        IList<UserList> GetLists();
 
         /// <summary>
         /// Retrieves user lists for the given user.
@@ -534,44 +494,18 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-	    CursoredList<UserList> GetLists(long userId);
+	    IList<UserList> GetLists(long userId);
 
         /// <summary>
         /// Retrieves user lists for the given user.
         /// </summary>
-        /// <param name="userId">The ID of the Twitter user.</param>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
+        /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <returns>
         /// A list of <see cref="UserList"/>s for the specified user.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-	    CursoredList<UserList> GetListsInCursor(long userId, long cursor);
-
-        /// <summary>
-        /// Retrieves user lists for the given user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the Twitter user.</param>
-        /// <returns>
-        /// A list of <see cref="UserList"/>s for the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-	    CursoredList<UserList> GetLists(string screenName);
-
-        /// <summary>
-        /// Retrieves user lists for the given user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the Twitter user.</param>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
-        /// <returns>
-        /// A list of <see cref="UserList"/>s for the specified user.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-	    CursoredList<UserList> GetListsInCursor(string screenName, long cursor);
+	    IList<UserList> GetLists(string screenName);
 
         /// <summary>
         /// Retrieves a specific user list.
@@ -581,6 +515,7 @@ namespace Spring.Social.Twitter.Api
         /// The requested <see cref="UserList"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    UserList GetList(long listId);
 
         /// <summary>
@@ -592,6 +527,7 @@ namespace Spring.Social.Twitter.Api
         /// The requested <see cref="UserList"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    UserList GetList(string screenName, string listSlug);
 
         /// <summary>
@@ -602,33 +538,34 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<Tweet> GetListStatuses(long listId);
 
         /// <summary>
         /// Retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="listId">The ID of the list to retrieve.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <returns>
         /// A list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-	    IList<Tweet> GetListStatuses(long listId, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+	    IList<Tweet> GetListStatuses(long listId, int count);
 
         /// <summary>
         /// Retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="listId">The ID of the list to retrieve.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>
         /// A list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-	    IList<Tweet> GetListStatuses(long listId, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+	    IList<Tweet> GetListStatuses(long listId, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Retrieves the timeline tweets for the given user list.
@@ -639,6 +576,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<Tweet> GetListStatuses(string screenName, string listSlug);
 
         /// <summary>
@@ -646,28 +584,28 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="listSlug">The list's slug.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <returns>
         /// A list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-	    IList<Tweet> GetListStatuses(string screenName, string listSlug, int page, int pageSize);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+	    IList<Tweet> GetListStatuses(string screenName, string listSlug, int count);
 
         /// <summary>
         /// Retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="listSlug">The list's slug.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>
         /// A list of <see cref="Tweet"/> objects for the items in the user list timeline.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-	    IList<Tweet> GetListStatuses(string screenName, string listSlug, int page, int pageSize, long sinceId, long maxId);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+	    IList<Tweet> GetListStatuses(string screenName, string listSlug, int count, long sinceId, long maxId);
 
         /// <summary>
         /// Creates a new user list.
@@ -700,9 +638,12 @@ namespace Spring.Social.Twitter.Api
         /// Removes a user list.
         /// </summary>
         /// <param name="listId">The ID of the list to be removed.</param>
+        /// <returns>
+        /// The deleted <see cref="UserList"/>, if successful.
+        /// </returns>        
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-	    void DeleteList(long listId);
+	    UserList DeleteList(long listId);
 
 	    /// <summary>
         /// Retrieves a list of Twitter profiles whose users are members of the list.
@@ -710,6 +651,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="listId">The ID of the list.</param>
         /// <returns>A list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<TwitterProfile> GetListMembers(long listId);
 
         /// <summary>
@@ -719,6 +661,7 @@ namespace Spring.Social.Twitter.Api
         /// <param name="listSlug">The slug of the list.</param>
         /// <returns>A list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<TwitterProfile> GetListMembers(string screenName, string listSlug);
 
         /// <summary>
@@ -805,6 +748,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="TwitterProfile"/>s for the list's subscribers.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<TwitterProfile> GetListSubscribers(long listId);
 
         /// <summary>
@@ -816,6 +760,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="TwitterProfile"/>s for the list's subscribers.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    IList<TwitterProfile> GetListSubscribers(string screenName, string listSlug);
 
 	    /// <summary>
@@ -826,6 +771,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="UserList"/>s that the user is a member of.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    CursoredList<UserList> GetMemberships(long userId);
 
         /// <summary>
@@ -836,6 +782,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="UserList"/>s that the user is a member of.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    CursoredList<UserList> GetMemberships(string screenName);
 
         /// <summary>
@@ -846,6 +793,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="UserList"/>s that the user is subscribed to.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    CursoredList<UserList> GetSubscriptions(long userId);
 
         /// <summary>
@@ -856,6 +804,7 @@ namespace Spring.Social.Twitter.Api
         /// A list of <see cref="UserList"/>s that the user is subscribed to.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    CursoredList<UserList> GetSubscriptions(string screenName);
 
         /// <summary>
@@ -892,6 +841,7 @@ namespace Spring.Social.Twitter.Api
         /// <see langword="true"/> if the user subscribes to the list; otherwise <see langword="false"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    bool IsSubscriber(long listId, long subscriberId);
 	
         /// <summary>
@@ -904,6 +854,7 @@ namespace Spring.Social.Twitter.Api
         /// <see langword="true"/> if the user subscribes to the list; otherwise <see langword="false"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
 	    bool IsSubscriber(string screenName, string listSlug, string subscriberScreenName);
 #endif
 
@@ -919,24 +870,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetListsAsync(Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves user lists for the authenticated user.
-        /// </summary>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="UserList"/>s for the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetListsInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
+        RestOperationCanceler GetListsAsync(Action<RestOperationCompletedEventArgs<IList<UserList>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves user lists for the given user.
@@ -951,15 +885,12 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetListsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
+        RestOperationCanceler GetListsAsync(long userId, Action<RestOperationCompletedEventArgs<IList<UserList>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves user lists for the given user.
         /// </summary>
-        /// <param name="userId">The ID of the Twitter user.</param>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
+        /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
         /// Provides a list of <see cref="UserList"/>s for the specified user.
@@ -969,38 +900,7 @@ namespace Spring.Social.Twitter.Api
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler GetListsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves user lists for the given user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the Twitter user.</param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="UserList"/>s for the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetListsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
-
-        /// <summary>
-        /// Asynchronously retrieves user lists for the given user.
-        /// </summary>
-        /// <param name="screenName">The screen name of the Twitter user.</param>
-        /// <param name="cursor">
-        /// The cursor to retrieve results from. -1 will retrieve the first cursored page of results.
-        /// </param>
-        /// <param name="operationCompleted">
-        /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
-        /// Provides a list of <see cref="UserList"/>s for the specified user.
-        /// </param>
-        /// <returns>
-        /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
-        /// </returns>
-        /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetListsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
+        RestOperationCanceler GetListsAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<UserList>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves a specific user list.
@@ -1014,6 +914,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListAsync(long listId, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted);
 
         /// <summary>
@@ -1029,6 +930,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted);
 
         /// <summary>
@@ -1043,14 +945,14 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListStatusesAsync(long listId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="listId">The ID of the list to retrieve.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
         /// Provides a list of <see cref="Tweet"/> objects for the items in the user list timeline.
@@ -1059,14 +961,14 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetListStatusesAsync(long listId, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetListStatusesAsync(long listId, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="listId">The ID of the list to retrieve.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="operationCompleted">
@@ -1077,7 +979,8 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetListStatusesAsync(long listId, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetListStatusesAsync(long listId, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
@@ -1092,6 +995,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListStatusesAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
@@ -1099,8 +1003,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="listSlug">The list's slug.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
         /// Provides a list of <see cref="Tweet"/> objects for the items in the user list timeline.
@@ -1109,15 +1012,15 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetListStatusesAsync(string screenName, string listSlug, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetListStatusesAsync(string screenName, string listSlug, int count, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves the timeline tweets for the given user list.
         /// </summary>
         /// <param name="screenName">The screen name of the Twitter user.</param>
         /// <param name="listSlug">The list's slug.</param>
-        /// <param name="page">The page to return.</param>
-        /// <param name="pageSize">The number of <see cref="Tweet"/>s per page.</param>
+        /// <param name="count">The number of <see cref="Tweet"/>s to retrieve.</param>
         /// <param name="sinceId">The minimum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <param name="operationCompleted">
@@ -1128,7 +1031,8 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        RestOperationCanceler GetListStatusesAsync(string screenName, string listSlug, int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
+        RestOperationCanceler GetListStatusesAsync(string screenName, string listSlug, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted);
 
         /// <summary>
         /// Asynchronously creates a new user list.
@@ -1171,13 +1075,14 @@ namespace Spring.Social.Twitter.Api
         /// <param name="listId">The ID of the list to be removed.</param>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
+        /// Provides the deleted <see cref="UserList"/>, if successful.
         /// </param>
         /// <returns>
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
-        RestOperationCanceler DeleteListAsync(long listId, Action<RestOperationCompletedEventArgs<object>> operationCompleted);
+        RestOperationCanceler DeleteListAsync(long listId, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted);
 
         /// <summary>
         /// Asynchronously retrieves a list of Twitter profiles whose users are members of the list.
@@ -1191,6 +1096,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListMembersAsync(long listId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1206,6 +1112,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListMembersAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1344,6 +1251,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListSubscribersAsync(long listId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1359,6 +1267,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetListSubscribersAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
@@ -1377,6 +1286,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetMembershipsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
 
         /// <summary>
@@ -1391,6 +1301,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetMembershipsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
 
         /// <summary>
@@ -1405,6 +1316,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetSubscriptionsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
 
         /// <summary>
@@ -1419,6 +1331,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetSubscriptionsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted);
 
         /// <summary>
@@ -1467,6 +1380,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler IsSubscriberAsync(long listId, long subscriberId, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
 
         /// <summary>
@@ -1483,6 +1397,7 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
+        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler IsSubscriberAsync(string screenName, string listSlug, string subscriberScreenName, Action<RestOperationCompletedEventArgs<bool>> operationCompleted);
 #endif
     }

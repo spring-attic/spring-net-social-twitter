@@ -68,9 +68,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\IListOperations.cs" />
-    <Compile Include="Social\Twitter\Api\ImageSize.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\AbstractTwitterOperations.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -92,16 +89,11 @@
     <Compile Include="Social\Twitter\Api\Impl\GeoTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\AbstractTrendsListDeserializer.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\CursoredLongListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\CursoredTwitterProfileListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\CursoredUserListListDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\DailyTrendsListDeserializer.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\DirectMessageDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -109,9 +101,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\JsonUtils.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\LocalTrendsDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\LongListDeserializer.cs">
@@ -123,9 +112,7 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\PlaceListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\Json\RateLimitStatusDeserializer.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\RateLimitStatusListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,6 +128,7 @@
     <Compile Include="Social\Twitter\Api\Impl\Json\SuggestionCategoryListDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\TrendsDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\TweetDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,13 +142,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\Json\UserListDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\Json\WeeklyTrendsListDeserializer.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Social\Twitter\Api\Impl\Json\UserListListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\ListTemplate.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\LocalTrends.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\PagingUtils.cs">
       <SubType>Code</SubType>
     </Compile>

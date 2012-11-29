@@ -86,33 +86,32 @@ namespace Spring.Social.Twitter.Api.Impl
 		    return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/destroy.json", request);
 	    }
 
-        public Task<IList<TwitterProfile>> GetBlockedUsersAsync() 
+        public Task<CursoredList<TwitterProfile>> GetBlockedUsersAsync() 
         {
-		    return this.GetBlockedUsersAsync(1, 20);
+		    return this.GetBlockedUsersAsync(-1);
 	    }
 
-        public Task<IList<TwitterProfile>> GetBlockedUsersAsync(int page, int pageSize) 
+        public Task<CursoredList<TwitterProfile>> GetBlockedUsersAsync(long cursor) 
         {
 		    this.EnsureIsAuthorized();
-		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPerPage(page, pageSize, 0, 0);
-		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("blocks/blocking.json", parameters));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("skip_status", "true");
+		    parameters.Add("cursor", cursor.ToString());
+		    return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("blocks/list.json", parameters));
 	    }
 
-        public Task<IList<long>> GetBlockedUserIdsAsync() 
+        public Task<CursoredList<long>> GetBlockedUserIdsAsync() 
         {
-		    this.EnsureIsAuthorized();
-		    return this.restTemplate.GetForObjectAsync<IList<long>>("blocks/blocking/ids.json");
+            return this.GetBlockedUserIdsAsync(-1);
 	    }
 
-        public Task<bool> IsBlockingAsync(long userId) 
+        public Task<CursoredList<long>> GetBlockedUserIdsAsync(long cursor)
         {
-            return this.InternalIsBlockingAsync(this.BuildUrl("blocks/exists.json", "user_id", userId.ToString()));
-	    }
-
-        public Task<bool> IsBlockingAsync(string screenName) 
-        {
-            return this.InternalIsBlockingAsync(this.BuildUrl("blocks/exists.json", "screen_name", screenName));
-	    }
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("blocks/ids.json", parameters));
+        }
 #else
 #if !SILVERLIGHT
         public TwitterProfile Block(long userId) 
@@ -147,32 +146,31 @@ namespace Spring.Social.Twitter.Api.Impl
 		    return this.restTemplate.PostForObject<TwitterProfile>("blocks/destroy.json", request);
 	    }
 	
-	    public IList<TwitterProfile> GetBlockedUsers() 
+	    public CursoredList<TwitterProfile> GetBlockedUsers() 
         {
-		    return this.GetBlockedUsers(1, 20);
+		    return this.GetBlockedUsers(-1);
 	    }
 	
-	    public IList<TwitterProfile> GetBlockedUsers(int page, int pageSize) 
+	    public CursoredList<TwitterProfile> GetBlockedUsers(long cursor) 
         {
 		    this.EnsureIsAuthorized();
-		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPerPage(page, pageSize, 0, 0);
-		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("blocks/blocking.json", parameters));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("skip_status", "true");
+		    parameters.Add("cursor", cursor.ToString());
+		    return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("blocks/list.json", parameters));
 	    }
 
-	    public IList<long> GetBlockedUserIds() 
+	    public CursoredList<long> GetBlockedUserIds() 
+        {
+		    return this.GetBlockedUserIds(-1);
+	    }
+
+        public CursoredList<long> GetBlockedUserIds(long cursor) 
         {
 		    this.EnsureIsAuthorized();
-		    return this.restTemplate.GetForObject<IList<long>>("blocks/blocking/ids.json");
-	    }
-	
-	    public bool IsBlocking(long userId) 
-        {
-		    return this.InternalIsBlocking(this.BuildUrl("blocks/exists.json", "user_id", userId.ToString()));
-	    }
-
-	    public bool IsBlocking(string screenName) 
-        {
-		    return this.InternalIsBlocking(this.BuildUrl("blocks/exists.json", "screen_name", screenName));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            return this.restTemplate.GetForObject<CursoredList<long>>(this.BuildUrl("blocks/ids.json", parameters));
 	    }
 #endif
 
@@ -208,72 +206,30 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/destroy.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler GetBlockedUsersAsync(Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
+        public RestOperationCanceler GetBlockedUsersAsync(Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetBlockedUsersAsync(1, 20, operationCompleted);
+            return this.GetBlockedUsersAsync(-1, operationCompleted);
         }
 
-        public RestOperationCanceler GetBlockedUsersAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
+        public RestOperationCanceler GetBlockedUsersAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
+        {
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("skip_status", "true");
+		    parameters.Add("cursor", cursor.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("blocks/list.json", parameters), operationCompleted);
+        }
+
+        public RestOperationCanceler GetBlockedUserIdsAsync(Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
+        {
+            return this.GetBlockedUserIdsAsync(-1, operationCompleted);
+        }
+
+        public RestOperationCanceler GetBlockedUserIdsAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
             this.EnsureIsAuthorized();
-            NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPerPage(page, pageSize, 0, 0);
-            return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("blocks/blocking.json", parameters), operationCompleted);
-        }
-
-        public RestOperationCanceler GetBlockedUserIdsAsync(Action<RestOperationCompletedEventArgs<IList<long>>> operationCompleted)
-        {
-            this.EnsureIsAuthorized();
-            return this.restTemplate.GetForObjectAsync<IList<long>>("blocks/blocking/ids.json", operationCompleted);
-        }
-
-        public RestOperationCanceler IsBlockingAsync(long userId, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
-        {
-            return this.InternalIsBlockingAsync(this.BuildUrl("blocks/exists.json", "user_id", userId.ToString()), operationCompleted);
-        }
-
-        public RestOperationCanceler IsBlockingAsync(string screenName, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
-        {
-            return this.InternalIsBlockingAsync(this.BuildUrl("blocks/exists.json", "screen_name", screenName), operationCompleted);
-        }
-#endif
-
-        #endregion
-
-        #region Private Methods
-
-#if NET_4_0 || SILVERLIGHT_5
-        private Task<bool> InternalIsBlockingAsync(string blockingExistsUrl) 
-        {
-            return this.restTemplate.ExchangeAsync(blockingExistsUrl, HttpMethod.GET, null, CancellationToken.None)
-                .ContinueWith<bool>(task =>
-                {
-                    return task.Result.StatusCode != HttpStatusCode.NotFound;
-                }, TaskContinuationOptions.ExecuteSynchronously);
-        }
-#else
-#if !SILVERLIGHT
-        private bool InternalIsBlocking(string blockingExistsUrl) 
-        {
-            HttpResponseMessage response = this.restTemplate.Exchange(blockingExistsUrl, HttpMethod.GET, null);
-            return response.StatusCode != HttpStatusCode.NotFound;
-        }
-#endif
-
-        private RestOperationCanceler InternalIsBlockingAsync(string blockingExistsUrl, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
-        {
-            return this.restTemplate.ExchangeAsync(blockingExistsUrl, HttpMethod.GET, null, 
-                r =>
-                {
-                    if (r.Error == null)
-                    {
-                        operationCompleted(new RestOperationCompletedEventArgs<bool>(
-                            r.Response.StatusCode != HttpStatusCode.NotFound, r.Error, r.Cancelled, r.UserState));
-                    }
-                    else
-                    {
-                        operationCompleted(new RestOperationCompletedEventArgs<bool>(false, null, r.Cancelled, r.UserState));
-                    }
-                });
+            NameValueCollection parameters = new NameValueCollection();
+		    parameters.Add("cursor", cursor.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("blocks/ids.json", parameters), operationCompleted);
         }
 #endif
 

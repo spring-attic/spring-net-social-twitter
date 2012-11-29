@@ -23,6 +23,8 @@ using System.Collections.Generic;
 
 namespace Spring.Social.Twitter.Api
 {
+    // https://dev.twitter.com/docs/misc/cursoring
+
     /// <summary>
     /// Represents the list that includes previous and next cursors for paging through items returned from Twitter in cursored pages.
     /// </summary>

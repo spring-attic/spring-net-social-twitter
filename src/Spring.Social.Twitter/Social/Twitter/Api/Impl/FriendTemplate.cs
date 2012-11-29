@@ -27,9 +27,10 @@ using System.Collections.Specialized;
 #endif
 #if NET_4_0 || SILVERLIGHT_5
 using System.Threading.Tasks;
+#else
+using Spring.Http;
 #endif
 
-using Spring.Json;
 using Spring.Rest.Client;
 
 namespace Spring.Social.Twitter.Api.Impl
@@ -112,6 +113,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFriendIdsInCursorAsync(long userId, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -125,6 +127,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFriendIdsInCursorAsync(string screenName, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -191,6 +194,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFollowerIdsInCursorAsync(long userId, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -204,6 +208,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFollowerIdsInCursorAsync(string screenName, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -214,68 +219,68 @@ namespace Spring.Social.Twitter.Api.Impl
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/create.json", "user_id", userId.ToString()), request);
+            request.Add("user_id", userId.ToString());
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request);
 	    }
 
         public Task<TwitterProfile> FollowAsync(string screenName) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/create.json", "screen_name", screenName), request);
+            request.Add("screen_name", screenName);
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request);
 	    }
 
         public Task<TwitterProfile> UnfollowAsync(long userId) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/destroy.json", "user_id", userId.ToString()), request);
+            request.Add("user_id", userId.ToString());
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request);
 	    }
 
         public Task<TwitterProfile> UnfollowAsync(string screenName) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/destroy.json", "screen_name", screenName), request);
+            request.Add("screen_name", screenName);
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request);
 	    }
 
-        public Task<TwitterProfile> EnableNotificationsAsync(long userId) 
+        public Task EnableNotificationsAsync(long userId) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/follow.json", "user_id", userId.ToString()), request);
+            request.Add("user_id", userId.ToString());
+            request.Add("device", "true");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request);
 	    }
 
-        public Task<TwitterProfile> EnableNotificationsAsync(string screenName) 
+        public Task EnableNotificationsAsync(string screenName) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/follow.json", "screen_name", screenName), request);
+            request.Add("screen_name", screenName);
+            request.Add("device", "true");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request);
 	    }
 
-        public Task<TwitterProfile> DisableNotificationsAsync(long userId) 
+        public Task DisableNotificationsAsync(long userId) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/leave.json", "user_id", userId.ToString()), request);
+            request.Add("user_id", userId.ToString());
+            request.Add("device", "false");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request);
 	    }
 
-        public Task<TwitterProfile> DisableNotificationsAsync(string screenName) 
+        public Task DisableNotificationsAsync(string screenName) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/leave.json", "screen_name", screenName), request);
-	    }
-
-        public Task<bool> FriendshipExistsAsync(string screenNameA, string screenNameB) 
-        {
-		    NameValueCollection parameters = new NameValueCollection();
-		    parameters.Add("screen_name_a", screenNameA);
-		    parameters.Add("screen_name_b", screenNameB);
-            return this.restTemplate.GetForObjectAsync<JsonValue>(this.BuildUrl("friendships/exists.json", parameters))
-                .ContinueWith<bool>(task =>
-                {
-                    return task.Result.GetValue<bool>();
-                }, TaskContinuationOptions.ExecuteSynchronously);
+            request.Add("screen_name", screenName);
+            request.Add("device", "false");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request);
 	    }
 
         public Task<CursoredList<long>> GetIncomingFriendshipsAsync() 
@@ -352,6 +357,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFriendIdsInCursor(long userId, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -365,6 +371,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFriendIdsInCursor(string screenName, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -422,6 +429,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFollowerIdsInCursor(long userId, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -435,6 +443,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFollowerIdsInCursor(string screenName, long cursor) 
         {
+            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -445,66 +454,70 @@ namespace Spring.Social.Twitter.Api.Impl
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("friendships/create.json", "user_id", userId.ToString()), request);
+            request.Add("user_id", userId.ToString());
+		    return this.restTemplate.PostForObject<TwitterProfile>("friendships/create.json", request);
 	    }
 
 	    public TwitterProfile Follow(string screenName) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("friendships/create.json", "screen_name", screenName), request);
+            request.Add("screen_name", screenName);
+            return this.restTemplate.PostForObject<TwitterProfile>("friendships/create.json", request);
 	    }
 	
 	    public TwitterProfile Unfollow(long userId) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("friendships/destroy.json", "user_id", userId.ToString()), request);
+            request.Add("user_id", userId.ToString());
+		    return this.restTemplate.PostForObject<TwitterProfile>("friendships/destroy.json", request);
 	    }
 
 	    public TwitterProfile Unfollow(string screenName) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("friendships/destroy.json", "screen_name", screenName), request);
-	    }
-	
-	    public TwitterProfile EnableNotifications(long userId) 
-        {
-		    this.EnsureIsAuthorized();
-            NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("notifications/follow.json", "user_id", userId.ToString()), request);
-	    }
-	
-	    public TwitterProfile EnableNotifications(string screenName) 
-        {
-		    this.EnsureIsAuthorized();
-            NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("notifications/follow.json", "screen_name", screenName), request);
+            request.Add("screen_name", screenName);
+		    return this.restTemplate.PostForObject<TwitterProfile>("friendships/destroy.json", request);
 	    }
 
-	    public TwitterProfile DisableNotifications(long userId) 
+        public void EnableNotifications(long userId) 
         {
 		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("notifications/leave.json", "user_id", userId.ToString()), request);
-	    }
-	
-	    public TwitterProfile DisableNotifications(string screenName) 
-        {
-		    this.EnsureIsAuthorized();
-            NameValueCollection request = new NameValueCollection();
-		    return this.restTemplate.PostForObject<TwitterProfile>(this.BuildUrl("notifications/leave.json", "screen_name", screenName), request);
-	    }
-	
-	    public bool FriendshipExists(string screenNameA, string screenNameB) 
-        {
-		    NameValueCollection parameters = new NameValueCollection();
-		    parameters.Add("screen_name_a", screenNameA);
-		    parameters.Add("screen_name_b", screenNameB);
-		    return this.restTemplate.GetForObject<JsonValue>(this.BuildUrl("friendships/exists.json", parameters)).GetValue<bool>();
+            request.Add("user_id", userId.ToString());
+            request.Add("device", "true");
+            this.restTemplate.PostForMessage("friendships/update.json", request);
 	    }
 
+        public void EnableNotifications(string screenName) 
+        {
+		    this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            request.Add("screen_name", screenName);
+            request.Add("device", "true");
+            this.restTemplate.PostForMessage("friendships/update.json", request);
+	    }
+
+        public void DisableNotifications(long userId) 
+        {
+		    this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            request.Add("user_id", userId.ToString());
+            request.Add("device", "false");
+            this.restTemplate.PostForMessage("friendships/update.json", request);
+	    }
+	
+	    public void DisableNotifications(string screenName) 
+        {
+		    this.EnsureIsAuthorized();
+            NameValueCollection request = new NameValueCollection();
+            request.Add("screen_name", screenName);
+            request.Add("device", "false");
+            this.restTemplate.PostForMessage("friendships/update.json", request);
+	    }
+	
 	    public CursoredList<long> GetIncomingFriendships() 
         {
 		    return this.GetIncomingFriendships(-1);
@@ -579,6 +592,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendIdsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("user_id", userId.ToString());
@@ -592,6 +606,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("screen_name", screenName);
@@ -649,6 +664,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowerIdsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("user_id", userId.ToString());
@@ -662,6 +678,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowerIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("screen_name", screenName);
@@ -672,65 +689,68 @@ namespace Spring.Social.Twitter.Api.Impl
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/create.json", "user_id", userId.ToString()), request, operationCompleted);
+            request.Add("user_id", userId.ToString());
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request, operationCompleted);
         }
 
         public RestOperationCanceler FollowAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/create.json", "screen_name", screenName), request, operationCompleted);
+            request.Add("screen_name", screenName);
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request, operationCompleted);
         }
 
         public RestOperationCanceler UnfollowAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/destroy.json", "user_id", userId.ToString()), request, operationCompleted);
+            request.Add("user_id", userId.ToString());
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request, operationCompleted);
         }
 
         public RestOperationCanceler UnfollowAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("friendships/destroy.json", "screen_name", screenName), request, operationCompleted);
+            request.Add("screen_name", screenName);
+            return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler EnableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
+        public RestOperationCanceler EnableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/follow.json", "user_id", userId.ToString()), request, operationCompleted);
+            request.Add("user_id", userId.ToString());
+            request.Add("device", "true");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler EnableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
+        public RestOperationCanceler EnableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/follow.json", "screen_name", screenName), request, operationCompleted);
+            request.Add("screen_name", screenName);
+            request.Add("device", "true");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler DisableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
+        public RestOperationCanceler DisableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/leave.json", "user_id", userId.ToString()), request, operationCompleted);
+            request.Add("user_id", userId.ToString());
+            request.Add("device", "false");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler DisableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
+        public RestOperationCanceler DisableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
             this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
-            return this.restTemplate.PostForObjectAsync<TwitterProfile>(this.BuildUrl("notifications/leave.json", "screen_name", screenName), request, operationCompleted);
-        }
-
-        public RestOperationCanceler FriendshipExistsAsync(string screenNameA, string screenNameB, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
-        {
-            NameValueCollection parameters = new NameValueCollection();
-            parameters.Add("screen_name_a", screenNameA);
-            parameters.Add("screen_name_b", screenNameB);
-            return this.restTemplate.GetForObjectAsync<JsonValue>(this.BuildUrl("friendships/exists.json", parameters), 
-                r => operationCompleted(new RestOperationCompletedEventArgs<bool>(r.Error == null ? r.Response.GetValue<bool>() : false, r.Error, r.Cancelled, r.UserState)));
+            request.Add("screen_name", screenName);
+            request.Add("device", "false");
+            return this.restTemplate.PostForMessageAsync("friendships/update.json", request, operationCompleted);
         }
 
         public RestOperationCanceler GetIncomingFriendshipsAsync(Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)

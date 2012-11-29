@@ -63,7 +63,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    protected IResource JsonResource(string filename) 
         {
-		    return new AssemblyResource("assembly://Spring.Social.Twitter.Tests/Spring.Social.Twitter.Api.Impl/" + filename + ".json");
+		    return new AssemblyResource(filename + ".json", typeof(AbstractTwitterOperationsTests));
 	    }
 
 	    protected void AssertSingleTweet(Tweet tweet) 

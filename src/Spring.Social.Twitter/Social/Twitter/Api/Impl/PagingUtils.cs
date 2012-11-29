@@ -33,7 +33,7 @@ namespace Spring.Social.Twitter.Api.Impl
     /// <author>Bruno Baia (.NET)</author>
     static class PagingUtils
     {
-        public static NameValueCollection BuildPagingParametersWithCount(int page, int pageSize, long sinceId, long maxId)
+        public static NameValueCollection BuildPagingParametersWithPageCount(int page, int pageSize, long sinceId, long maxId)
         {
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("page", page.ToString());
@@ -54,6 +54,24 @@ namespace Spring.Social.Twitter.Api.Impl
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("page", page.ToString());
             parameters.Add("per_page", pageSize.ToString());
+            if (sinceId > 0)
+            {
+                parameters.Add("since_id", sinceId.ToString());
+            }
+            if (maxId > 0)
+            {
+                parameters.Add("max_id", maxId.ToString());
+            }
+            return parameters;
+        }
+
+        public static NameValueCollection BuildPagingParametersWithCount(int count, long sinceId, long maxId)
+        {
+            NameValueCollection parameters = new NameValueCollection();
+            if (count > 0)
+            {
+                parameters.Add("count", count.ToString());
+            }
             if (sinceId > 0)
             {
                 parameters.Add("since_id", sinceId.ToString());

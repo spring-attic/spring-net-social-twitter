@@ -23,7 +23,7 @@ using System;
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Carries data concerning the rate limit status.
+    /// Carries data concerning the rate limit status for a resource.
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
@@ -33,13 +33,20 @@ namespace Spring.Social.Twitter.Api
     public class RateLimitStatus
     {
         /// <summary>
-        /// Gets or sets the limited number of calls per hour. 
-        /// <para/>
-        /// Unauthenticated calls are permitted 150 requests per hour. 
-        /// <para/>
-        /// OAuth calls are permitted 350 requests per hour.
+        /// Gets or sets the "resource family" which is indicated in its method documentation. 
+        /// You can typically determine a method's resource family from the first component of the path after the resource version.
         /// </summary>
-	    public int HourlyLimit { get; set; }
+        public string ResourceFamily { get; set; }
+
+        /// <summary>
+        /// Gets or sets the resource endpoint path. 
+        /// </summary>
+        public string ResourceEndpoint { get; set; }
+
+        /// <summary>
+        /// Gets or sets the limited number of calls per rate limit window (actually 15 minutes). 
+        /// </summary>
+	    public int WindowLimit { get; set; }
 
         /// <summary>
         /// Gets or sets the remaining number of calls before being rate limited.
@@ -47,8 +54,8 @@ namespace Spring.Social.Twitter.Api
         public int RemainingHits { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the limit number of calls will be reset.
+        /// Gets or sets the date when the rate limit number of calls will be reset.
         /// </summary>
-        public DateTime? ResetTime { get; set; }
+        public DateTime ResetTime { get; set; }
     }
 }

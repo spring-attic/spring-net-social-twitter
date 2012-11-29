@@ -41,7 +41,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetUserProfile()
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/account/verify_credentials.json")
+                .AndExpectUri("https://api.twitter.com/1.1/account/verify_credentials.json")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
 
@@ -99,7 +99,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetUserProfile_UserId() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/show.json?user_id=12345")
+                .AndExpectUri("https://api.twitter.com/1.1/users/show.json?user_id=12345")
 				.AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Twitter_Profile"), responseHeaders);
 
@@ -116,42 +116,12 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("http://www.springsource.org", profile.Url);
 		    Assert.AreEqual("http://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", profile.ProfileImageUrl);
 	    }
-	
-	    [Test]
-	    public void GetUserProfileImage() 
-        {
-            AssertUserProfileImage(ImageSize.Normal);
-	    }
-
-	    [Test]
-	    public void GetUserProfileImage_Mini() 
-        {
-		    AssertUserProfileImage(ImageSize.Mini);
-	    }
-
-	    [Test]
-	    public void GetUserProfileImage_Normal() 
-        {
-		    AssertUserProfileImage(ImageSize.Normal);
-	    }
-
-	    [Test]
-	    public void GetUserProfileImage_Original()
-        {
-            AssertUserProfileImage(ImageSize.Original);
-	    }
-
-	    [Test]
-	    public void GetUserProfileImage_Bigger() 
-        {
-            AssertUserProfileImage(ImageSize.Bigger);
-	    }
 
 	    [Test]
 	    public void GetUsers_ByUserId() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/lookup.json?user_id=14846645%2C14718006")
+                .AndExpectUri("https://api.twitter.com/1.1/users/lookup.json?user_id=14846645%2C14718006")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("List_Of_Profiles"), responseHeaders);
 
@@ -169,7 +139,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetUsers_ByScreenName() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/lookup.json?screen_name=royclarkson%2Ckdonald")
+                .AndExpectUri("https://api.twitter.com/1.1/users/lookup.json?screen_name=royclarkson%2Ckdonald")
 			    .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Of_Profiles"), responseHeaders);
 
@@ -187,7 +157,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void SearchForUsers() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/search.json?page=1&per_page=20&q=some%20query")
+                .AndExpectUri("https://api.twitter.com/1.1/users/search.json?page=1&per_page=20&q=some%20query")
 			    .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Of_Profiles"), responseHeaders);
 
@@ -204,7 +174,8 @@ namespace Spring.Social.Twitter.Api.Impl
 	    [Test]
 	    public void SearchForUsers_Paged() 
         {
-		    mockServer.ExpectNewRequest().AndExpectUri("https://api.twitter.com/1/users/search.json?page=3&per_page=35&q=some%20query")
+		    mockServer.ExpectNewRequest()
+                .AndExpectUri("https://api.twitter.com/1.1/users/search.json?page=3&per_page=35&q=some%20query")
 			    .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("List_Of_Profiles"), responseHeaders);
 
@@ -234,7 +205,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetSuggestionCategories() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/suggestions.json")
+                .AndExpectUri("https://api.twitter.com/1.1/users/suggestions.json")
 			    .AndExpectMethod(HttpMethod.GET)
 			    .AndRespondWith(JsonResource("Suggestion_Categories"), responseHeaders);
 
@@ -262,7 +233,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	    public void GetSuggestions() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/suggestions/springsource.json")
+                .AndExpectUri("https://api.twitter.com/1.1/users/suggestions/springsource.json")
 			    .AndExpectMethod(HttpMethod.GET)
                 .AndRespondWith(JsonResource("Suggestions"), responseHeaders);
 
@@ -277,41 +248,24 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-	    public void GetUnauthenticatedRateLimit() 
+	    public void GetRateLimitStatus() 
         {
 		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/account/rate_limit_status.json")
+                .AndExpectUri("https://api.twitter.com/1.1/application/rate_limit_status.json?resources=help%2Cusers%2Csearch%2Cstatuses")
 			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Rate_Limit_Status_Unauthenticated"), responseHeaders);
+			    .AndRespondWith(JsonResource("Rate_Limit_Status"), responseHeaders);
 		
 #if NET_4_0 || SILVERLIGHT_5
-		    RateLimitStatus status = twitter.UserOperations.GetRateLimitStatusAsync().Result;
+		    IList<RateLimitStatus> limits = twitter.UserOperations.GetRateLimitStatusAsync("help", "users", "search", "statuses").Result;
 #else
-            RateLimitStatus status = twitter.UserOperations.GetRateLimitStatus();
+            IList<RateLimitStatus> limits = twitter.UserOperations.GetRateLimitStatus("help", "users", "search", "statuses");
 #endif
-            Assert.AreEqual(150, status.HourlyLimit);
-            Assert.AreEqual("14/11/2011 18:40:55", status.ResetTime.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
-		    Assert.AreEqual(149, status.RemainingHits);
-	    }
-	
-
-	    // test helpers
-
-	    private void AssertUserProfileImage(ImageSize imageSize)
-        {
-		    HttpHeaders responseHeaders = new HttpHeaders();
-		    responseHeaders.ContentType = MediaType.IMAGE_PNG;
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1/users/profile_image/brbaia?size=" + imageSize.ToString().ToLowerInvariant())
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(new AssemblyResource("assembly://Spring.Social.Twitter.Tests/Spring.Social.Twitter.Api.Impl/Logo.png"), responseHeaders);
-
-#if NET_4_0 || SILVERLIGHT_5
-		    twitter.UserOperations.GetUserProfileImageAsync("brbaia", imageSize).Wait();
-#else
-            twitter.UserOperations.GetUserProfileImage("brbaia", imageSize);
-#endif
-		    // TODO: Fix ResponseCreators to handle binary data so that we can assert the contents/size of the image bytes. 
+            Assert.AreEqual(19, limits.Count);
+            Assert.AreEqual("help", limits[0].ResourceFamily);
+            Assert.AreEqual("/help/privacy", limits[0].ResourceEndpoint);
+            Assert.AreEqual(15, limits[0].WindowLimit);
+            Assert.AreEqual(15, limits[0].RemainingHits);
+            Assert.AreEqual("31/08/2012 18:58:47", limits[0].ResetTime.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
 	    }
     }
 }

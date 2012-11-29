@@ -34,11 +34,12 @@ namespace Spring.Social.Twitter.Api.Impl.Json
 
         public object Deserialize(JsonValue value, JsonMapper mapper)
         {
+            JsonValue searchMetadataValue = value.GetValue("search_metadata");
             return new SearchResults()
             {
-                Tweets = mapper.Deserialize<IList<Tweet>>(value.GetValue("results")),
-                MaxId = value.GetValue<long>("max_id"),
-                SinceId = value.GetValue<long>("since_id")
+                Tweets = mapper.Deserialize<IList<Tweet>>(value.GetValue("statuses")),
+                MaxId = searchMetadataValue.GetValue<long>("max_id"),
+                SinceId = searchMetadataValue.GetValue<long>("since_id")
             };
         }
     }

@@ -53,7 +53,7 @@ namespace Spring.Social.Twitter.Api.Impl
     /// <author>Bruno Baia (.NET)</author>
     public class TwitterTemplate : AbstractOAuth1ApiBinding, ITwitter 
     {
-        private static readonly Uri API_URI_BASE = new Uri("https://api.twitter.com/1/");
+        private static readonly Uri API_URI_BASE = new Uri("https://api.twitter.com/1.1/");
 
         private IBlockOperations blockOperations;
         private IDirectMessageOperations directMessageOperations;
@@ -215,14 +215,13 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(IList<Tweet>), new TweetListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(TwitterProfile), new TwitterProfileDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<TwitterProfile>), new TwitterProfileListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(CursoredList<TwitterProfile>), new CursoredTwitterProfileListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<long>), new LongListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(SearchResults), new SearchResultsDeserializer());
             jsonMapper.RegisterDeserializer(typeof(SavedSearch), new SavedSearchDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<SavedSearch>), new SavedSearchListDeserializer());
-            jsonMapper.RegisterDeserializer(typeof(DailyTrendsList), new DailyTrendsListDeserializer());
-            jsonMapper.RegisterDeserializer(typeof(WeeklyTrendsList), new WeeklyTrendsListDeserializer());
-            jsonMapper.RegisterDeserializer(typeof(LocalTrends), new LocalTrendsDeserializer());
-            jsonMapper.RegisterDeserializer(typeof(RateLimitStatus), new RateLimitStatusDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(Trends), new TrendsDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(IList<RateLimitStatus>), new RateLimitStatusListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<SuggestionCategory>), new SuggestionCategoryListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(DirectMessage), new DirectMessageDeserializer());
             jsonMapper.RegisterDeserializer(typeof(IList<DirectMessage>), new DirectMessageListDeserializer());
@@ -231,6 +230,7 @@ namespace Spring.Social.Twitter.Api.Impl
             jsonMapper.RegisterDeserializer(typeof(SimilarPlaces), new SimilarPlacesDeserializer());
             jsonMapper.RegisterDeserializer(typeof(CursoredList<long>), new CursoredLongListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(UserList), new UserListDeserializer());
+            jsonMapper.RegisterDeserializer(typeof(IList<UserList>), new UserListListDeserializer());
             jsonMapper.RegisterDeserializer(typeof(CursoredList<UserList>), new CursoredUserListListDeserializer());
 
             return new SpringJsonHttpMessageConverter(jsonMapper);

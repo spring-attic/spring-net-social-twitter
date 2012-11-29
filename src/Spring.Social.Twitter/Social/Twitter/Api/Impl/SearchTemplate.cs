@@ -42,8 +42,6 @@ namespace Spring.Social.Twitter.Api.Impl
     /// <author>Bruno Baia (.NET)</author>
     class SearchTemplate : AbstractTwitterOperations, ISearchOperations
     {
-        private const int DEFAULT_RESULTS_PER_PAGE = 50;
-
         private RestTemplate restTemplate;
 
         public SearchTemplate(RestTemplate restTemplate, bool isAuthorized)
@@ -57,24 +55,25 @@ namespace Spring.Social.Twitter.Api.Impl
 #if NET_4_0 || SILVERLIGHT_5
         public Task<SearchResults> SearchAsync(string query) 
         {
-            return this.SearchAsync(query, 1, DEFAULT_RESULTS_PER_PAGE, 0, 0);
+            return this.SearchAsync(query, 0, 0, 0);
 	    }
 
-        public Task<SearchResults> SearchAsync(string query, int page, int resultsPerPage) 
+        public Task<SearchResults> SearchAsync(string query, int count) 
         {
-            return this.SearchAsync(query, page, resultsPerPage, 0, 0);
+            return this.SearchAsync(query, count, 0, 0);
 	    }
 
-        public Task<SearchResults> SearchAsync(string query, int page, int resultsPerPage, long sinceId, long maxId) 
+        public Task<SearchResults> SearchAsync(string query, int count, long sinceId, long maxId) 
         {
-            NameValueCollection parameters = BuildSearchParameters(query, page, resultsPerPage, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<SearchResults>(this.BuildUrl("https://search.twitter.com/search.json", parameters));
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = BuildSearchParameters(query, count, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<SearchResults>(this.BuildUrl("search/tweets.json", parameters));
 	    }
 
         public Task<IList<SavedSearch>> GetSavedSearchesAsync() 
         {
 		    this.EnsureIsAuthorized();
-            return this.restTemplate.GetForObjectAsync<IList<SavedSearch>>("saved_searches.json");
+            return this.restTemplate.GetForObjectAsync<IList<SavedSearch>>("saved_searches/list.json");
 	    }
 
         public Task<SavedSearch> GetSavedSearchAsync(long searchId) 
@@ -91,92 +90,52 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/create.json", request);
 	    }
 
-        public Task DeleteSavedSearchAsync(long searchId) 
+        public Task<SavedSearch> DeleteSavedSearchAsync(long searchId) 
         {
 		    this.EnsureIsAuthorized();
-            return this.restTemplate.DeleteAsync("saved_searches/destroy/{searchId}.json", searchId);
+            NameValueCollection request = new NameValueCollection();
+            return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/destroy/{searchId}.json", request, searchId);
 	    }
 
-        public Task<IList<Trends>> GetDailyTrendsAsync() 
+        public Task<Trends> GetTrendsAsync(long whereOnEarthId) 
         {
-            return this.GetDailyTrendsAsync(false, null);
+            return this.GetTrendsAsync(whereOnEarthId, false);
 	    }
 
-        public Task<IList<Trends>> GetDailyTrendsAsync(bool excludeHashtags) 
+        public Task<Trends> GetTrendsAsync(long whereOnEarthId, bool excludeHashtags)
         {
-            return this.GetDailyTrendsAsync(excludeHashtags, null);
-	    }
-
-        public Task<IList<Trends>> GetDailyTrendsAsync(bool excludeHashtags, string startDate) 
-        {
-            NameValueCollection parameters = BuildTrendsParameters(excludeHashtags, startDate);
-            return this.restTemplate.GetForObjectAsync<DailyTrendsList>(this.BuildUrl("trends/daily.json", parameters))
-                .ContinueWith<IList<Trends>>(task =>
-                {
-                    return task.Result;
-                }, TaskContinuationOptions.ExecuteSynchronously);
-	    }
-
-        public Task<IList<Trends>> GetWeeklyTrendsAsync() 
-        {
-            return this.GetWeeklyTrendsAsync(false, null);
-	    }
-
-        public Task<IList<Trends>> GetWeeklyTrendsAsync(bool excludeHashtags) 
-        {
-            return this.GetWeeklyTrendsAsync(excludeHashtags, null);
-	    }
-
-        public Task<IList<Trends>> GetWeeklyTrendsAsync(bool excludeHashtags, string startDate) 
-        {
-            NameValueCollection parameters = BuildTrendsParameters(excludeHashtags, startDate);
-            return this.restTemplate.GetForObjectAsync<WeeklyTrendsList>(this.BuildUrl("trends/weekly.json", parameters))
-                .ContinueWith<IList<Trends>>(task =>
-                {
-                    return task.Result;
-                }, TaskContinuationOptions.ExecuteSynchronously);
-	    }
-
-        public Task<Trends> GetLocalTrendsAsync(long whereOnEarthId) 
-        {
-            return this.GetLocalTrendsAsync(whereOnEarthId, false);
-	    }
-
-        public Task<Trends> GetLocalTrendsAsync(long whereOnEarthId, bool excludeHashtags)
-        {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("id", whereOnEarthId.ToString());
             if (excludeHashtags)
             {
                 parameters.Add("exclude", "hashtags");
             }
-            return this.restTemplate.GetForObjectAsync<LocalTrends>(this.BuildUrl("trends/" + whereOnEarthId + ".json", parameters))
-                .ContinueWith<Trends>(task =>
-                {
-                    return task.Result;
-                }, TaskContinuationOptions.ExecuteSynchronously);
+            return this.restTemplate.GetForObjectAsync<Trends>(this.BuildUrl("trends/place.json", parameters));
         }
 #else
 #if !SILVERLIGHT
         public SearchResults Search(string query) 
         {
-		    return this.Search(query, 1, DEFAULT_RESULTS_PER_PAGE, 0, 0);
+		    return this.Search(query, 0, 0, 0);
 	    }
 
-	    public SearchResults Search(string query, int page, int resultsPerPage) 
+	    public SearchResults Search(string query, int count) 
         {
-		    return this.Search(query, page, resultsPerPage, 0, 0);
+		    return this.Search(query, count, 0, 0);
 	    }
 
-	    public SearchResults Search(string query, int page, int resultsPerPage, long sinceId, long maxId) 
+	    public SearchResults Search(string query, int count, long sinceId, long maxId) 
         {
-            NameValueCollection parameters = BuildSearchParameters(query, page, resultsPerPage, sinceId, maxId);
-            return this.restTemplate.GetForObject<SearchResults>(this.BuildUrl("https://search.twitter.com/search.json", parameters));
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = BuildSearchParameters(query, count, sinceId, maxId);
+            return this.restTemplate.GetForObject<SearchResults>(this.BuildUrl("search/tweets.json", parameters));
 	    }
 
 	    public IList<SavedSearch> GetSavedSearches() 
         {
 		    this.EnsureIsAuthorized();
-            return this.restTemplate.GetForObject<IList<SavedSearch>>("saved_searches.json");
+            return this.restTemplate.GetForObject<IList<SavedSearch>>("saved_searches/list.json");
 	    }
 
 	    public SavedSearch GetSavedSearch(long searchId) 
@@ -193,80 +152,52 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.PostForObject<SavedSearch>("saved_searches/create.json", request);
 	    }
 
-	    public void DeleteSavedSearch(long searchId) 
+	    public SavedSearch DeleteSavedSearch(long searchId) 
         {
 		    this.EnsureIsAuthorized();
-            this.restTemplate.Delete("saved_searches/destroy/{searchId}.json", searchId);
+            NameValueCollection request = new NameValueCollection();
+            return this.restTemplate.PostForObject<SavedSearch>("saved_searches/destroy/{searchId}.json", request, searchId);
 	    }
 
-	    public IList<Trends> GetDailyTrends() 
+	    public Trends GetTrends(long whereOnEarthId) 
         {
-		    return this.GetDailyTrends(false, null);
+		    return this.GetTrends(whereOnEarthId, false);
 	    }
 
-	    public IList<Trends> GetDailyTrends(bool excludeHashtags) 
+	    public Trends GetTrends(long whereOnEarthId, bool excludeHashtags) 
         {
-		    return this.GetDailyTrends(excludeHashtags, null);
-	    }
-
-	    public IList<Trends> GetDailyTrends(bool excludeHashtags, string startDate) 
-        {
-            NameValueCollection parameters = BuildTrendsParameters(excludeHashtags, startDate);
-            return this.restTemplate.GetForObject<DailyTrendsList>(this.BuildUrl("trends/daily.json", parameters));
-	    }
-	
-	    public IList<Trends> GetWeeklyTrends() 
-        {
-		    return this.GetWeeklyTrends(false, null);
-	    }
-	
-	    public IList<Trends> GetWeeklyTrends(bool excludeHashtags) 
-        {
-		    return this.GetWeeklyTrends(excludeHashtags, null);
-	    }
-	
-	    public IList<Trends> GetWeeklyTrends(bool excludeHashtags, string startDate) 
-        {
-            NameValueCollection parameters = BuildTrendsParameters(excludeHashtags, startDate);
-            return this.restTemplate.GetForObject<WeeklyTrendsList>(this.BuildUrl("trends/weekly.json", parameters));
-	    }
-
-	    public Trends GetLocalTrends(long whereOnEarthId) 
-        {
-		    return this.GetLocalTrends(whereOnEarthId, false);
-	    }
-
-	    public Trends GetLocalTrends(long whereOnEarthId, bool excludeHashtags) 
-        {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("id", whereOnEarthId.ToString());
             if (excludeHashtags)
             {
                 parameters.Add("exclude", "hashtags");
             }
-            return this.restTemplate.GetForObject<LocalTrends>(this.BuildUrl("trends/" + whereOnEarthId + ".json", parameters));
+            return this.restTemplate.GetForObject<Trends>(this.BuildUrl("trends/place.json", parameters));
 	    }
 #endif
 
         public RestOperationCanceler SearchAsync(string query, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted)
         {
-            return this.SearchAsync(query, 1, DEFAULT_RESULTS_PER_PAGE, 0, 0, operationCompleted);
+            return this.SearchAsync(query, 0, 0, 0, operationCompleted);
         }
 
-        public RestOperationCanceler SearchAsync(string query, int page, int resultsPerPage, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted)
+        public RestOperationCanceler SearchAsync(string query, int count, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted)
         {
-            return this.SearchAsync(query, page, resultsPerPage, 0, 0, operationCompleted);
+            return this.SearchAsync(query, count, 0, 0, operationCompleted);
         }
 
-        public RestOperationCanceler SearchAsync(string query, int page, int resultsPerPage, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted)
+        public RestOperationCanceler SearchAsync(string query, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted)
         {
-            NameValueCollection parameters = BuildSearchParameters(query, page, resultsPerPage, sinceId, maxId);
-            return this.restTemplate.GetForObjectAsync<SearchResults>(this.BuildUrl("https://search.twitter.com/search.json", parameters), operationCompleted);
+            this.EnsureIsAuthorized();
+            NameValueCollection parameters = BuildSearchParameters(query, count, sinceId, maxId);
+            return this.restTemplate.GetForObjectAsync<SearchResults>(this.BuildUrl("search/tweets.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetSavedSearchesAsync(Action<RestOperationCompletedEventArgs<IList<SavedSearch>>> operationCompleted)
         {
             this.EnsureIsAuthorized();
-            return this.restTemplate.GetForObjectAsync<IList<SavedSearch>>("saved_searches.json", operationCompleted);
+            return this.restTemplate.GetForObjectAsync<IList<SavedSearch>>("saved_searches/list.json", operationCompleted);
         }
 
         public RestOperationCanceler GetSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted)
@@ -283,75 +214,28 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/create.json", request, operationCompleted);
         }
 
-        public RestOperationCanceler DeleteSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<object>> operationCompleted)
+        public RestOperationCanceler DeleteSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted)
         {
             this.EnsureIsAuthorized();
-            return this.restTemplate.DeleteAsync("saved_searches/destroy/{searchId}.json", operationCompleted, searchId);
+            NameValueCollection request = new NameValueCollection();
+            return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/destroy/{searchId}.json", request, operationCompleted, searchId);
         }
 
-        public RestOperationCanceler GetDailyTrendsAsync(Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted)
+        public RestOperationCanceler GetTrendsAsync(long whereOnEarthId, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted)
         {
-            return this.GetDailyTrendsAsync(false, null, operationCompleted);
+            return this.GetTrendsAsync(whereOnEarthId, false, operationCompleted);
         }
 
-        public RestOperationCanceler GetDailyTrendsAsync(bool excludeHashtags, Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted)
+        public RestOperationCanceler GetTrendsAsync(long whereOnEarthId, bool excludeHashtags, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted)
         {
-            return this.GetDailyTrendsAsync(excludeHashtags, null, operationCompleted);
-        }
-
-        public RestOperationCanceler GetDailyTrendsAsync(bool excludeHashtags, string startDate, Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted)
-        {
-            NameValueCollection parameters = BuildTrendsParameters(excludeHashtags, startDate);
-            return this.restTemplate.GetForObjectAsync<DailyTrendsList>(this.BuildUrl("trends/daily.json", parameters), 
-                r =>
-                {
-                    operationCompleted(new RestOperationCompletedEventArgs<IList<Trends>>(
-                        r.Error == null ? r.Response : null, 
-                        r.Error, r.Cancelled, r.UserState));
-                });
-        }
-
-        public RestOperationCanceler GetWeeklyTrendsAsync(Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted)
-        {
-            return this.GetWeeklyTrendsAsync(false, null, operationCompleted);
-        }
-
-        public RestOperationCanceler GetWeeklyTrendsAsync(bool excludeHashtags, Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted)
-        {
-            return this.GetWeeklyTrendsAsync(excludeHashtags, null, operationCompleted);
-        }
-
-        public RestOperationCanceler GetWeeklyTrendsAsync(bool excludeHashtags, string startDate, Action<RestOperationCompletedEventArgs<IList<Trends>>> operationCompleted)
-        {
-            NameValueCollection parameters = BuildTrendsParameters(excludeHashtags, startDate);
-            return this.restTemplate.GetForObjectAsync<WeeklyTrendsList>(this.BuildUrl("trends/weekly.json", parameters), 
-                r =>
-                {
-                    operationCompleted(new RestOperationCompletedEventArgs<IList<Trends>>(
-                        r.Error == null ? r.Response : null, 
-                        r.Error, r.Cancelled, r.UserState));
-                });
-        }
-
-        public RestOperationCanceler GetLocalTrendsAsync(long whereOnEarthId, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted)
-        {
-            return this.GetLocalTrendsAsync(whereOnEarthId, false, operationCompleted);
-        }
-
-        public RestOperationCanceler GetLocalTrendsAsync(long whereOnEarthId, bool excludeHashtags, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted)
-        {
+            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("id", whereOnEarthId.ToString());
             if (excludeHashtags)
             {
                 parameters.Add("exclude", "hashtags");
             }
-            return this.restTemplate.GetForObjectAsync<LocalTrends>(this.BuildUrl("trends/" + whereOnEarthId + ".json", parameters), 
-                r =>
-                {
-                    operationCompleted(new RestOperationCompletedEventArgs<Trends>(
-                        r.Error == null ? r.Response : null, 
-                        r.Error, r.Cancelled, r.UserState));
-                });
+            return this.restTemplate.GetForObjectAsync<Trends>(this.BuildUrl("trends/place.json", parameters), operationCompleted);
         }
 #endif
 
@@ -359,12 +243,14 @@ namespace Spring.Social.Twitter.Api.Impl
 
         #region Private Methods
 
-        private static NameValueCollection BuildSearchParameters(string query, int page, int resultsPerPage, long sinceId, long maxId)
+        private static NameValueCollection BuildSearchParameters(string query, int count, long sinceId, long maxId)
         {
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("q", query);
-            parameters.Add("rpp", resultsPerPage.ToString());
-            parameters.Add("page", page.ToString());
+            if (count > 0)
+            {
+                parameters.Add("count", count.ToString());
+            }
             if (sinceId > 0)
             {
                 parameters.Add("since_id", sinceId.ToString());
@@ -372,20 +258,6 @@ namespace Spring.Social.Twitter.Api.Impl
             if (maxId > 0)
             {
                 parameters.Add("max_id", maxId.ToString());
-            }
-            return parameters;
-        }
-
-        private static NameValueCollection BuildTrendsParameters(bool excludeHashtags, string startDate)
-        {
-            NameValueCollection parameters = new NameValueCollection();
-            if (excludeHashtags)
-            {
-                parameters.Add("exclude", "hashtags");
-            }
-            if (startDate != null)
-            {
-                parameters.Add("date", startDate);
             }
             return parameters;
         }

@@ -25,27 +25,27 @@ using Spring.Json;
 namespace Spring.Social.Twitter.Api.Impl.Json
 {
     /// <summary>
-    /// JSON deserializer for local trends. 
+    /// JSON deserializer for trends. 
     /// </summary>
     /// <author>Bruno Baia</author>
-    class LocalTrendsDeserializer : IJsonDeserializer
+    class TrendsDeserializer : IJsonDeserializer
     {
-        private const string LOCAL_TRENDS_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        private const string TRENDS_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
         public object Deserialize(JsonValue value, JsonMapper mapper)
         {
-            LocalTrends localTrends = new LocalTrends();
+            Trends trends = new Trends();
             JsonValue trendsValue = value.GetValue(0);
-            localTrends.Time = JsonUtils.ToDateTime(trendsValue.GetValue<string>("created_at"), LOCAL_TRENDS_DATE_FORMAT);
+            trends.Time = JsonUtils.ToDateTime(trendsValue.GetValue<string>("created_at"), TRENDS_DATE_FORMAT);
             foreach (JsonValue itemValue in trendsValue.GetValues("trends"))
             {
-                localTrends.Items.Add(new Trend()
+                trends.Items.Add(new Trend()
                 {
                     Name = itemValue.GetValue<string>("name"),
                     Query = itemValue.GetValue<string>("query")
                 });
             }
-            return localTrends;
+            return trends;
         }
     }
 }
