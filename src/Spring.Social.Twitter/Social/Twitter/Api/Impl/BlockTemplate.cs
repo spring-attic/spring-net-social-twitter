@@ -45,8 +45,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public BlockTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public BlockTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -56,7 +55,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #if NET_4_0 || SILVERLIGHT_5
         public Task<TwitterProfile> BlockAsync(long userId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", userId.ToString());
 		    return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request);
@@ -64,7 +62,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> BlockAsync(string screenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", screenName);
 		    return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request);
@@ -72,7 +69,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> UnblockAsync(long userId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", userId.ToString());
 		    return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/destroy.json", request);
@@ -80,7 +76,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> UnblockAsync(String screenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", screenName);
 		    return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/destroy.json", request);
@@ -93,7 +88,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetBlockedUsersAsync(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("skip_status", "true");
 		    parameters.Add("cursor", cursor.ToString());
@@ -107,7 +101,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetBlockedUserIdsAsync(long cursor)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("blocks/ids.json", parameters));
@@ -116,7 +109,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #if !SILVERLIGHT
         public TwitterProfile Block(long userId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", userId.ToString());
 		    return this.restTemplate.PostForObject<TwitterProfile>("blocks/create.json", request);
@@ -124,7 +116,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public TwitterProfile Block(string screenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", screenName);
 		    return this.restTemplate.PostForObject<TwitterProfile>("blocks/create.json", request);
@@ -132,7 +123,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public TwitterProfile Unblock(long userId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", userId.ToString());
 		    return this.restTemplate.PostForObject<TwitterProfile>("blocks/destroy.json", request);
@@ -140,7 +130,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public TwitterProfile Unblock(String screenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", screenName);
 		    return this.restTemplate.PostForObject<TwitterProfile>("blocks/destroy.json", request);
@@ -153,7 +142,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<TwitterProfile> GetBlockedUsers(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("skip_status", "true");
 		    parameters.Add("cursor", cursor.ToString());
@@ -167,7 +155,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public CursoredList<long> GetBlockedUserIds(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             return this.restTemplate.GetForObject<CursoredList<long>>(this.BuildUrl("blocks/ids.json", parameters));
@@ -176,7 +163,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler BlockAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request, operationCompleted);
@@ -184,7 +170,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler BlockAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/create.json", request, operationCompleted);
@@ -192,7 +177,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler UnblockAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/destroy.json", request, operationCompleted);
@@ -200,7 +184,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler UnblockAsync(String screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("blocks/destroy.json", request, operationCompleted);
@@ -226,7 +209,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetBlockedUserIdsAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("blocks/ids.json", parameters), operationCompleted);

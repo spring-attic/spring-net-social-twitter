@@ -36,12 +36,5 @@ namespace Spring.Social.Twitter.Api.Impl
 		    TwitterTemplate twitter = new TwitterTemplate("API_KEY", "API_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 		    Assert.IsTrue(twitter.IsAuthorized);
 	    }
-
-	    [Test]
-	    public void IsAuthorizedForUser_NotAuthorized() 
-        {
-		    TwitterTemplate twitter = new TwitterTemplate();
-            Assert.IsFalse(twitter.IsAuthorized);
-	    }
     }
 }

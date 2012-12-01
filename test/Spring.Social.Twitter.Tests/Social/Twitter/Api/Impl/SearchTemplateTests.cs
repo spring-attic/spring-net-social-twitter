@@ -93,18 +93,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    IList<Tweet> tweets = searchResults.Tweets;
 		    AssertSearchTweets(tweets);
 	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Search_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.SearchOperations.SearchAsync("#spring").Wait();
-#else
-		    unauthorizedTwitter.SearchOperations.Search("#spring");
-#endif
-        }
 	
 	    [Test]
 	    public void GetSavedSearches() 
@@ -132,18 +120,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual(1, search2.Position);
 	    }
 
-        [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetSavedSearches_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.SearchOperations.GetSavedSearchesAsync().Wait();
-#else
-            unauthorizedTwitter.SearchOperations.GetSavedSearches();
-#endif
-	    }
-
 	    [Test]
 	    public void GetSavedSearch() 
         {
@@ -161,18 +137,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("#springsocial", savedSearch.Query);
 		    Assert.AreEqual("#springsocial", savedSearch.Name);
 		    Assert.AreEqual(0, savedSearch.Position);
-	    }
-	
-        [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetSavedSearch_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.SearchOperations.GetSavedSearchAsync(26897775).Wait();
-#else
-            unauthorizedTwitter.SearchOperations.GetSavedSearch(26897775);
-#endif
 	    }
 
 	    [Test]
@@ -195,18 +159,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual(0, savedSearch.Position);
 	    }
 
-        [Test]
-        [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void CreateSavedSearch_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.SearchOperations.CreateSavedSearchAsync("#twitter").Wait();
-#else
-            unauthorizedTwitter.SearchOperations.CreateSavedSearch("#twitter");
-#endif
-	    }
-
 	    [Test]
 	    public void DeleteSavedSearch() 
         {
@@ -224,18 +176,6 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual("#springsocial", deletedSavedSearch.Query);
             Assert.AreEqual("#springsocial", deletedSavedSearch.Name);
             Assert.AreEqual(0, deletedSavedSearch.Position);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void DeleteSavedSearch_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.SearchOperations.DeleteSavedSearchAsync(26897775).Wait();
-#else
-            unauthorizedTwitter.SearchOperations.DeleteSavedSearch(26897775);
-#endif
         }
 	
 	    [Test]
@@ -277,18 +217,6 @@ namespace Spring.Social.Twitter.Api.Impl
             IList<Trend> trends = localTrends.Items;
 		    Assert.AreEqual(2, trends.Count);
 	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetTrends_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.SearchOperations.GetTrendsAsync(2442047).Wait();
-#else
-            unauthorizedTwitter.SearchOperations.GetTrends(2442047);
-#endif
-        }
 	
 
 	    // test helpers

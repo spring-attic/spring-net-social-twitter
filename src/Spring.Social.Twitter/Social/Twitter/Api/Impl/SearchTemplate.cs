@@ -44,8 +44,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public SearchTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public SearchTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -65,26 +64,22 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<SearchResults> SearchAsync(string query, int count, long sinceId, long maxId) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = BuildSearchParameters(query, count, sinceId, maxId);
             return this.restTemplate.GetForObjectAsync<SearchResults>(this.BuildUrl("search/tweets.json", parameters));
 	    }
 
         public Task<IList<SavedSearch>> GetSavedSearchesAsync() 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<SavedSearch>>("saved_searches/list.json");
 	    }
 
         public Task<SavedSearch> GetSavedSearchAsync(long searchId) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<SavedSearch>("saved_searches/show/{searchId}.json", searchId);
 	    }
 
         public Task<SavedSearch> CreateSavedSearchAsync(string query) 
         {		
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("query", query);
             return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/create.json", request);
@@ -92,7 +87,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<SavedSearch> DeleteSavedSearchAsync(long searchId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/destroy/{searchId}.json", request, searchId);
 	    }
@@ -104,7 +98,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<Trends> GetTrendsAsync(long whereOnEarthId, bool excludeHashtags)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("id", whereOnEarthId.ToString());
             if (excludeHashtags)
@@ -127,26 +120,22 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public SearchResults Search(string query, int count, long sinceId, long maxId) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = BuildSearchParameters(query, count, sinceId, maxId);
             return this.restTemplate.GetForObject<SearchResults>(this.BuildUrl("search/tweets.json", parameters));
 	    }
 
 	    public IList<SavedSearch> GetSavedSearches() 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObject<IList<SavedSearch>>("saved_searches/list.json");
 	    }
 
 	    public SavedSearch GetSavedSearch(long searchId) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObject<SavedSearch>("saved_searches/show/{searchId}.json", searchId);
 	    }
 
 	    public SavedSearch CreateSavedSearch(string query) 
         {		
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("query", query);
             return this.restTemplate.PostForObject<SavedSearch>("saved_searches/create.json", request);
@@ -154,7 +143,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public SavedSearch DeleteSavedSearch(long searchId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             return this.restTemplate.PostForObject<SavedSearch>("saved_searches/destroy/{searchId}.json", request, searchId);
 	    }
@@ -166,7 +154,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public Trends GetTrends(long whereOnEarthId, bool excludeHashtags) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("id", whereOnEarthId.ToString());
             if (excludeHashtags)
@@ -189,26 +176,22 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler SearchAsync(string query, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = BuildSearchParameters(query, count, sinceId, maxId);
             return this.restTemplate.GetForObjectAsync<SearchResults>(this.BuildUrl("search/tweets.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetSavedSearchesAsync(Action<RestOperationCompletedEventArgs<IList<SavedSearch>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<SavedSearch>>("saved_searches/list.json", operationCompleted);
         }
 
         public RestOperationCanceler GetSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<SavedSearch>("saved_searches/show/{searchId}.json", operationCompleted, searchId);
         }
 
         public RestOperationCanceler CreateSavedSearchAsync(string query, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("query", query);
             return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/create.json", request, operationCompleted);
@@ -216,7 +199,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler DeleteSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             return this.restTemplate.PostForObjectAsync<SavedSearch>("saved_searches/destroy/{searchId}.json", request, operationCompleted, searchId);
         }
@@ -228,7 +210,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetTrendsAsync(long whereOnEarthId, bool excludeHashtags, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("id", whereOnEarthId.ToString());
             if (excludeHashtags)

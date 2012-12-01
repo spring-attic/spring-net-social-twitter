@@ -37,23 +37,6 @@ namespace Spring.Social.Twitter.Api.Impl
     /// <author>Bruno Baia (.NET)</author>
     abstract class AbstractTwitterOperations
     {
-        private bool isAuthorized;
-
-	    public AbstractTwitterOperations(bool isAuthorized) 
-        {
-		    this.isAuthorized = isAuthorized;
-	    }
-
-        protected void EnsureIsAuthorized() 
-        {
-		    if (!this.isAuthorized) 
-            {
-			    throw new TwitterApiException(
-                    "Authorization is required for the operation, but the API binding was created without authorization.", 
-                    TwitterApiError.NotAuthorized);
-		    }
-	    }
-
         protected string BuildUrl(string path, string parameterName, string parameterValue)
         {
             NameValueCollection parameters = new NameValueCollection();

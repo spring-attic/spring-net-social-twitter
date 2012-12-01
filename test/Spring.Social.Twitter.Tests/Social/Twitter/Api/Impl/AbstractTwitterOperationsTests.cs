@@ -38,7 +38,6 @@ namespace Spring.Social.Twitter.Api.Impl
     public abstract class AbstractTwitterOperationsTests
     {
 	    protected TwitterTemplate twitter;	
-	    protected TwitterTemplate unauthorizedTwitter;
 	    protected MockRestServiceServer mockServer;
 	    protected HttpHeaders responseHeaders;
 
@@ -49,10 +48,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    mockServer = MockRestServiceServer.CreateServer(twitter.RestTemplate);
 		    responseHeaders = new HttpHeaders();
 		    responseHeaders.ContentType = MediaType.APPLICATION_JSON;
-
-            unauthorizedTwitter = new TwitterTemplate();
-            // TODO: create a mock server just to avoid hitting real twitter if something gets past the authorization check
-            //MockRestServiceServer.CreateServer(unauthorizedTwitter.RestTemplate);
 	    }
 
         [TearDown]

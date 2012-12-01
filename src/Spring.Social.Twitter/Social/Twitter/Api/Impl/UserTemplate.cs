@@ -44,8 +44,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public UserTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public UserTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -55,32 +54,27 @@ namespace Spring.Social.Twitter.Api.Impl
 #if NET_4_0 || SILVERLIGHT_5
         public Task<TwitterProfile> GetUserProfileAsync() 
         {
-		    this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObjectAsync<TwitterProfile>("account/verify_credentials.json");
 	    }
 
         public Task<TwitterProfile> GetUserProfileAsync(string screenName) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "screen_name", screenName));
 	    }
 
         public Task<TwitterProfile> GetUserProfileAsync(long userId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "user_id", userId.ToString()));
 	    }
 
         public Task<IList<TwitterProfile>> GetUsersAsync(params long[] userIds) 
         {
-            this.EnsureIsAuthorized();
 		    string joinedIds = ArrayUtils.Join(userIds);
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds));
 	    }
 
         public Task<IList<TwitterProfile>> GetUsersAsync(params string[] screenNames) 
         {
-            this.EnsureIsAuthorized();
 		    string joinedScreenNames = ArrayUtils.Join(screenNames);
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "screen_name", joinedScreenNames));
 	    }
@@ -92,7 +86,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<TwitterProfile>> SearchForUsersAsync(string query, int page, int pageSize) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPerPage(page, pageSize, 0, 0);
 		    parameters.Add("q", query);
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/search.json", parameters));
@@ -100,19 +93,16 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<SuggestionCategory>> GetSuggestionCategoriesAsync() 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObjectAsync<IList<SuggestionCategory>>("users/suggestions.json");
 	    }
 
         public Task<IList<TwitterProfile>> GetSuggestionsAsync(String slug) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>("users/suggestions/{slug}.json", slug);
 	    }
 
         public Task<IList<RateLimitStatus>> GetRateLimitStatusAsync(params string[] resources) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             if (resources.Length > 0)
             {
@@ -124,32 +114,27 @@ namespace Spring.Social.Twitter.Api.Impl
 #if !SILVERLIGHT
 	    public TwitterProfile GetUserProfile() 
         {
-		    this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<TwitterProfile>("account/verify_credentials.json");
 	    }
 
 	    public TwitterProfile GetUserProfile(string screenName) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<TwitterProfile>(this.BuildUrl("users/show.json", "screen_name", screenName));
 	    }
 	
 	    public TwitterProfile GetUserProfile(long userId) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<TwitterProfile>(this.BuildUrl("users/show.json", "user_id", userId.ToString()));
 	    }
 
 	    public IList<TwitterProfile> GetUsers(params long[] userIds) 
         {
-            this.EnsureIsAuthorized();
 		    string joinedIds = ArrayUtils.Join(userIds);
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds));
 	    }
 
 	    public IList<TwitterProfile> GetUsers(params string[] screenNames) 
         {
-            this.EnsureIsAuthorized();
 		    string joinedScreenNames = ArrayUtils.Join(screenNames);
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "screen_name", joinedScreenNames));
 	    }
@@ -161,7 +146,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<TwitterProfile> SearchForUsers(string query, int page, int pageSize) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPerPage(page, pageSize, 0, 0);
 		    parameters.Add("q", query);
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("users/search.json", parameters));
@@ -169,19 +153,16 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<SuggestionCategory> GetSuggestionCategories() 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<IList<SuggestionCategory>>("users/suggestions.json");
 	    }
 
 	    public IList<TwitterProfile> GetSuggestions(String slug) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>("users/suggestions/{slug}.json", slug);
 	    }
 
 	    public IList<RateLimitStatus> GetRateLimitStatus(params string[] resources) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
             if (resources.Length > 0)
             {
@@ -193,32 +174,27 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetUserProfileAsync(Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>("account/verify_credentials.json", operationCompleted);
         }
 
         public RestOperationCanceler GetUserProfileAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "screen_name", screenName), operationCompleted);
         }
 
         public RestOperationCanceler GetUserProfileAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<TwitterProfile>(this.BuildUrl("users/show.json", "user_id", userId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetUsersAsync(long[] userIds, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             string joinedIds = ArrayUtils.Join(userIds);
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds), operationCompleted);
         }
 
         public RestOperationCanceler GetUsersAsync(string[] screenNames, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             string joinedScreenNames = ArrayUtils.Join(screenNames);
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "screen_name", joinedScreenNames), operationCompleted);
         }
@@ -230,7 +206,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler SearchForUsersAsync(string query, int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPerPage(page, pageSize, 0, 0);
             parameters.Add("q", query);
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/search.json", parameters), operationCompleted);
@@ -238,19 +213,16 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetSuggestionCategoriesAsync(Action<RestOperationCompletedEventArgs<IList<SuggestionCategory>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<SuggestionCategory>>("users/suggestions.json", operationCompleted);
         }
 
         public RestOperationCanceler GetSuggestionsAsync(String slug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>("users/suggestions/{slug}.json", operationCompleted, slug);
         }
 
         public RestOperationCanceler GetRateLimitStatusAsync(string[] resources, Action<RestOperationCompletedEventArgs<IList<RateLimitStatus>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             if (resources.Length > 0)
             {

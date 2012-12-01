@@ -23,18 +23,7 @@ string consumerSecret = "..."; // The application's consumer secret
 string accessToken = "..."; // The access token granted after OAuth authorization
 string accessTokenSecret = "..."; // The access token secret granted after OAuth authorization
 ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);]]></programlisting>
-	
-	<para>
-		In addition, <classname>TwitterTemplate</classname> has a default constructor that creates an instance without any OAuth credentials:
-	</para>
-	
-	<programlisting language="csharp"><![CDATA[Twitter twitter = new TwitterTemplate();]]></programlisting>
-	
-	<para>
-		When constructed with the default constructor, <classname>TwitterTemplate</classname> will allow a few simple operations that do not require authorization, 
-    such as searching. Attempting other operations, such as tweeting will fail with an <classname>NotAuthorizedException</classname> being thrown.
-	</para>
-	
+
 	<para>
 		You can also get an instance of <interfacename>ITwitter</interfacename> from the <classname>TwitterServiceProvider</classname> class.
 		<sbr/>The example code below shows use of the <classname>TwitterServiceProvider</classname> to retrieve an instance of <interfacename>ITwitter</interfacename> after authenticating through OAuth1 server-side flow:
@@ -75,11 +64,6 @@ ITwitter twitterApi = serviceProvider.GetApi(accessToken.Value, accessToken.Secr
 
   IRestOperations RestOperations { get; }
 }]]></programlisting>	
-	
-	<para>
-		The <methodname>IApiBinding.IsAuthorized</methodname> property helps determine if the <interfacename>ITwitter</interfacename> instance has been created with credentials to perform on behalf of a user.
-		It will return true if it is capable of performing operations requiring authorization; false otherwise. 			
-	</para>
 	
 	<para>
 		The first eight properties return sub-APIs, partitioning the Twitter service API into divisions targeting specific facets of Twitter functionality.

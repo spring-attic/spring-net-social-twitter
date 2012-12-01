@@ -45,8 +45,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public ListTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public ListTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -56,31 +55,26 @@ namespace Spring.Social.Twitter.Api.Impl
 #if NET_4_0 || SILVERLIGHT_5
         public Task<IList<UserList>> GetListsAsync()
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<UserList>>("lists/list.json");
         }
 
         public Task<IList<UserList>> GetListsAsync(long userId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<UserList>>(this.BuildUrl("lists/list.json", "user_id", userId.ToString()));
 	    }
 
         public Task<IList<UserList>> GetListsAsync(string screenName) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<UserList>>(this.BuildUrl("lists/list.json", "screen_name", screenName));
 	    }
 
         public Task<UserList> GetListAsync(long listId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<UserList>(this.BuildUrl("lists/show.json", "list_id", listId.ToString()));
 	    }
 
         public Task<UserList> GetListAsync(string screenName, string listSlug) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -99,7 +93,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<Tweet>> GetListStatusesAsync(long listId, int count, long sinceId, long maxId) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(count, sinceId, maxId);
 		    parameters.Add("list_id", listId.ToString());
             return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("lists/statuses.json", parameters));
@@ -117,7 +110,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<Tweet>> GetListStatusesAsync(string screenName, string listSlug, int count, long sinceId, long maxId) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(count, sinceId, maxId);
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -126,14 +118,12 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> CreateListAsync(string name, string description, bool isPublic) 
         {	
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = BuildListParameters(name, description, isPublic);
             return this.restTemplate.PostForObjectAsync<UserList>("lists/create.json", request);
 	    }
 
         public Task<UserList> UpdateListAsync(long listId, string name, string description, bool isPublic) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = BuildListParameters(name, description, isPublic);
 		    request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/update.json", request);
@@ -141,7 +131,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> DeleteListAsync(long listId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/destroy.json", request);
@@ -149,13 +138,11 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<TwitterProfile>> GetListMembersAsync(long listId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("lists/members.json", "list_id", listId.ToString()));
 	    }
 
         public Task<IList<TwitterProfile>> GetListMembersAsync(string screenName, string listSlug) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -164,7 +151,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> AddToListAsync(long listId, params long[] newMemberIds) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", ArrayUtils.Join(newMemberIds));
 		    request.Add("list_id", listId.ToString());
@@ -173,7 +159,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> AddToListAsync(long listId, params string[] newMemberScreenNames) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", ArrayUtils.Join(newMemberScreenNames));
 		    request.Add("list_id", listId.ToString());
@@ -182,7 +167,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task RemoveFromListAsync(long listId, long memberId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", memberId.ToString()); 
 		    request.Add("list_id", listId.ToString());
@@ -191,7 +175,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task RemoveFromListAsync(long listId, string memberScreenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", memberScreenName); 
 		    request.Add("list_id", listId.ToString());
@@ -200,23 +183,19 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<TwitterProfile>> GetListSubscribersAsync(long listId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("lists/subscribers.json", "list_id", listId.ToString()));
 	    }
 
         public Task<IList<TwitterProfile>> GetListSubscribersAsync(string screenName, string listSlug) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("lists/subscribers.json", parameters));
 	    }
 
-
         public Task<UserList> SubscribeAsync(long listId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/subscribers/create.json", request);
@@ -224,7 +203,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> SubscribeAsync(string ownerScreenName, string listSlug) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("owner_screen_name", ownerScreenName);
 		    request.Add("slug", listSlug);
@@ -233,7 +211,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> UnsubscribeAsync(long listId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/subscribers/destroy.json", request);
@@ -241,7 +218,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<UserList> UnsubscribeAsync(string ownerScreenName, string listSlug) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("owner_screen_name", ownerScreenName);
 		    request.Add("slug", listSlug);
@@ -250,31 +226,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<UserList>> GetMembershipsAsync(long userId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/memberships.json", "user_id", userId.ToString()));
 	    }
 
         public Task<CursoredList<UserList>> GetMembershipsAsync(string screenName) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/memberships.json", "screen_name", screenName));
 	    }
 
         public Task<CursoredList<UserList>> GetSubscriptionsAsync(long userId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/subscriptions.json", "user_id", userId.ToString()));
 	    }
 
         public Task<CursoredList<UserList>> GetSubscriptionsAsync(string screenName) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/subscriptions.json", "screen_name", screenName));
 	    }
 
         public Task<bool> IsMemberAsync(long listId, long memberId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("list_id", listId.ToString());
 		    parameters.Add("user_id", memberId.ToString());
@@ -283,7 +254,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<bool> IsMemberAsync(string screenName, string listSlug, string memberScreenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -293,7 +263,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<bool> IsSubscriberAsync(long listId, long subscriberId) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("list_id", listId.ToString());
 		    parameters.Add("user_id", subscriberId.ToString());
@@ -302,7 +271,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<bool> IsSubscriberAsync(string screenName, string listSlug, string subscriberScreenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -313,31 +281,26 @@ namespace Spring.Social.Twitter.Api.Impl
 #if !SILVERLIGHT
         public IList<UserList> GetLists()
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObject<IList<UserList>>("lists/list.json");
         }
 
 	    public IList<UserList> GetLists(long userId) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObject<IList<UserList>>(this.BuildUrl("lists/list.json", "user_id", userId.ToString()));
 	    }
 	
 	    public IList<UserList> GetLists(string screenName) 
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObject<IList<UserList>>(this.BuildUrl("lists/list.json", "screen_name", screenName));
 	    }
 	
 	    public UserList GetList(long listId) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<UserList>(this.BuildUrl("lists/show.json", "list_id", listId.ToString()));
 	    }
 
 	    public UserList GetList(string screenName, string listSlug) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -356,7 +319,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<Tweet> GetListStatuses(long listId, int count, long sinceId, long maxId) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(count, sinceId, maxId);
 		    parameters.Add("list_id", listId.ToString());
 		    return this.restTemplate.GetForObject<IList<Tweet>>(this.BuildUrl("lists/statuses.json", parameters));
@@ -374,7 +336,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<Tweet> GetListStatuses(string screenName, string listSlug, int count, long sinceId, long maxId) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(count, sinceId, maxId);
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -383,14 +344,12 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList CreateList(string name, string description, bool isPublic) 
         {	
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = BuildListParameters(name, description, isPublic);
 		    return this.restTemplate.PostForObject<UserList>("lists/create.json", request);
 	    }
 
 	    public UserList UpdateList(long listId, string name, string description, bool isPublic) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = BuildListParameters(name, description, isPublic);
 		    request.Add("list_id", listId.ToString());
 		    return this.restTemplate.PostForObject<UserList>("lists/update.json", request);
@@ -398,7 +357,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList DeleteList(long listId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
             request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObject<UserList>("lists/destroy.json", request);
@@ -406,13 +364,11 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<TwitterProfile> GetListMembers(long listId) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("lists/members.json", "list_id", listId.ToString()));
 	    }
 	
 	    public IList<TwitterProfile> GetListMembers(string screenName, string listSlug) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -421,7 +377,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList AddToList(long listId, params long[] newMemberIds) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", ArrayUtils.Join(newMemberIds));
 		    request.Add("list_id", listId.ToString());
@@ -430,7 +385,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList AddToList(long listId, params string[] newMemberScreenNames) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", ArrayUtils.Join(newMemberScreenNames));
 		    request.Add("list_id", listId.ToString());
@@ -439,7 +393,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public void RemoveFromList(long listId, long memberId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", memberId.ToString()); 
 		    request.Add("list_id", listId.ToString());
@@ -448,7 +401,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public void RemoveFromList(long listId, string memberScreenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", memberScreenName); 
 		    request.Add("list_id", listId.ToString());
@@ -457,13 +409,11 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<TwitterProfile> GetListSubscribers(long listId) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("lists/subscribers.json", "list_id", listId.ToString()));
 	    }
 
 	    public IList<TwitterProfile> GetListSubscribers(string screenName, string listSlug) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -472,7 +422,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public UserList Subscribe(long listId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("list_id", listId.ToString());
 		    return this.restTemplate.PostForObject<UserList>("lists/subscribers/create.json", request);
@@ -480,7 +429,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList Subscribe(string ownerScreenName, string listSlug) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("owner_screen_name", ownerScreenName);
 		    request.Add("slug", listSlug);
@@ -489,7 +437,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList Unsubscribe(long listId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("list_id", listId.ToString());
 		    return this.restTemplate.PostForObject<UserList>("lists/subscribers/destroy.json", request);
@@ -497,7 +444,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public UserList Unsubscribe(string ownerScreenName, string listSlug) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("owner_screen_name", ownerScreenName);
 		    request.Add("slug", listSlug);
@@ -506,31 +452,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public CursoredList<UserList> GetMemberships(long userId) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<UserList>>(this.BuildUrl("lists/memberships.json", "user_id", userId.ToString()));
 	    }
 
 	    public CursoredList<UserList> GetMemberships(string screenName) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<UserList>>(this.BuildUrl("lists/memberships.json", "screen_name", screenName));
 	    }
 
 	    public CursoredList<UserList> GetSubscriptions(long userId) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<UserList>>(this.BuildUrl("lists/subscriptions.json", "user_id", userId.ToString()));
 	    }
 
 	    public CursoredList<UserList> GetSubscriptions(string screenName) 
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<UserList>>(this.BuildUrl("lists/subscriptions.json", "screen_name", screenName));
 	    }
 
 	    public bool IsMember(long listId, long memberId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("list_id", listId.ToString());
 		    parameters.Add("user_id", memberId.ToString());
@@ -539,7 +480,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public bool IsMember(string screenName, string listSlug, string memberScreenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("owner_screen_name", screenName);
 		    parameters.Add("slug", listSlug);
@@ -549,7 +489,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public bool IsSubscriber(long listId, long subscriberId) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("list_id", listId.ToString());
 		    parameters.Add("user_id", subscriberId.ToString());
@@ -558,7 +497,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public bool IsSubscriber(string screenName, string listSlug, string subscriberScreenName) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -569,31 +507,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetListsAsync(Action<RestOperationCompletedEventArgs<IList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<UserList>>("lists/list.json", operationCompleted);
         }
 
         public RestOperationCanceler GetListsAsync(long userId, Action<RestOperationCompletedEventArgs<IList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<UserList>>(this.BuildUrl("lists/list.json", "user_id", userId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetListsAsync(string screenName, Action<RestOperationCompletedEventArgs<IList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<UserList>>(this.BuildUrl("lists/list.json", "screen_name", screenName), operationCompleted);
         }
 
         public RestOperationCanceler GetListAsync(long listId, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<UserList>(this.BuildUrl("lists/show.json", "list_id", listId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetListAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -612,7 +545,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetListStatusesAsync(long listId, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(count, sinceId, maxId);
             parameters.Add("list_id", listId.ToString());
             return this.restTemplate.GetForObjectAsync<IList<Tweet>>(this.BuildUrl("lists/statuses.json", parameters), operationCompleted);
@@ -630,7 +562,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetListStatusesAsync(string screenName, string listSlug, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<Tweet>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithCount(count, sinceId, maxId);
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -639,14 +570,12 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler CreateListAsync(string name, string description, bool isPublic, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = BuildListParameters(name, description, isPublic);
             return this.restTemplate.PostForObjectAsync<UserList>("lists/create.json", request, operationCompleted);
         }
 
         public RestOperationCanceler UpdateListAsync(long listId, string name, string description, bool isPublic, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = BuildListParameters(name, description, isPublic);
             request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/update.json", request, operationCompleted);
@@ -654,7 +583,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler DeleteListAsync(long listId, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/destroy.json", request, operationCompleted);
@@ -662,13 +590,11 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetListMembersAsync(long listId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("lists/members.json", "list_id", listId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetListMembersAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -677,7 +603,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler AddToListAsync(long listId, long[] newMemberIds, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", ArrayUtils.Join(newMemberIds));
             request.Add("list_id", listId.ToString());
@@ -686,7 +611,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler AddToListAsync(long listId, string[] newMemberScreenNames, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", ArrayUtils.Join(newMemberScreenNames));
             request.Add("list_id", listId.ToString());
@@ -695,7 +619,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler RemoveFromListAsync(long listId, long memberId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", memberId.ToString());
             request.Add("list_id", listId.ToString());
@@ -704,7 +627,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler RemoveFromListAsync(long listId, string memberScreenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", memberScreenName);
             request.Add("list_id", listId.ToString());
@@ -713,13 +635,11 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetListSubscribersAsync(long listId, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("lists/subscribers.json", "list_id", listId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetListSubscribersAsync(string screenName, string listSlug, Action<RestOperationCompletedEventArgs<IList<TwitterProfile>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -728,7 +648,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler SubscribeAsync(long listId, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/subscribers/create.json", request, operationCompleted);
@@ -736,7 +655,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler SubscribeAsync(string ownerScreenName, string listSlug, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("owner_screen_name", ownerScreenName);
             request.Add("slug", listSlug);
@@ -745,7 +663,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler UnsubscribeAsync(long listId, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("list_id", listId.ToString());
             return this.restTemplate.PostForObjectAsync<UserList>("lists/subscribers/destroy.json", request, operationCompleted);
@@ -753,7 +670,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler UnsubscribeAsync(string ownerScreenName, string listSlug, Action<RestOperationCompletedEventArgs<UserList>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("owner_screen_name", ownerScreenName);
             request.Add("slug", listSlug);
@@ -762,31 +678,26 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetMembershipsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/memberships.json", "user_id", userId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetMembershipsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/memberships.json", "screen_name", screenName), operationCompleted);
         }
 
         public RestOperationCanceler GetSubscriptionsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/subscriptions.json", "user_id", userId.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetSubscriptionsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<UserList>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<UserList>>(this.BuildUrl("lists/subscriptions.json", "screen_name", screenName), operationCompleted);
         }
 
         public RestOperationCanceler IsMemberAsync(long listId, long memberId, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("list_id", listId.ToString());
             parameters.Add("user_id", memberId.ToString());
@@ -795,7 +706,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler IsMemberAsync(string screenName, string listSlug, string memberScreenName, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);
@@ -805,7 +715,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler IsSubscriberAsync(long listId, long subscriberId, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("list_id", listId.ToString());
             parameters.Add("user_id", subscriberId.ToString());
@@ -814,7 +723,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler IsSubscriberAsync(string screenName, string listSlug, string subscriberScreenName, Action<RestOperationCompletedEventArgs<bool>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("owner_screen_name", screenName);
             parameters.Add("slug", listSlug);

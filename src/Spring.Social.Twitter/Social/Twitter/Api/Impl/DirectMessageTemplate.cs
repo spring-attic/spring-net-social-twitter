@@ -42,8 +42,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public DirectMessageTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public DirectMessageTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -63,7 +62,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<DirectMessage>> GetDirectMessagesReceivedAsync(int page, int pageSize, long sinceId, long maxId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPageCount(page, pageSize, sinceId, maxId);
             return this.restTemplate.GetForObjectAsync<IList<DirectMessage>>(this.BuildUrl("direct_messages.json", parameters));
 	    }
@@ -80,20 +78,17 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<DirectMessage>> GetDirectMessagesSentAsync(int page, int pageSize, long sinceId, long maxId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPageCount(page, pageSize, sinceId, maxId);
             return this.restTemplate.GetForObjectAsync<IList<DirectMessage>>(this.BuildUrl("direct_messages/sent.json", parameters));
 	    }
 
         public Task<DirectMessage> GetDirectMessageAsync(long id) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<DirectMessage>(this.BuildUrl("direct_messages/show.json", "id", id.ToString()));
 	    }
 
         public Task<DirectMessage> SendDirectMessageAsync(string toScreenName, string text) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", toScreenName);
 		    request.Add("text", text);
@@ -102,7 +97,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<DirectMessage> SendDirectMessageAsync(long toUserId, string text) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", toUserId.ToString());
 		    request.Add("text", text);
@@ -111,7 +105,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<DirectMessage> DeleteDirectMessageAsync(long messageId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("id", messageId.ToString());
             return this.restTemplate.PostForObjectAsync<DirectMessage>("direct_messages/destroy.json", request);
@@ -130,7 +123,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<DirectMessage> GetDirectMessagesReceived(int page, int pageSize, long sinceId, long maxId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPageCount(page, pageSize, sinceId, maxId);
 		    return this.restTemplate.GetForObject<IList<DirectMessage>>(this.BuildUrl("direct_messages.json", parameters));
 	    }
@@ -147,20 +139,17 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public IList<DirectMessage> GetDirectMessagesSent(int page, int pageSize, long sinceId, long maxId) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPageCount(page, pageSize, sinceId, maxId);
 		    return this.restTemplate.GetForObject<IList<DirectMessage>>(this.BuildUrl("direct_messages/sent.json", parameters));
 	    }
 	
 	    public DirectMessage GetDirectMessage(long id) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObject<DirectMessage>(this.BuildUrl("direct_messages/show.json", "id", id.ToString()));
 	    }
 
 	    public DirectMessage SendDirectMessage(string toScreenName, string text) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("screen_name", toScreenName);
 		    request.Add("text", text);
@@ -169,7 +158,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public DirectMessage SendDirectMessage(long toUserId, String text) 
         {
-		    this.EnsureIsAuthorized();
 		    NameValueCollection request = new NameValueCollection();
 		    request.Add("user_id", toUserId.ToString());
 		    request.Add("text", text);
@@ -178,7 +166,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public DirectMessage DeleteDirectMessage(long messageId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("id", messageId.ToString());
             return this.restTemplate.PostForObject<DirectMessage>("direct_messages/destroy.json", request);
@@ -197,7 +184,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetDirectMessagesReceivedAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPageCount(page, pageSize, sinceId, maxId);
             return this.restTemplate.GetForObjectAsync<IList<DirectMessage>>(this.BuildUrl("direct_messages.json", parameters), operationCompleted);
         }
@@ -214,20 +200,17 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetDirectMessagesSentAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = PagingUtils.BuildPagingParametersWithPageCount(page, pageSize, sinceId, maxId);
             return this.restTemplate.GetForObjectAsync<IList<DirectMessage>>(this.BuildUrl("direct_messages/sent.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetDirectMessageAsync(long id, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<DirectMessage>(this.BuildUrl("direct_messages/show.json", "id", id.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler SendDirectMessageAsync(string toScreenName, string text, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", toScreenName);
             request.Add("text", text);
@@ -236,7 +219,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler SendDirectMessageAsync(long toUserId, string text, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", toUserId.ToString());
             request.Add("text", text);
@@ -245,7 +227,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler DeleteDirectMessageAsync(long messageId, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("id", messageId.ToString());
             return this.restTemplate.PostForObjectAsync<DirectMessage>("direct_messages/destroy.json", request, operationCompleted);

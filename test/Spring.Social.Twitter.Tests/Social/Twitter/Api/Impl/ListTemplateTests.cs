@@ -52,18 +52,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetLists_CurrentUser_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListsAsync();
-#else
-            unauthorizedTwitter.ListOperations.GetLists();
-#endif
-        }
-
-        [Test]
         public void GetLists_ById()
         {
             mockServer.ExpectNewRequest()
@@ -75,18 +63,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertListOfLists(twitter.ListOperations.GetListsAsync(161064614).Result);
 #else
             AssertListOfLists(twitter.ListOperations.GetLists(161064614));
-#endif
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetLists_ById_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListsAsync(161064614).Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetLists(161064614);
 #endif
         }
 
@@ -106,18 +82,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetLists_ByScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListsAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetLists("habuma");
-#endif
-        }
-
-        [Test]
         public void GetList_ByListId()
         {
             mockServer.ExpectNewRequest()
@@ -129,18 +93,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertSingleList(twitter.ListOperations.GetListAsync(40841803).Result);
 #else
             AssertSingleList(twitter.ListOperations.GetList(40841803));
-#endif
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetList_ByListId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListAsync(40841803).Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetList(40841803);
 #endif
         }
 
@@ -177,18 +129,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void CreateList_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.CreateListAsync("forfun2", "Just for Fun, too", false).Wait();
-#else
-            unauthorizedTwitter.ListOperations.CreateList("forfun2", "Just for Fun, too", false);
-#endif
-        }
-
-        [Test]
         public void UpdateList_PublicListForUserId()
         {
             mockServer.ExpectNewRequest()
@@ -221,18 +161,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void UpdateList_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.UpdateListAsync(40841803, "forfun2", "Just for Fun, too", false).Wait();
-#else
-            unauthorizedTwitter.ListOperations.UpdateList(40841803, "forfun2", "Just for Fun, too", false);
-#endif
-        }
-
-        [Test]
         public void DeleteList_ForUserIdByListId()
         {
             mockServer.ExpectNewRequest()
@@ -247,18 +175,6 @@ namespace Spring.Social.Twitter.Api.Impl
             UserList deletedList = twitter.ListOperations.DeleteList(40841803);
 #endif
             AssertSingleList(deletedList);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void DeleteList_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.DeleteListAsync(40841803).Wait();
-#else
-            unauthorizedTwitter.ListOperations.DeleteList(40841803);
-#endif
         }
 
         [Test]
@@ -277,18 +193,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetListMembers_ByUserIdAndListId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListMembersAsync(40841803).Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetListMembers(40841803);
-#endif
-        }
-
-        [Test]
         public void GetListMembers_ByScreenNameAndListSlug() 
         {
 		    mockServer.ExpectNewRequest()
@@ -300,18 +204,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    AssertListMembers(twitter.ListOperations.GetListMembersAsync("habuma", "forfun").Result);
 #else
             AssertListMembers(twitter.ListOperations.GetListMembers("habuma", "forfun"));
-#endif
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetListMembers_ByScreenNameAndListSlug_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListMembersAsync("habuma", "forfun").Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetListMembers("habuma", "forfun");
 #endif
         }
 
@@ -348,42 +240,18 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void AddToList_ForUserIdListId_Unauthorized()
+        public void AddToList_ForScreenNameMultiple()
         {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.AddToListAsync(40841803, 123456).Wait();
-#else
-            unauthorizedTwitter.ListOperations.AddToList(40841803, 123456);
-#endif
-        }
-
-        [Test]
-        public void AddToList_ForScreenNameMultiple() 
-        {
-		    mockServer.ExpectNewRequest()
+            mockServer.ExpectNewRequest()
                 .AndExpectUri("https://api.twitter.com/1.1/lists/members/create_all.json")
-			    .AndExpectMethod(HttpMethod.POST)
-			    .AndExpectBody("screen_name=habuma%2Croyclarkson&list_id=40841803")
-			    .AndRespondWith(JsonResource("Single_List"), responseHeaders);		
+                .AndExpectMethod(HttpMethod.POST)
+                .AndExpectBody("screen_name=habuma%2Croyclarkson&list_id=40841803")
+                .AndRespondWith(JsonResource("Single_List"), responseHeaders);
 
 #if NET_4_0 || SILVERLIGHT_5
-		    AssertSingleList(twitter.ListOperations.AddToListAsync(40841803, "habuma", "royclarkson").Result);
+            AssertSingleList(twitter.ListOperations.AddToListAsync(40841803, "habuma", "royclarkson").Result);
 #else
             AssertSingleList(twitter.ListOperations.AddToList(40841803, "habuma", "royclarkson"));
-#endif
-	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void AddToList_ForScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.AddToListAsync(40841803, "habuma", "royclarkson").Wait();
-#else
-            unauthorizedTwitter.ListOperations.AddToList(40841803, "habuma", "royclarkson");
 #endif
         }
 
@@ -404,18 +272,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void RemoveFromList_OwnerIdListIdMemberId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.RemoveFromListAsync(40841803, 12345).Wait();
-#else
-            unauthorizedTwitter.ListOperations.RemoveFromList(40841803, 12345);
-#endif
-        }
-
-        [Test]
         public void RemoveFromList_ScreenName()
         {
             mockServer.ExpectNewRequest()
@@ -428,18 +284,6 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.ListOperations.RemoveFromListAsync(40841803, "habuma").Wait();
 #else
             twitter.ListOperations.RemoveFromList(40841803, "habuma");
-#endif
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void RemoveFromList_ScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.RemoveFromListAsync(40841803, "habuma").Wait();
-#else
-            unauthorizedTwitter.ListOperations.RemoveFromList(40841803, "habuma");
 #endif
         }
 
@@ -459,18 +303,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetListSubscribers_ByUserIdAndListId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListSubscribersAsync(40841803).Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetListSubscribers(40841803);
-#endif
-        }
-
-        [Test]
         public void GetListSubscribers_ByScreenNameAndListSlug() 
         {
 		    mockServer.ExpectNewRequest()
@@ -486,18 +318,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetListSubscribers_ByScreenNameAndListSlug_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetListSubscribersAsync("habuma", "forfun").Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetListSubscribers("habuma", "forfun");
-#endif
-        }
-
-        [Test]
         public void GetMemberships_ForUserId()
         {
             mockServer.ExpectNewRequest()
@@ -509,18 +329,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertCursoredListOfLists(twitter.ListOperations.GetMembershipsAsync(161064614).Result);
 #else
             AssertCursoredListOfLists(twitter.ListOperations.GetMemberships(161064614));
-#endif
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetMemberships_ForUserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetMembershipsAsync(161064614).Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetMemberships(161064614);
 #endif
         }
 
@@ -540,18 +348,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetMemberships_ForScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetMembershipsAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetMemberships("habuma");
-#endif
-        }
-
-        [Test]
         public void GetSubscriptions_ForUserId()
         {
             mockServer.ExpectNewRequest()
@@ -567,18 +363,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetSubscriptions_ForUserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetSubscriptionsAsync(161064614).Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetSubscriptions(161064614);
-#endif
-        }
-
-        [Test]
         public void GetSubscriptions_ForScreenName() 
         {
 		    mockServer.ExpectNewRequest()
@@ -590,18 +374,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    AssertCursoredListOfLists(twitter.ListOperations.GetSubscriptionsAsync("habuma").Result);
 #else
             AssertCursoredListOfLists(twitter.ListOperations.GetSubscriptions("habuma"));
-#endif
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetSubscriptions_ForScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.GetSubscriptionsAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.ListOperations.GetSubscriptions("habuma");
 #endif
         }
 
@@ -707,18 +479,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Subscribe_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.SubscribeAsync(54321).Wait();
-#else
-            unauthorizedTwitter.ListOperations.Subscribe(54321);
-#endif
-        }
-
-        [Test]
         public void Subscribe_usernameAndSlug()
         {
             mockServer.ExpectNewRequest()
@@ -733,18 +493,6 @@ namespace Spring.Social.Twitter.Api.Impl
             UserList list = twitter.ListOperations.Subscribe("habuma", "somelist");
 #endif
             AssertSingleList(list);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Subscribe_usernameAndSlug_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.SubscribeAsync("habuma", "somelist").Wait();
-#else
-            unauthorizedTwitter.ListOperations.Subscribe("habuma", "somelist");
-#endif
         }
 
         [Test]
@@ -765,18 +513,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Unsubscribe_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.UnsubscribeAsync(54321).Wait();
-#else
-            unauthorizedTwitter.ListOperations.Unsubscribe(54321);
-#endif
-        }
-
-        [Test]
         public void Unsubscribe_UsernameAndSlug()
         {
             mockServer.ExpectNewRequest()
@@ -791,18 +527,6 @@ namespace Spring.Social.Twitter.Api.Impl
             UserList list = twitter.ListOperations.Unsubscribe("habuma", "somelist");
 #endif
             AssertSingleList(list);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Unsubscribe_UsernameAndSlug_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.ListOperations.UnsubscribeAsync("habuma", "somelist").Wait();
-#else
-            unauthorizedTwitter.ListOperations.Unsubscribe("habuma", "somelist");
-#endif
         }
 
         [Test]

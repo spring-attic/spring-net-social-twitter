@@ -65,20 +65,6 @@ namespace Spring.Social.Twitter.Api.Impl
         private IUserOperations userOperations;
 
         /// <summary>
-        /// Create a new instance of <see cref="TwitterTemplate"/> able to perform unauthenticated operations against Twitter's API.
-        /// </summary>
-        /// <remarks>
-        /// Some operations, such as search, do not require OAuth authentication. 
-        /// A TwitterTemplate created with this constructor will support those operations. 
-        /// Any operations requiring authentication will throw an <see cref="TwitterApiException"/>.
-        /// </remarks>
-	    public TwitterTemplate() 
-            : base()
-        {
-            this.InitSubApis();
-	    }
-
-        /// <summary>
         /// Create a new instance of <see cref="TwitterTemplate"/>.
         /// </summary>
         /// <param name="consumerKey">The application's API key.</param>
@@ -238,14 +224,14 @@ namespace Spring.Social.Twitter.Api.Impl
 
         private void InitSubApis()
         {
-            this.blockOperations = new BlockTemplate(this.RestTemplate, this.IsAuthorized);
-            this.directMessageOperations = new DirectMessageTemplate(this.RestTemplate, this.IsAuthorized);
-            this.friendOperations = new FriendTemplate(this.RestTemplate, this.IsAuthorized);
-            this.geoOperations = new GeoTemplate(this.RestTemplate, this.IsAuthorized);
-            this.listOperations = new ListTemplate(this.RestTemplate, this.IsAuthorized);
-            this.searchOperations = new SearchTemplate(this.RestTemplate, this.IsAuthorized);
-            this.timelineOperations = new TimelineTemplate(this.RestTemplate, this.IsAuthorized);
-            this.userOperations = new UserTemplate(this.RestTemplate, this.IsAuthorized);
+            this.blockOperations = new BlockTemplate(this.RestTemplate);
+            this.directMessageOperations = new DirectMessageTemplate(this.RestTemplate);
+            this.friendOperations = new FriendTemplate(this.RestTemplate);
+            this.geoOperations = new GeoTemplate(this.RestTemplate);
+            this.listOperations = new ListTemplate(this.RestTemplate);
+            this.searchOperations = new SearchTemplate(this.RestTemplate);
+            this.timelineOperations = new TimelineTemplate(this.RestTemplate);
+            this.userOperations = new UserTemplate(this.RestTemplate);
         }
     }
 }

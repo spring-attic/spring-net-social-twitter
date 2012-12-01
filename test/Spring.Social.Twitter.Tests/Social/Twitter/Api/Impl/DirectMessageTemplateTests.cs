@@ -87,18 +87,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetDirectMessagesReceived_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.DirectMessageOperations.GetDirectMessagesReceivedAsync().Wait();
-#else
-            unauthorizedTwitter.DirectMessageOperations.GetDirectMessagesReceived();
-#endif
-        }
-
-	    [Test]
 	    public void GetDirectMessagesSent() 
         {
 		    mockServer.ExpectNewRequest()
@@ -145,18 +133,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertDirectMessageListContents(messages);
 	    }
-
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetDirectMessagesSent_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.DirectMessageOperations.GetDirectMessagesSentAsync().Wait();
-#else
-            unauthorizedTwitter.DirectMessageOperations.GetDirectMessagesSent();
-#endif
-        }
 
 	    [Test]
 	    public void GetDirectMessage() 
@@ -220,18 +196,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void SendDirectMessaage_ToScreenName_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.DirectMessageOperations.SendDirectMessageAsync("habuma", "Hello there!").Wait();
-#else
-            unauthorizedTwitter.DirectMessageOperations.SendDirectMessage("habuma", "Hello there!");
-#endif
-        }
-
-	    [Test]
 	    public void SendDirectMessage_ToUserId() 
         {
 		    mockServer.ExpectNewRequest()
@@ -249,18 +213,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 	
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void SendDirectMessaage_ToUserId_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.DirectMessageOperations.SendDirectMessageAsync(112233, "Hello there!").Wait();
-#else
-            unauthorizedTwitter.DirectMessageOperations.SendDirectMessage(112233, "Hello there!");
-#endif
-        }
-	
-	    [Test]
 	    public void DeleteDirectMessage() 
         {
 		    mockServer.ExpectNewRequest()
@@ -275,18 +227,6 @@ namespace Spring.Social.Twitter.Api.Impl
             DirectMessage message = twitter.DirectMessageOperations.DeleteDirectMessage(42);
 #endif
             AssertSingleDirectMessage(message);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void DeleteDirectMessage_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.DirectMessageOperations.DeleteDirectMessageAsync(42).Wait();
-#else
-            unauthorizedTwitter.DirectMessageOperations.DeleteDirectMessage(42);
-#endif
         }
 
 

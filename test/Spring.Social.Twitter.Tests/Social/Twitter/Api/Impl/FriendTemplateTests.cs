@@ -76,18 +76,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertFriendsFollowers(friends);
 	    }
-
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetFriends_CurrentUser_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.GetFriendsAsync().Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFriends();
-#endif
-        }
 	
 	    [Test]
 	    public void GetFriends_ByUserId() 
@@ -129,18 +117,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertFriendsFollowers(friends);
 	    }
 
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFriends_ByUserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFriendsAsync(98765L).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFriends(98765L);
-#endif
-        }
-
 	    [Test]
 	    public void GetFriends_ByScreenName() 
         {
@@ -180,18 +156,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertFriendsFollowers(friends);
 	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFriends_ByScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFriendsAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFriends("habuma");
-#endif
-        }
 
 	    [Test]
 	    public void GetFriends_CurrentUser_NoFriends() 
@@ -263,18 +227,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetFriendIds_CurrentUser_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.GetFriendIdsAsync().Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFriendIds();
-#endif
-        }
-
-	    [Test]
 	    public void GetFriendIdsInCursor_CurrentUser() 
         {
 		    mockServer.ExpectNewRequest()
@@ -322,18 +274,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertFriendFollowerIdsList(friendIds);
 	    }
 
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFriendIds_ByUserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFriendIdsAsync(98765L).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFriendIds(98765L);
-#endif
-        }
-
 	    [Test]
 	    public void GetFriendIds_ByScreenName() 
         {
@@ -365,18 +305,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertFriendFollowerIdsList(friendIds);
 	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFriendIds_ByScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFriendIdsAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFriendIds("habuma");
-#endif
-        }
 
 	    [Test] 
 	    public void GetFollowers_currentUser() 
@@ -422,18 +350,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("kdonald", followers[1].ScreenName);
 	    }
 
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetFollowers_currentUser_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.GetFollowersAsync().Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFollowers();
-#endif
-        }
-
 	    [Test] 
 	    public void GetFollowers_ByUserId() 
         {
@@ -478,18 +394,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("kdonald", followers[1].ScreenName);
 	    }
 
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFollowers_ByUserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFollowersAsync(98765L).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFollowers(98765L);
-#endif
-        }
-
 	    [Test] 
 	    public void GetFollowers_ByScreenName() 
         {
@@ -533,18 +437,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("royclarkson", followers[0].ScreenName);
 		    Assert.AreEqual("kdonald", followers[1].ScreenName);
 	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFollowers_ByScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFollowersAsync("oizik").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFollowers("oizik");
-#endif
-        }
 
 	    [Test]
 	    public void GetFriends_CurrentUser_NoFollowers() 
@@ -632,18 +524,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetFollowerIds_CurrentUser_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.GetFollowerIdsAsync().Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFollowerIds();
-#endif
-        }
-
-	    [Test]
 	    public void GetFollowerIds_ByUserId() 
         {
 		    mockServer.ExpectNewRequest()
@@ -674,18 +554,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertFriendFollowerIdsList(followerIds);
 	    }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFollowerIds_ByUserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFollowerIdsAsync(98765L).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFollowerIds(98765L);
-#endif
-        }
 
 	    [Test]
 	    public void GetFollowerIds_ByScreenName() 
@@ -719,18 +587,6 @@ namespace Spring.Social.Twitter.Api.Impl
             AssertFriendFollowerIdsList(followerIds);
 	    }
 
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetFollowerIds_ByScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.GetFollowerIdsAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetFollowerIds("habuma");
-#endif
-        }
-
 	    [Test]
 	    public void Follow_ByUserId() 
         {
@@ -747,19 +603,7 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             Assert.AreEqual("oizik2", followedUser.ScreenName);
 	    }
-	
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void Follow_ByUserId_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.FollowAsync(98765).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.Follow(98765);
-#endif
-        }
-	
+
 	    [Test]
 	    public void Follow_ByScreenName() 
         {
@@ -776,18 +620,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             Assert.AreEqual("oizik2", followedUser.ScreenName);
 	    }
-	
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void Follow_ByScreenName_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.FollowAsync("aizik2").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.Follow("aizik2");
-#endif
-        }
 	
 	    [Test]
 	    public void Unfollow_ByUserId() 
@@ -807,18 +639,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void Unfollow_ByUserId_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.UnfollowAsync(98765).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.Unfollow(98765);
-#endif
-        }
-
-	    [Test]
 	    public void Unfollow_ByScreenName() 
         {
             mockServer.ExpectNewRequest()
@@ -834,18 +654,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             Assert.AreEqual("oizik2", unFollowedUser.ScreenName);
         }
-	
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void Unfollow_ByScreenName_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.FriendOperations.UnfollowAsync("aizik2").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.Unfollow("aizik2");
-#endif
-        }
 
 	    [Test]
 	    public void EnableNotifications_ByUserId() 
@@ -860,18 +668,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    twitter.FriendOperations.EnableNotificationsAsync(98765).Wait();
 #else
             twitter.FriendOperations.EnableNotifications(98765);
-#endif
-        }
-
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void EnableNotifications_ByUserId_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.EnableNotificationsAsync(98765).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.EnableNotifications(98765);
 #endif
         }
 	
@@ -892,18 +688,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
 	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void EnableNotifications_ByScreenName_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.EnableNotificationsAsync("oizik2").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.EnableNotifications("oizik2");
-#endif
-        }
-
-	    [Test]
 	    public void DisableNotifications_ByUserId() 
         {
             mockServer.ExpectNewRequest()
@@ -916,18 +700,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    twitter.FriendOperations.DisableNotificationsAsync(98765).Wait();
 #else
             twitter.FriendOperations.DisableNotifications(98765);
-#endif
-        }
-
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void DisableNotifications_ByUserId_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.DisableNotificationsAsync(98765).Wait();
-#else
-            unauthorizedTwitter.FriendOperations.DisableNotifications(98765);
 #endif
         }
 	
@@ -944,18 +716,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    twitter.FriendOperations.DisableNotificationsAsync("oizik2").Wait();
 #else
             twitter.FriendOperations.DisableNotifications("oizik2");
-#endif
-        }
-	
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void disableNotifications_ByScreenName_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.DisableNotificationsAsync("oizik2").Wait();
-#else
-            unauthorizedTwitter.FriendOperations.DisableNotifications("oizik2");
 #endif
         }
 	
@@ -990,18 +750,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertIncomingOutgoingFriendships(friendships);
 	    }
-
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetIncomingFriendships_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.GetIncomingFriendshipsAsync().Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetIncomingFriendships();
-#endif
-        }
 	
 	    [Test]
 	    public void GetOutgoingFriendships() 
@@ -1034,18 +782,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertIncomingOutgoingFriendships(friendships);
 	    }
-
-	    [Test]
-	    [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetOutgoingFriendships_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.FriendOperations.GetOutgoingFriendshipsAsync().Wait();
-#else
-            unauthorizedTwitter.FriendOperations.GetOutgoingFriendships();
-#endif
-        }
 
 
         // test helpers

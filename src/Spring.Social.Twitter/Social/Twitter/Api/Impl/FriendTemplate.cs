@@ -44,8 +44,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public FriendTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public FriendTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -102,7 +101,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFriendIdsInCursorAsync(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friends/ids.json", "cursor", cursor.ToString()));
 	    }
 
@@ -113,7 +111,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFriendIdsInCursorAsync(long userId, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -127,7 +124,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFriendIdsInCursorAsync(string screenName, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -183,7 +179,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFollowerIdsInCursorAsync(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("followers/ids.json", "cursor", cursor.ToString()));
 	    }
 
@@ -194,7 +189,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFollowerIdsInCursorAsync(long userId, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -208,7 +202,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetFollowerIdsInCursorAsync(string screenName, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -217,7 +210,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> FollowAsync(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request);
@@ -225,7 +217,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> FollowAsync(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request);
@@ -233,7 +224,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> UnfollowAsync(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request);
@@ -241,7 +231,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<TwitterProfile> UnfollowAsync(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request);
@@ -249,7 +238,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task EnableNotificationsAsync(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             request.Add("device", "true");
@@ -258,7 +246,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task EnableNotificationsAsync(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             request.Add("device", "true");
@@ -267,7 +254,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task DisableNotificationsAsync(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             request.Add("device", "false");
@@ -276,7 +262,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task DisableNotificationsAsync(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             request.Add("device", "false");
@@ -290,7 +275,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetIncomingFriendshipsAsync(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friendships/incoming.json", "cursor", cursor.ToString()));
 	    }
 
@@ -301,7 +285,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<long>> GetOutgoingFriendshipsAsync(long cursor) 
         {
-		    this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friendships/outgoing.json", "cursor", cursor.ToString()));
 	    }
 #else
@@ -346,7 +329,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFriendIdsInCursor(long cursor) 
         {
-		    this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<long>>(this.BuildUrl("friends/ids.json", "cursor", cursor.ToString()));
 	    }
 
@@ -357,7 +339,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFriendIdsInCursor(long userId, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -371,7 +352,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFriendIdsInCursor(string screenName, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -418,7 +398,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFollowerIdsInCursor(long cursor) 
         {
-		    this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<long>>(this.BuildUrl("followers/ids.json", "cursor", cursor.ToString()));
 	    }
 
@@ -429,7 +408,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFollowerIdsInCursor(long userId, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("user_id", userId.ToString());
@@ -443,7 +421,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetFollowerIdsInCursor(string screenName, long cursor) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = new NameValueCollection();
 		    parameters.Add("cursor", cursor.ToString());
 		    parameters.Add("screen_name", screenName);
@@ -452,7 +429,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public TwitterProfile Follow(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
 		    return this.restTemplate.PostForObject<TwitterProfile>("friendships/create.json", request);
@@ -460,7 +436,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public TwitterProfile Follow(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObject<TwitterProfile>("friendships/create.json", request);
@@ -468,7 +443,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public TwitterProfile Unfollow(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
 		    return this.restTemplate.PostForObject<TwitterProfile>("friendships/destroy.json", request);
@@ -476,7 +450,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public TwitterProfile Unfollow(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
 		    return this.restTemplate.PostForObject<TwitterProfile>("friendships/destroy.json", request);
@@ -484,7 +457,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public void EnableNotifications(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             request.Add("device", "true");
@@ -493,7 +465,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public void EnableNotifications(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             request.Add("device", "true");
@@ -502,7 +473,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public void DisableNotifications(long userId) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             request.Add("device", "false");
@@ -511,7 +481,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public void DisableNotifications(string screenName) 
         {
-		    this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             request.Add("device", "false");
@@ -525,7 +494,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetIncomingFriendships(long cursor) 
         {
-		    this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<long>>(this.BuildUrl("friendships/incoming.json", "cursor", cursor.ToString()));
 	    }
 
@@ -536,7 +504,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<long> GetOutgoingFriendships(long cursor) 
         {
-		    this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<CursoredList<long>>(this.BuildUrl("friendships/outgoing.json", "cursor", cursor.ToString()));
 	    }
 #endif
@@ -581,7 +548,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendIdsInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friends/ids.json", "cursor", cursor.ToString()), operationCompleted);
         }
 
@@ -592,7 +558,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendIdsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("user_id", userId.ToString());
@@ -606,7 +571,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("screen_name", screenName);
@@ -653,7 +617,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowerIdsInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("followers/ids.json", "cursor", cursor.ToString()), operationCompleted);
         }
 
@@ -664,7 +627,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowerIdsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("user_id", userId.ToString());
@@ -678,7 +640,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowerIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cursor", cursor.ToString());
             parameters.Add("screen_name", screenName);
@@ -687,7 +648,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler FollowAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request, operationCompleted);
@@ -695,7 +655,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler FollowAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/create.json", request, operationCompleted);
@@ -703,7 +662,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler UnfollowAsync(long userId, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request, operationCompleted);
@@ -711,7 +669,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler UnfollowAsync(string screenName, Action<RestOperationCompletedEventArgs<TwitterProfile>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             return this.restTemplate.PostForObjectAsync<TwitterProfile>("friendships/destroy.json", request, operationCompleted);
@@ -719,7 +676,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler EnableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             request.Add("device", "true");
@@ -728,7 +684,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler EnableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             request.Add("device", "true");
@@ -737,7 +692,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler DisableNotificationsAsync(long userId, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("user_id", userId.ToString());
             request.Add("device", "false");
@@ -746,7 +700,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler DisableNotificationsAsync(string screenName, Action<RestOperationCompletedEventArgs<HttpResponseMessage>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = new NameValueCollection();
             request.Add("screen_name", screenName);
             request.Add("device", "false");
@@ -760,7 +713,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetIncomingFriendshipsAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friendships/incoming.json", "cursor", cursor.ToString()), operationCompleted);
         }
 
@@ -771,7 +723,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetOutgoingFriendshipsAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friendships/outgoing.json", "cursor", cursor.ToString()), operationCompleted);
         }
 #endif

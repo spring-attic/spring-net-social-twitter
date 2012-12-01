@@ -47,7 +47,6 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SearchResults> SearchAsync(string query);
 
         /// <summary>
@@ -60,7 +59,6 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SearchResults> SearchAsync(string query, int count);
 
         /// <summary>
@@ -76,7 +74,6 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SearchResults> SearchAsync(string query, int count, long sinceId, long maxId);
 
         /// <summary>
@@ -87,7 +84,6 @@ namespace Spring.Social.Twitter.Api
         /// a list of <see cref="SavedSearch"/> items.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<SavedSearch>> GetSavedSearchesAsync();
 
         /// <summary>
@@ -99,7 +95,6 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SavedSearch"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SavedSearch> GetSavedSearchAsync(long searchId);
 
         /// <summary>
@@ -111,7 +106,6 @@ namespace Spring.Social.Twitter.Api
         /// a <see cref="SavedSearch"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SavedSearch> CreateSavedSearchAsync(string query);
 
         /// <summary>
@@ -123,7 +117,6 @@ namespace Spring.Social.Twitter.Api
         /// the deleted <see cref="SavedSearch"/>, if successful.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<SavedSearch> DeleteSavedSearchAsync(long searchId);
 
         /// <summary>
@@ -143,7 +136,6 @@ namespace Spring.Social.Twitter.Api
         /// a Trends object with the top 10 trending topics for the location.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<Trends> GetTrendsAsync(long whereOnEarthId);
 
         /// <summary>
@@ -163,7 +155,6 @@ namespace Spring.Social.Twitter.Api
         /// a Trends object with the top 10 trending topics for the given location.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<Trends> GetTrendsAsync(long whereOnEarthId, bool excludeHashtags);
 #else
 #if !SILVERLIGHT
@@ -175,7 +166,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SearchResults Search(string query);
 
         /// <summary>
@@ -187,7 +177,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SearchResults Search(string query, int count);
 
         /// <summary>
@@ -200,7 +189,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="maxId">The maximum <see cref="Tweet"/> ID to return in the results.</param>
         /// <returns>A <see cref="SearchResults"/> containing the search results metadata and a list of matching <see cref="Tweet"/>s</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SearchResults Search(string query, int count, long sinceId, long maxId);
 
         /// <summary>
@@ -208,7 +196,6 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         /// <returns>A list of <see cref="SavedSearch"/> items.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<SavedSearch> GetSavedSearches();
 
         /// <summary>
@@ -217,7 +204,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="searchId">The ID of the saved search.</param>
         /// <returns>A <see cref="SavedSearch"/>.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SavedSearch GetSavedSearch(long searchId);
 
         /// <summary>
@@ -226,7 +212,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="query">The search query to save.</param>
         /// <returns>A <see cref="SavedSearch"/>.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SavedSearch CreateSavedSearch(string query);
 
         /// <summary>
@@ -235,7 +220,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="searchId">The ID of the saved search.</param>
         /// <returns>The deleted <see cref="SavedSearch"/>, if successful.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         SavedSearch DeleteSavedSearch(long searchId);
 
         /// <summary>
@@ -252,7 +236,6 @@ namespace Spring.Social.Twitter.Api
         /// </param>
         /// <returns>A Trends object with the top 10 trending topics for the location.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Trends GetTrends(long whereOnEarthId);
 
         /// <summary>
@@ -269,7 +252,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="excludeHashtags">If true, hashtagged topics will be excluded from the trends list.</param>
         /// <returns>A Trends object with the top 10 trending topics for the given location.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Trends GetTrends(long whereOnEarthId, bool excludeHashtags);
 #endif
 
@@ -285,7 +267,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchAsync(string query, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted);
 
         /// <summary>
@@ -301,7 +282,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchAsync(string query, int count, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted);
 
         /// <summary>
@@ -320,7 +300,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SearchAsync(string query, int count, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<SearchResults>> operationCompleted);
 
         /// <summary>
@@ -334,7 +313,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetSavedSearchesAsync(Action<RestOperationCompletedEventArgs<IList<SavedSearch>>> operationCompleted);
 
         /// <summary>
@@ -349,7 +327,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted);
 
         /// <summary>
@@ -364,7 +341,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler CreateSavedSearchAsync(string query, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted);
 
         /// <summary>
@@ -379,7 +355,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler DeleteSavedSearchAsync(long searchId, Action<RestOperationCompletedEventArgs<SavedSearch>> operationCompleted);
 
         /// <summary>
@@ -403,7 +378,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetTrendsAsync(long whereOnEarthId, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted);
 
         /// <summary>
@@ -427,7 +401,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetTrendsAsync(long whereOnEarthId, bool excludeHashtags, Action<RestOperationCompletedEventArgs<Trends>> operationCompleted);
 #endif
     }

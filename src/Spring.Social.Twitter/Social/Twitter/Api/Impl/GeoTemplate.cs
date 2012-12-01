@@ -43,8 +43,7 @@ namespace Spring.Social.Twitter.Api.Impl
     {
         private RestTemplate restTemplate;
 
-        public GeoTemplate(RestTemplate restTemplate, bool isAuthorized)
-            : base(isAuthorized)
+        public GeoTemplate(RestTemplate restTemplate)
         {
             this.restTemplate = restTemplate;
         }
@@ -54,7 +53,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #if NET_4_0 || SILVERLIGHT_5
         public Task<Place> GetPlaceAsync(string placeId)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<Place>("geo/id/{placeId}.json", placeId);
 	    }
 
@@ -65,7 +63,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<Place>> ReverseGeoCodeAsync(double latitude, double longitude, PlaceType? granularity, string accuracy) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, null);
             return this.restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/reverse_geocode.json", parameters));
 	    }
@@ -77,7 +74,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<IList<Place>> SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, query);
             return this.restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/search.json", parameters));
 	    }
@@ -89,7 +85,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<SimilarPlaces> FindSimilarPlacesAsync(double latitude, double longitude, string name, string streetAddress, string containedWithin) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = this.BuildPlaceParameters(latitude, longitude, name, streetAddress, containedWithin);
             return this.restTemplate.GetForObjectAsync<SimilarPlaces>(this.BuildUrl("geo/similar_places.json", parameters))
                 .ContinueWith<SimilarPlaces>(task =>
@@ -106,7 +101,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<Place> CreatePlaceAsync(PlacePrototype placePrototype) 
         {
-            this.EnsureIsAuthorized();
 	        NameValueCollection request = this.BuildPlaceParameters(placePrototype.Latitude, placePrototype.Longitude, placePrototype.Name, placePrototype.StreetAddress, placePrototype.ContainedWithin);
             request.Add("token", placePrototype.CreateToken);
             return this.restTemplate.PostForObjectAsync<Place>("geo/place.json", request);
@@ -115,7 +109,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #if !SILVERLIGHT
         public Place GetPlace(string placeId)
         {
-            this.EnsureIsAuthorized();
 		    return this.restTemplate.GetForObject<Place>("geo/id/{placeId}.json", placeId);
 	    }
 	
@@ -126,7 +119,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public IList<Place> ReverseGeoCode(double latitude, double longitude, PlaceType? granularity, string accuracy) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, null);
 		    return this.restTemplate.GetForObject<IList<Place>>(this.BuildUrl("geo/reverse_geocode.json", parameters));
 	    }
@@ -138,7 +130,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public IList<Place> Search(double latitude, double longitude, PlaceType? granularity, string accuracy, string query) 
         {
-            this.EnsureIsAuthorized();
 		    NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, query);
 		    return this.restTemplate.GetForObject<IList<Place>>(this.BuildUrl("geo/search.json", parameters));
 	    }
@@ -150,7 +141,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public SimilarPlaces FindSimilarPlaces(double latitude, double longitude, string name, string streetAddress, string containedWithin) 
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = this.BuildPlaceParameters(latitude, longitude, name, streetAddress, containedWithin);
             SimilarPlaces similarPlaces = this.restTemplate.GetForObject<SimilarPlaces>(this.BuildUrl("geo/similar_places.json", parameters));
             similarPlaces.PlacePrototype.Latitude = latitude;
@@ -163,7 +153,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public Place CreatePlace(PlacePrototype placePrototype) 
         {
-            this.EnsureIsAuthorized();
 	        NameValueCollection request = this.BuildPlaceParameters(placePrototype.Latitude, placePrototype.Longitude, placePrototype.Name, placePrototype.StreetAddress, placePrototype.ContainedWithin);
             request.Add("token", placePrototype.CreateToken);
             return (Place) this.restTemplate.PostForObject<Place>("geo/place.json", request);
@@ -172,7 +161,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetPlaceAsync(string placeId, Action<RestOperationCompletedEventArgs<Place>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             return this.restTemplate.GetForObjectAsync<Place>("geo/id/{placeId}.json", operationCompleted, placeId);
         }
 
@@ -183,7 +171,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler ReverseGeoCodeAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, null);
             return this.restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/reverse_geocode.json", parameters), operationCompleted);
         }
@@ -195,7 +182,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler SearchAsync(double latitude, double longitude, PlaceType? granularity, string accuracy, string query, Action<RestOperationCompletedEventArgs<IList<Place>>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = this.BuildGeoParameters(latitude, longitude, granularity, accuracy, query);
             return this.restTemplate.GetForObjectAsync<IList<Place>>(this.BuildUrl("geo/search.json", parameters), operationCompleted);
         }
@@ -207,7 +193,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler FindSimilarPlacesAsync(double latitude, double longitude, string name, string streetAddress, string containedWithin, Action<RestOperationCompletedEventArgs<SimilarPlaces>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection parameters = this.BuildPlaceParameters(latitude, longitude, name, streetAddress, containedWithin);
             return this.restTemplate.GetForObjectAsync<SimilarPlaces>(this.BuildUrl("geo/similar_places.json", parameters), 
                 r =>
@@ -230,7 +215,6 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler CreatePlaceAsync(PlacePrototype placePrototype, Action<RestOperationCompletedEventArgs<Place>> operationCompleted)
         {
-            this.EnsureIsAuthorized();
             NameValueCollection request = this.BuildPlaceParameters(placePrototype.Latitude, placePrototype.Longitude, placePrototype.Name, placePrototype.StreetAddress, placePrototype.ContainedWithin);
             request.Add("token", placePrototype.CreateToken);
             return this.restTemplate.PostForObjectAsync<Place>("geo/place.json", request, operationCompleted);

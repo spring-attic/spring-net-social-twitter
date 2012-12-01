@@ -82,18 +82,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("333333", profile.TextColor);
 		    Assert.AreEqual("0084B4", profile.LinkColor);
 	    }
-	
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetUserProfile_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.UserOperations.GetUserProfileAsync().Wait();
-#else
-            unauthorizedTwitter.UserOperations.GetUserProfile();
-#endif
-	    }
 
 	    [Test]
 	    public void GetUserProfile_UserId() 
@@ -188,18 +176,6 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("royclarkson", users[0].ScreenName);
 		    Assert.AreEqual("kdonald", users[1].ScreenName);
 	    }
-
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void SearchForUsers_Unauthorized() 
-        {
-#if NET_4_0 || SILVERLIGHT_5
-		    unauthorizedTwitter.UserOperations.SearchForUsersAsync("some query").Wait();
-#else
-            unauthorizedTwitter.UserOperations.SearchForUsers("some query");
-#endif
-        }
 	
 	    [Test]
 	    public void GetSuggestionCategories() 

@@ -55,18 +55,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Block_UserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.BlockOperations.BlockAsync(12345).Wait();
-#else
-            unauthorizedTwitter.BlockOperations.Block(12345);
-#endif
-        }
-
-        [Test]
         public void Block_ScreenName()
         {
             mockServer.ExpectNewRequest()
@@ -81,18 +69,6 @@ namespace Spring.Social.Twitter.Api.Impl
             TwitterProfile blockedUser = twitter.BlockOperations.Block("habuma");
 #endif
             AssertTwitterProfile(blockedUser);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Block_ScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.BlockOperations.BlockAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.BlockOperations.Block("habuma");
-#endif
         }
 
         [Test]
@@ -113,18 +89,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Unblock_UserId_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.BlockOperations.UnblockAsync(12345).Wait();
-#else
-            unauthorizedTwitter.BlockOperations.Unblock(12345);
-#endif
-        }
-
-        [Test]
         public void Unblock_ScreenName()
         {
             mockServer.ExpectNewRequest()
@@ -139,18 +103,6 @@ namespace Spring.Social.Twitter.Api.Impl
             TwitterProfile blockedUser = twitter.BlockOperations.Unblock("habuma");
 #endif
             AssertTwitterProfile(blockedUser);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Unblock_ScreenName_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.BlockOperations.UnblockAsync("habuma").Wait();
-#else
-            unauthorizedTwitter.BlockOperations.Unblock("habuma");
-#endif
         }
 
         [Test]
@@ -190,18 +142,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetBlockedUsers_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.BlockOperations.GetBlockedUsersAsync().Wait();
-#else
-            unauthorizedTwitter.BlockOperations.GetBlockedUsers();
-#endif
-        }
-
-        [Test]
         public void GetBlockedUserIds()
         {
             mockServer.ExpectNewRequest()
@@ -237,17 +177,6 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual(65, blockedUsers.NextCursor);
         }
 
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetBlockedUserIds_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.BlockOperations.GetBlockedUserIdsAsync().Wait();
-#else
-            unauthorizedTwitter.BlockOperations.GetBlockedUserIds();
-#endif
-        }
 
         // test helpers
 

@@ -47,7 +47,6 @@ namespace Spring.Social.Twitter.Api
         /// a collection of <see cref="DirectMessage"/> with the authenticating user as the recipient.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<DirectMessage>> GetDirectMessagesReceivedAsync();
 
         /// <summary>
@@ -64,7 +63,6 @@ namespace Spring.Social.Twitter.Api
         /// a collection of <see cref="DirectMessage"/> with the authenticating user as the recipient.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<DirectMessage>> GetDirectMessagesReceivedAsync(int page, int pageSize);
 
         /// <summary>
@@ -83,7 +81,6 @@ namespace Spring.Social.Twitter.Api
         /// a collection of <see cref="DirectMessage"/> with the authenticating user as the recipient.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<DirectMessage>> GetDirectMessagesReceivedAsync(int page, int pageSize, long sinceId, long maxId);
 
         /// <summary>
@@ -95,7 +92,6 @@ namespace Spring.Social.Twitter.Api
         /// a collection of <see cref="DirectMessage"/> with the authenticating user as the sender.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<DirectMessage>> GetDirectMessagesSentAsync();
 
         /// <summary>
@@ -112,7 +108,6 @@ namespace Spring.Social.Twitter.Api
         /// a collection of <see cref="DirectMessage"/> with the authenticating user as the sender.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<DirectMessage>> GetDirectMessagesSentAsync(int page, int pageSize);
 
         /// <summary>
@@ -131,7 +126,6 @@ namespace Spring.Social.Twitter.Api
         /// a collection of <see cref="DirectMessage"/> with the authenticating user as the sender.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<IList<DirectMessage>> GetDirectMessagesSentAsync(int page, int pageSize, long sinceId, long maxId);
 
         /// <summary>
@@ -143,7 +137,6 @@ namespace Spring.Social.Twitter.Api
         /// the <see cref="DirectMessage"/>.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<DirectMessage> GetDirectMessageAsync(long id);
        
         /// <summary>
@@ -163,7 +156,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If the recipient is not following the authenticating user.</exception>
         /// <exception cref="TwitterApiException">If the message duplicates a previously sent message.</exception>
         /// <exception cref="TwitterApiException">If the message length exceeds Twitter's 140 character limit.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<DirectMessage> SendDirectMessageAsync(string toScreenName, string text);
 
         /// <summary>
@@ -183,7 +175,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If the recipient is not following the authenticating user.</exception>
         /// <exception cref="TwitterApiException">If the message duplicates a previously sent message.</exception>
         /// <exception cref="TwitterApiException">If the message length exceeds Twitter's 140 character limit.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<DirectMessage> SendDirectMessageAsync(long toUserId, string text);
 
         /// <summary>
@@ -195,7 +186,6 @@ namespace Spring.Social.Twitter.Api
         /// the deleted <see cref="DirectMessage"/>, if successful.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         Task<DirectMessage> DeleteDirectMessageAsync(long messageId);
 #else
 #if !SILVERLIGHT
@@ -207,7 +197,6 @@ namespace Spring.Social.Twitter.Api
         /// A collection of <see cref="DirectMessage"/> with the authenticating user as the recipient.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<DirectMessage> GetDirectMessagesReceived();
 
         /// <summary>
@@ -223,7 +212,6 @@ namespace Spring.Social.Twitter.Api
         /// A collection of <see cref="DirectMessage"/> with the authenticating user as the recipient.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<DirectMessage> GetDirectMessagesReceived(int page, int pageSize);
 
         /// <summary>
@@ -241,7 +229,6 @@ namespace Spring.Social.Twitter.Api
         /// A collection of <see cref="DirectMessage"/> with the authenticating user as the recipient.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<DirectMessage> GetDirectMessagesReceived(int page, int pageSize, long sinceId, long maxId);
 
         /// <summary>
@@ -252,7 +239,6 @@ namespace Spring.Social.Twitter.Api
         /// A collection of <see cref="DirectMessage"/> with the authenticating user as the sender.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<DirectMessage> GetDirectMessagesSent();
 
         /// <summary>
@@ -268,7 +254,6 @@ namespace Spring.Social.Twitter.Api
         /// A collection of <see cref="DirectMessage"/> with the authenticating user as the sender.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<DirectMessage> GetDirectMessagesSent(int page, int pageSize);
 
         /// <summary>
@@ -286,7 +271,6 @@ namespace Spring.Social.Twitter.Api
         /// A collection of <see cref="DirectMessage"/> with the authenticating user as the sender.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         IList<DirectMessage> GetDirectMessagesSent(int page, int pageSize, long sinceId, long maxId);
 
         /// <summary>
@@ -295,7 +279,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="id">The message ID.</param>
         /// <returns>The <see cref="DirectMessage"/>.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         DirectMessage GetDirectMessage(long id);
        
         /// <summary>
@@ -312,7 +295,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If the recipient is not following the authenticating user.</exception>
         /// <exception cref="TwitterApiException">If the message duplicates a previously sent message.</exception>
         /// <exception cref="TwitterApiException">If the message length exceeds Twitter's 140 character limit.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         DirectMessage SendDirectMessage(string toScreenName, string text);
 
         /// <summary>
@@ -329,7 +311,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If the recipient is not following the authenticating user.</exception>
         /// <exception cref="TwitterApiException">If the message duplicates a previously sent message.</exception>
         /// <exception cref="TwitterApiException">If the message length exceeds Twitter's 140 character limit.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         DirectMessage SendDirectMessage(long toUserId, string text);
 
         /// <summary>
@@ -338,7 +319,6 @@ namespace Spring.Social.Twitter.Api
         /// <param name="messageId">The ID of the message to be removed.</param>
         /// <returns>The deleted <see cref="DirectMessage"/>, if successful.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         DirectMessage DeleteDirectMessage(long messageId);
 #endif
 
@@ -354,7 +334,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessagesReceivedAsync(Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted);
 
         /// <summary>
@@ -374,7 +353,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessagesReceivedAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted);
 
         /// <summary>
@@ -396,7 +374,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessagesReceivedAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted);
 
         /// <summary>
@@ -411,7 +388,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessagesSentAsync(Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted);
 
         /// <summary>
@@ -431,7 +407,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessagesSentAsync(int page, int pageSize, Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted);
 
         /// <summary>
@@ -453,7 +428,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessagesSentAsync(int page, int pageSize, long sinceId, long maxId, Action<RestOperationCompletedEventArgs<IList<DirectMessage>>> operationCompleted);
 
         /// <summary>
@@ -468,7 +442,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler GetDirectMessageAsync(long id, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted);
 
         /// <summary>
@@ -491,7 +464,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If the recipient is not following the authenticating user.</exception>
         /// <exception cref="TwitterApiException">If the message duplicates a previously sent message.</exception>
         /// <exception cref="TwitterApiException">If the message length exceeds Twitter's 140 character limit.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SendDirectMessageAsync(string toScreenName, string text, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted);
 
         /// <summary>
@@ -514,7 +486,6 @@ namespace Spring.Social.Twitter.Api
         /// <exception cref="TwitterApiException">If the recipient is not following the authenticating user.</exception>
         /// <exception cref="TwitterApiException">If the message duplicates a previously sent message.</exception>
         /// <exception cref="TwitterApiException">If the message length exceeds Twitter's 140 character limit.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler SendDirectMessageAsync(long toUserId, string text, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted);
 
         /// <summary>
@@ -529,7 +500,6 @@ namespace Spring.Social.Twitter.Api
         /// A <see cref="RestOperationCanceler"/> instance that allows to cancel the asynchronous operation.
         /// </returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
-        /// <exception cref="TwitterApiException">If OAuth credentials was not provided.</exception>
         RestOperationCanceler DeleteDirectMessageAsync(long messageId, Action<RestOperationCompletedEventArgs<DirectMessage>> operationCompleted);
 #endif
     }

@@ -46,7 +46,6 @@ namespace Spring.ConsoleQuickStart
                 /* API */
 
                 ITwitter twitter = twitterServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
-                //ITwitter twitter = new TwitterTemplate();
 
                 twitter.UserOperations.GetUserProfileAsync("brbaia")
                     .ContinueWith(task => Console.WriteLine("brbaia is " + task.Result.Name));
@@ -144,7 +143,6 @@ namespace Spring.ConsoleQuickStart
                 /* API */
 
                 ITwitter twitter = twitterServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
-                //ITwitter twitter = new TwitterTemplate();
 
                 TwitterProfile profile = twitter.UserOperations.GetUserProfile("brbaia");
                 Console.WriteLine("brbaia is " + profile.Name);

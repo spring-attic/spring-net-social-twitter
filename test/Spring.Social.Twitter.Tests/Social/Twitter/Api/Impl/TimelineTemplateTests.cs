@@ -87,18 +87,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetHomeTimeline_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.GetHomeTimelineAsync().Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.GetHomeTimeline();
-#endif
-        }
-
-	    [Test]
 	    public void GetUserTimelineAsync() 
         {
 		    mockServer.ExpectNewRequest()
@@ -144,18 +132,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertTimelineTweets(timeline);
 	    }
-
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetUserTimeline_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.GetUserTimelineAsync().Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.GetUserTimeline();
-#endif
-        }
 	
 	    [Test]
 	    public void GetUserTimeline_ForScreenName() 
@@ -300,18 +276,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertTimelineTweets(mentions);
 	    }
-
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetMentions_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.GetMentionsAsync().Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.GetMentions();
-#endif
-        }
 	
 	    [Test]
 	    public void GetRetweetsOfMe() 
@@ -360,18 +324,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertTimelineTweets(timeline);				
 	    }
-
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException), 
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetRetweetsOfMe_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.GetRetweetsOfMeAsync().Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.GetRetweetsOfMe();
-#endif
-        }
 	
 	    [Test]
 	    public void GetStatus() 
@@ -405,18 +357,6 @@ namespace Spring.Social.Twitter.Api.Impl
 #endif
             AssertSingleTweet(tweet);
 	    }
-
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void UpdateStatus_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.UpdateStatusAsync("Shouldn't work").Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.UpdateStatus("Shouldn't work");
-#endif
-        }
 
 	    [Test]
 	    public void UpdateStatus_WithImage() 
@@ -551,21 +491,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void UpdateStatus_WithLocation_Unauthorized() 
-        {
-		    StatusDetails details = new StatusDetails();
-            details.Latitude = 123.1f;
-            details.Longitude = -111.2f;
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.UpdateStatusAsync("Test Message", details).Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.UpdateStatus("Test Message", details);
-#endif
-        }
-
-	    [Test]
 	    public void UpdateStatus_DuplicateTweet() 
         {
 		    mockServer.ExpectNewRequest()
@@ -669,18 +594,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 	
 	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void DeleteStatus_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.DeleteStatusAsync(12345L).Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.DeleteStatus(12345L);
-#endif
-        }
-	
-	    [Test]
 	    public void Retweet() 
         {
 		    mockServer.ExpectNewRequest()
@@ -692,18 +605,6 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.RetweetAsync(12345).Wait();
 #else
             twitter.TimelineOperations.Retweet(12345);
-#endif
-        }
-	
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void Retweet_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.RetweetAsync(12345L).Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.Retweet(12345L);
 #endif
         }
 
@@ -856,18 +757,6 @@ namespace Spring.Social.Twitter.Api.Impl
 	    }
 
 	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void GetFavorites_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.GetFavoritesAsync().Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.GetFavorites();
-#endif
-        }
-
-	    [Test]
 	    public void AddToFavorites() 
         {
 		    mockServer.ExpectNewRequest()
@@ -880,18 +769,6 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.AddToFavoritesAsync(42L).Wait();
 #else
             twitter.TimelineOperations.AddToFavorites(42L);
-#endif
-        }
-	
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void AddToFavorites_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.AddToFavoritesAsync(12345L).Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.AddToFavorites(12345L);
 #endif
         }
 
@@ -908,18 +785,6 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.RemoveFromFavoritesAsync(71L).Wait();
 #else
             twitter.TimelineOperations.RemoveFromFavorites(71L);
-#endif
-        }
-	
-	    [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-	    public void RemoveFromFavorites_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.TimelineOperations.RemoveFromFavoritesAsync(12345L).Wait();
-#else
-            unauthorizedTwitter.TimelineOperations.RemoveFromFavorites(12345L);
 #endif
         }
     }

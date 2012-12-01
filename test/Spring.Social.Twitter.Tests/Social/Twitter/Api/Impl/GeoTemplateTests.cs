@@ -54,18 +54,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void GetPlace_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.GeoOperations.GetPlaceAsync("0bba15b36bd9e8cc").Wait();
-#else
-            unauthorizedTwitter.GeoOperations.GetPlace("0bba15b36bd9e8cc");
-#endif
-        }
-
-        [Test]
         public void ReverseGeoCode_PointOnly()
         {
             mockServer.ExpectNewRequest()
@@ -143,18 +131,6 @@ namespace Spring.Social.Twitter.Api.Impl
             IList<Place> places = twitter.GeoOperations.ReverseGeoCode(33.050278, -96.745833, null, "5280ft");
 #endif
             AssertPlaces(places);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void ReverseGeoCode_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.GeoOperations.ReverseGeoCodeAsync(33.050278, -96.745833).Wait();
-#else
-            unauthorizedTwitter.GeoOperations.ReverseGeoCode(33.050278, -96.745833);
-#endif
         }
 
         [Test]
@@ -254,18 +230,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void Search_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.GeoOperations.SearchAsync(33.050278, -96.745833).Wait();
-#else
-            unauthorizedTwitter.GeoOperations.Search(33.050278, -96.745833);
-#endif
-        }
-
-        [Test]
         public void FindSimilarPlaces()
         {
             mockServer.ExpectNewRequest()
@@ -301,18 +265,6 @@ namespace Spring.Social.Twitter.Api.Impl
         }
 
         [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void FindSimilarPlaces_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.GeoOperations.FindSimilarPlacesAsync(37.7821120598956, -122.400612831116, "Twitter HQ", "795 Folsom St", "2e056b6d9c0ff3cd").Wait();
-#else
-            unauthorizedTwitter.GeoOperations.FindSimilarPlaces(37.7821120598956, -122.400612831116, "Twitter HQ", "795 Folsom St", "2e056b6d9c0ff3cd");
-#endif
-        }
-
-        [Test]
         public void CreatePlace()
         {
             mockServer.ExpectNewRequest()
@@ -336,18 +288,6 @@ namespace Spring.Social.Twitter.Api.Impl
             Place place = twitter.GeoOperations.CreatePlace(placePrototype);
 #endif
             AssertPlace(place);
-        }
-
-        [Test]
-        [ExpectedException(typeof(TwitterApiException),
-            ExpectedMessage = "Authorization is required for the operation, but the API binding was created without authorization.")]
-        public void CreatePlace_Unauthorized()
-        {
-#if NET_4_0 || SILVERLIGHT_5
-            unauthorizedTwitter.GeoOperations.CreatePlaceAsync(new PlacePrototype()).Wait();
-#else
-            unauthorizedTwitter.GeoOperations.CreatePlace(new PlacePrototype());
-#endif
         }
 
 
