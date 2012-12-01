@@ -144,11 +144,9 @@
     <Compile Include="Social\Twitter\Api\RateLimitStatus.cs" />
     <Compile Include="Social\Twitter\Api\SuggestionCategory.cs" />
     <Compile Include="Social\Twitter\Api\IUserOperations.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\DailyTrendsList.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\SearchResultsDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchListDeserializer.cs" />
     <Compile Include="Social\Twitter\Api\Impl\Json\SavedSearchDeserializer.cs" />
-    <Compile Include="Social\Twitter\Api\Impl\WeeklyTrendsList.cs" />
     <Compile Include="Social\Twitter\Api\Impl\SearchTemplate.cs" />
     <Compile Include="Social\Twitter\Api\Trend.cs" />
     <Compile Include="Social\Twitter\Api\Trends.cs" />

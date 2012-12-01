@@ -77,9 +77,6 @@
     <Compile Include="Social\Twitter\Api\Impl\BlockTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\DailyTrendsList.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Social\Twitter\Api\Impl\DirectMessageTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,9 +157,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\Impl\UserTemplate.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Social\Twitter\Api\Impl\WeeklyTrendsList.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\ISearchOperations.cs">
