@@ -39,13 +39,11 @@ namespace Spring.Social.Twitter.Api
     {
 #if NET_4_0 || SILVERLIGHT_5
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user follows.
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
@@ -55,13 +53,9 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFriendsAsync();
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
         /// <returns>
@@ -72,13 +66,11 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(long cursor);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>
@@ -89,13 +81,9 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFriendsAsync(long userId);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
@@ -107,13 +95,11 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(long userId, long cursor);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>
@@ -124,13 +110,9 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFriendsAsync(string screenName);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
@@ -144,7 +126,7 @@ namespace Spring.Social.Twitter.Api
         /// <summary>
         /// Asynchronously retrieves a list of up to 5000 IDs for the Twitter users that the authenticated user follows.
         /// <para/>
-        /// Call GetFriendIdsForCursor() with a cursor value to get the next/previous page of entries.
+        /// Call GetFriendIdsInCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
@@ -155,8 +137,6 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Asynchronously retrieves a list of up to 5000 IDs for the Twitter users that the authenticated user follows.
-        /// <para/>
-        /// Call GetFriendIdsForCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <param name="cursor">
         /// The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.
@@ -170,6 +150,8 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Asynchronously retrieves a list of up to 5000 IDs for the Twitter users that the given user follows.
+        /// <para/>
+        /// Call GetFriendIdsInCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>
@@ -193,6 +175,8 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Asynchronously retrieves a list of up to 5000 IDs for the Twitter users that the given user follows.
+        /// <para/>
+        /// Call GetFriendIdsInCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>
@@ -215,13 +199,11 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<long>> GetFriendIdsInCursorAsync(string screenName, long cursor);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user is being followed by.
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <returns>
         /// A <code>Task</code> that represents the asynchronous operation that can return 
@@ -231,13 +213,9 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFollowersAsync();
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
         /// <returns>
@@ -248,13 +226,11 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(long cursor);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>
@@ -265,13 +241,9 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFollowersAsync(long userId);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
@@ -283,13 +255,11 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(long userId, long cursor);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>
@@ -300,13 +270,9 @@ namespace Spring.Social.Twitter.Api
         Task<CursoredList<TwitterProfile>> GetFollowersAsync(string screenName);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
@@ -512,26 +478,20 @@ namespace Spring.Social.Twitter.Api
 #else
 #if !SILVERLIGHT
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the authenticated user follows.
+        /// Retrieves a list of up to 20 users that the authenticated user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         CursoredList<TwitterProfile> GetFriends();
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the authenticated user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Retrieves a list of up to 20 users that the authenticated user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
@@ -539,13 +499,11 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFriendsInCursor(long cursor);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user follows.
+        /// Retrieves a list of up to 20 users that the given user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
@@ -553,13 +511,9 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFriends(long userId);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Retrieves a list of up to 20 users that the given user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
@@ -568,13 +522,11 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFriendsInCursor(long userId, long cursor);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user follows.
+        /// Retrieves a list of up to 20 users that the given user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
@@ -582,13 +534,9 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFriends(string screenName);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Retrieves a list of up to 20 users that the given user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
@@ -598,8 +546,6 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Retrieves a list of up to 5000 IDs for the Twitter users that the authenticated user follows.
-        /// <para/>
-        /// Call GetFriendIdsForCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <returns>A cursored list of user IDs.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
@@ -607,8 +553,6 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Retrieves a list of up to 5000 IDs for the Twitter users that the authenticated user follows.
-        /// <para/>
-        /// Call GetFriendIdsForCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <param name="cursor">
         /// The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.
@@ -652,26 +596,20 @@ namespace Spring.Social.Twitter.Api
         CursoredList<long> GetFriendIdsInCursor(string screenName, long cursor);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the authenticated user is being followed by.
+        /// Retrieves a list of up to 20 users that the authenticated user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
         /// <exception cref="TwitterApiException">If there is an error while communicating with Twitter.</exception>
         CursoredList<TwitterProfile> GetFollowers();
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the authenticated user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Retrieves a list of up to 20 users that the authenticated user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
@@ -679,13 +617,11 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFollowersInCursor(long cursor);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user is being followed by.
+        /// Retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
@@ -693,13 +629,9 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFollowers(long userId);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
@@ -708,13 +640,11 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFollowersInCursor(long userId, long cursor);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user is being followed by.
+        /// Retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <returns>A cursored list of <see cref="TwitterProfile"/>s.</returns>
@@ -722,13 +652,9 @@ namespace Spring.Social.Twitter.Api
         CursoredList<TwitterProfile> GetFollowers(string screenName);
 
         /// <summary>
-        /// Retrieves a list of up to 5000 users that the given user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
@@ -877,13 +803,11 @@ namespace Spring.Social.Twitter.Api
 #endif
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user follows.
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
@@ -896,13 +820,9 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFriendsAsync(Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
         /// <param name="operationCompleted">
@@ -916,13 +836,11 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFriendsInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="operationCompleted">
@@ -936,13 +854,9 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFriendsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
@@ -957,13 +871,11 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFriendsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Call GetFriendsInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="operationCompleted">
@@ -977,13 +889,9 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFriendsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user follows.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the friend IDs and one call for every 100 friends).
+        /// Asynchronously retrieves a list of up to 20 users that the given user follows.
         /// <para/>
         /// If all you need is the friend IDs, consider calling GetFriendIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's friends, call UserOperations.GetUsers() passing in the list of friend IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="cursor">The cursor used to fetch the friend IDs.</param>
@@ -999,8 +907,6 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Asynchronously retrieves a list of up to 5000 IDs for the Twitter users that the authenticated user follows.
-        /// <para/>
-        /// Call GetFriendIdsForCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
@@ -1014,8 +920,6 @@ namespace Spring.Social.Twitter.Api
 
         /// <summary>
         /// Asynchronously retrieves a list of up to 5000 IDs for the Twitter users that the authenticated user follows.
-        /// <para/>
-        /// Call GetFriendIdsForCursor() with a cursor value to get the next/previous page of entries.
         /// </summary>
         /// <param name="cursor">
         /// The cursor value to fetch a specific page of entries. Use -1 for the first page of entries.
@@ -1089,13 +993,11 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFriendIdsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user is being followed by.
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="operationCompleted">
         /// The <code>Action&lt;&gt;</code> to perform when the asynchronous request completes. 
@@ -1108,13 +1010,9 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFollowersAsync(Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the authenticated user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Asynchronously retrieves a list of up to 20 users that the authenticated user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
         /// <param name="operationCompleted">
@@ -1128,13 +1026,11 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFollowersInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="operationCompleted">
@@ -1148,13 +1044,9 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFollowersAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="userId">The user's Twitter ID.</param>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>
@@ -1169,13 +1061,11 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFollowersInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Call GetFollowersInCursor() with a cursor value to get the next/previous page of entries.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="operationCompleted">
@@ -1189,13 +1079,9 @@ namespace Spring.Social.Twitter.Api
         RestOperationCanceler GetFollowersAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted);
 
         /// <summary>
-        /// Asynchronously retrieves a list of up to 5000 users that the given user is being followed by.
-        /// <para/>
-        /// Note that this method make multiple calls to Twitter's REST API (one call to get a list of the follower IDs and one call for every 100 followers).
+        /// Asynchronously retrieves a list of up to 20 users that the given user is being followed by.
         /// <para/>
         /// If all you need is the follower IDs, consider calling GetFollowerIds() instead.
-        /// <para/>
-        /// Or if you need only a subset of the user's followers, call UserOperations.GetUsers() passing in the list of follower IDs you need. 
         /// </summary>
         /// <param name="screenName">The user's Twitter screen name.</param>
         /// <param name="cursor">The cursor used to fetch the follower IDs.</param>

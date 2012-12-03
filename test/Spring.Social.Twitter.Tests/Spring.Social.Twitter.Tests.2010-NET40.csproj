@@ -149,8 +149,6 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Places_List.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Similar_Places.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Friend_Or_Follower_Ids.json" />
-    <EmbeddedResource Include="Social\Twitter\Api\Impl\Many_Friend_Or_Follower_Ids.json" />
-    <EmbeddedResource Include="Social\Twitter\Api\Impl\No_Friend_Or_Follower_Ids.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Follow.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Unfollow.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Incoming_Or_Outgoing_Friendships.json" />
@@ -162,6 +160,7 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\CursoredList_Of_Lists.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Trends.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Rate_Limit_Status.json" />
+    <EmbeddedResource Include="Social\Twitter\Api\Impl\Friends_Or_Followers.json" />
     <None Include="Spring.Social.Twitter.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

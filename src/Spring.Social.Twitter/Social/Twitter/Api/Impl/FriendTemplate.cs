@@ -59,11 +59,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(long cursor)
         {
-            return this.GetFriendIdsInCursorAsync(cursor)
-                .ContinueWith<CursoredList<TwitterProfile>>(task =>
-                {
-                    return this.GetCursoredProfileListAsync(task.Result, task.Result.PreviousCursor, task.Result.NextCursor);
-                });
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", "cursor", cursor.ToString()));
         }
 
         public Task<CursoredList<TwitterProfile>> GetFriendsAsync(long userId) 
@@ -73,11 +69,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(long userId, long cursor) 
         {
-            return this.GetFriendIdsInCursorAsync(userId, cursor)
-                .ContinueWith<CursoredList<TwitterProfile>>(task =>
-                {
-                    return this.GetCursoredProfileListAsync(task.Result, task.Result.PreviousCursor, task.Result.NextCursor);
-                });
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", parameters));
 	    }
 
         public Task<CursoredList<TwitterProfile>> GetFriendsAsync(string screenName) 
@@ -87,11 +82,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetFriendsInCursorAsync(string screenName, long cursor) 
         {
-            return this.GetFriendIdsInCursorAsync(screenName, cursor)
-                .ContinueWith<CursoredList<TwitterProfile>>(task =>
-                {
-                    return this.GetCursoredProfileListAsync(task.Result, task.Result.PreviousCursor, task.Result.NextCursor);
-                });
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", parameters));
 	    }
 
         public Task<CursoredList<long>> GetFriendIdsAsync() 
@@ -137,11 +131,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(long cursor) 
         {
-            return this.GetFollowerIdsInCursorAsync(cursor)
-                .ContinueWith<CursoredList<TwitterProfile>>(task =>
-                {
-                    return this.GetCursoredProfileListAsync(task.Result, task.Result.PreviousCursor, task.Result.NextCursor);
-                });
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", "cursor", cursor.ToString()));
 	    }
 
         public Task<CursoredList<TwitterProfile>> GetFollowersAsync(long userId) 
@@ -151,11 +141,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(long userId, long cursor) 
         {
-            return this.GetFollowerIdsInCursorAsync(userId, cursor)
-                .ContinueWith<CursoredList<TwitterProfile>>(task =>
-                {
-                    return this.GetCursoredProfileListAsync(task.Result, task.Result.PreviousCursor, task.Result.NextCursor);
-                });
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", parameters));
 	    }
 
         public Task<CursoredList<TwitterProfile>> GetFollowersAsync(string screenName) 
@@ -165,11 +154,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public Task<CursoredList<TwitterProfile>> GetFollowersInCursorAsync(string screenName, long cursor) 
         {
-            return this.GetFollowerIdsInCursorAsync(screenName, cursor)
-                .ContinueWith<CursoredList<TwitterProfile>>(task =>
-                {
-                    return this.GetCursoredProfileListAsync(task.Result, task.Result.PreviousCursor, task.Result.NextCursor);
-                });
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", parameters));
 	    }
 
         public Task<CursoredList<long>> GetFollowerIdsAsync() 
@@ -296,8 +284,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public CursoredList<TwitterProfile> GetFriendsInCursor(long cursor) 
         {
-		    CursoredList<long> friendIds = GetFriendIdsInCursor(cursor);
-		    return this.GetCursoredProfileList(friendIds, friendIds.PreviousCursor, friendIds.NextCursor);
+            return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", "cursor", cursor.ToString()));
 	    }
 
 	    public CursoredList<TwitterProfile> GetFriends(long userId) 
@@ -307,8 +294,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
 	    public CursoredList<TwitterProfile> GetFriendsInCursor(long userId, long cursor) 
         {
-		    CursoredList<long> friendIds = this.GetFriendIdsInCursor(userId, cursor);
-		    return this.GetCursoredProfileList(friendIds, friendIds.PreviousCursor, friendIds.NextCursor);
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", parameters)); ;
 	    }
 
 	    public CursoredList<TwitterProfile> GetFriends(string screenName) 
@@ -318,9 +307,11 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<TwitterProfile> GetFriendsInCursor(string screenName, long cursor) 
         {
-		    CursoredList<long> friendIds = this.GetFriendIdsInCursor(screenName, cursor);
-		    return this.GetCursoredProfileList(friendIds, friendIds.PreviousCursor, friendIds.NextCursor);
-	    }
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", parameters));
+        }
 	
 	    public CursoredList<long> GetFriendIds() 
         {
@@ -365,8 +356,7 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<TwitterProfile> GetFollowersInCursor(long cursor) 
         {
-		    CursoredList<long> followerIds = this.GetFollowerIdsInCursor(cursor);
-		    return this.GetCursoredProfileList(followerIds, followerIds.PreviousCursor, followerIds.NextCursor);
+            return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", "cursor", cursor.ToString()));
 	    }
 
 	    public CursoredList<TwitterProfile> GetFollowers(long userId) 
@@ -376,8 +366,10 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<TwitterProfile> GetFollowersInCursor(long userId, long cursor) 
         {
-		    CursoredList<long> followerIds = this.GetFollowerIdsInCursor(userId, cursor);
-		    return this.GetCursoredProfileList(followerIds, followerIds.PreviousCursor, followerIds.NextCursor);
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", parameters));
 	    }
 
 	    public CursoredList<TwitterProfile> GetFollowers(string screenName) 
@@ -387,8 +379,10 @@ namespace Spring.Social.Twitter.Api.Impl
 	
 	    public CursoredList<TwitterProfile> GetFollowersInCursor(string screenName, long cursor) 
         {
-		    CursoredList<long> followerIds = this.GetFollowerIdsInCursor(screenName, cursor);
-		    return this.GetCursoredProfileList(followerIds, followerIds.PreviousCursor, followerIds.NextCursor);
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObject<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", parameters));
 	    }
 
 	    public CursoredList<long> GetFollowerIds() 
@@ -515,8 +509,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendsInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetFriendIdsInCursorAsync(cursor, 
-                r => this.GetCursoredProfileListAsync(r, operationCompleted));
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", "cursor", cursor.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetFriendsAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
@@ -526,8 +519,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendsInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetFriendIdsInCursorAsync(userId, cursor, 
-                r => this.GetCursoredProfileListAsync(r, operationCompleted));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetFriendsAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
@@ -537,8 +532,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFriendsInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetFriendIdsInCursorAsync(screenName, cursor, 
-                r => this.GetCursoredProfileListAsync(r, operationCompleted));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("friends/list.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetFriendIdsAsync(Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
@@ -584,8 +581,7 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowersInCursorAsync(long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetFollowerIdsInCursorAsync(cursor, 
-                r => this.GetCursoredProfileListAsync(r, operationCompleted));
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", "cursor", cursor.ToString()), operationCompleted);
         }
 
         public RestOperationCanceler GetFollowersAsync(long userId, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
@@ -595,8 +591,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowersInCursorAsync(long userId, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetFollowerIdsInCursorAsync(userId, cursor, 
-                r => this.GetCursoredProfileListAsync(r, operationCompleted));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("user_id", userId.ToString());
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetFollowersAsync(string screenName, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
@@ -606,8 +604,10 @@ namespace Spring.Social.Twitter.Api.Impl
 
         public RestOperationCanceler GetFollowersInCursorAsync(string screenName, long cursor, Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
         {
-            return this.GetFollowerIdsInCursorAsync(screenName, cursor, 
-                r => this.GetCursoredProfileListAsync(r, operationCompleted));
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cursor", cursor.ToString());
+            parameters.Add("screen_name", screenName);
+            return this.restTemplate.GetForObjectAsync<CursoredList<TwitterProfile>>(this.BuildUrl("followers/list.json", parameters), operationCompleted);
         }
 
         public RestOperationCanceler GetFollowerIdsAsync(Action<RestOperationCompletedEventArgs<CursoredList<long>>> operationCompleted)
@@ -726,110 +726,6 @@ namespace Spring.Social.Twitter.Api.Impl
             return this.restTemplate.GetForObjectAsync<CursoredList<long>>(this.BuildUrl("friendships/outgoing.json", "cursor", cursor.ToString()), operationCompleted);
         }
 #endif
-
-        #endregion
-
-        #region Private Methods
-
-#if NET_4_0 || SILVERLIGHT_5
-        private CursoredList<TwitterProfile> GetCursoredProfileListAsync(List<long> userIds, long previousCursor, long nextCursor)
-        {
-            // TODO: Would be good to figure out how to retrieve profiles in a tighter-than-cursor granularity.
-            List<List<long>> chunks = this.ChunkList(userIds, 100);
-            CursoredList<TwitterProfile> users = new CursoredList<TwitterProfile>();
-            users.PreviousCursor = previousCursor;
-            users.NextCursor = nextCursor;
-            Task[] tasks = new Task[chunks.Count];
-            for (int i = 0; i < chunks.Count; i++)
-            {
-                string joinedIds = ArrayUtils.Join(chunks[i].ToArray());
-                tasks[i] = (this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds))
-                    .ContinueWith(task => users.AddRange(task.Result)));
-            }
-            Task.WaitAll(tasks);
-            return users;
-        }
-#else
-#if !SILVERLIGHT
-        private CursoredList<TwitterProfile> GetCursoredProfileList(List<long> userIds, long previousCursor, long nextCursor)
-        {
-            // TODO: Would be good to figure out how to retrieve profiles in a tighter-than-cursor granularity.
-            List<List<long>> chunks = this.ChunkList(userIds, 100);
-            CursoredList<TwitterProfile> users = new CursoredList<TwitterProfile>();
-            users.PreviousCursor = previousCursor;
-            users.NextCursor = nextCursor;
-            foreach (List<long> userIdChunk in chunks)
-            {
-                string joinedIds = ArrayUtils.Join(userIdChunk.ToArray());
-                users.AddRange(this.restTemplate.GetForObject<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds)));
-            }
-            return users;
-        }
-#endif
-
-        private void GetCursoredProfileListAsync(
-            RestOperationCompletedEventArgs<CursoredList<long>> userIdsResult, 
-            Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
-        {
-            if (userIdsResult.Error == null)
-            {
-                // TODO: Would be good to figure out how to retrieve profiles in a tighter-than-cursor granularity.
-                List<List<long>> chunks = this.ChunkList(userIdsResult.Response, 100);
-                CursoredList<TwitterProfile> users = new CursoredList<TwitterProfile>();
-                users.PreviousCursor = userIdsResult.Response.PreviousCursor;
-                users.NextCursor = userIdsResult.Response.NextCursor;
-                IEnumerator<List<long>> chunkEnumerator = chunks.GetEnumerator();
-                this.GetCursoredProfileListAsyncRecursive(userIdsResult, users, chunkEnumerator, operationCompleted);
-            }
-            else
-            {
-                operationCompleted(new RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>(null, userIdsResult.Error, userIdsResult.Cancelled, userIdsResult.UserState));
-            }
-        }
-
-        private void GetCursoredProfileListAsyncRecursive(
-            RestOperationCompletedEventArgs<CursoredList<long>> userIdsResult, 
-            CursoredList<TwitterProfile> users, 
-            IEnumerator<List<long>> userIdChunk, 
-            Action<RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>> operationCompleted)
-        {
-            if (userIdChunk.MoveNext())
-            {
-                string joinedIds = ArrayUtils.Join(userIdChunk.Current.ToArray());
-                this.restTemplate.GetForObjectAsync<IList<TwitterProfile>>(this.BuildUrl("users/lookup.json", "user_id", joinedIds),
-                    r =>
-                    {
-                        if (r.Error == null)
-                        {
-                            users.AddRange(r.Response);
-                            this.GetCursoredProfileListAsyncRecursive(userIdsResult, users, userIdChunk, operationCompleted);
-                        }
-                        else
-                        {
-                            operationCompleted(new RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>(null, r.Error, r.Cancelled, r.UserState));
-                        }
-                    });
-            }
-            else
-            {
-                operationCompleted(new RestOperationCompletedEventArgs<CursoredList<TwitterProfile>>(users, userIdsResult.Error, userIdsResult.Cancelled, userIdsResult.UserState));
-            }
-        }
-
-#endif
-
-        private List<List<long>> ChunkList(List<long> list, int chunkSize)
-        {
-            List<List<long>> chunkedList = new List<List<long>>();
-		    int start = 0;
-		    while (start < list.Count) 
-            {
-			    int end = Math.Min(chunkSize + start, list.Count);
-			    chunkedList.Add(list.GetRange(start, end - start));
-			    start = end;
-		    }
-		    return chunkedList;
-        }
 
         #endregion
     }
