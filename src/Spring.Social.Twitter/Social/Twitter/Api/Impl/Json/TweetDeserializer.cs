@@ -20,6 +20,7 @@
 
 using System;
 using System.Globalization;
+using System.Collections.Generic;
 
 using Spring.Json;
 
@@ -74,7 +75,37 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 tweet.RetweetIdByUser = retweetIdValue.GetValue<long?>("id");
             }
 
+            // Entities
+            JsonValue entitiesValue = value.GetValue("entities");
+            if (entitiesValue != null)
+            {
+                tweet.Entities = new TweetEntities();
+                tweet.Entities.Hashtags = DeserializeHashtags(entitiesValue.GetValue("hashtags"));
+            }
+
             return tweet;
+        }
+
+        private IList<HashtagEntity> DeserializeHashtags(JsonValue value)
+        {
+            IList<HashtagEntity> hashtags = new List<HashtagEntity>();
+            if (value != null)
+            {
+                foreach(JsonValue hashtagValue in value.GetValues())
+                {
+                    JsonValue indicesValues = hashtagValue.GetValue("indices");
+                    if (indicesValues != null)
+                    {
+                        hashtags.Add(new HashtagEntity()
+                        {
+                            BeginOffset = indicesValues.GetValue<int>(0),
+                            EndOffset = indicesValues.GetValue<int>(1),
+                            Text = hashtagValue.GetValue<string>("text")
+                        });
+                    }
+                }
+            }
+            return hashtags;
         }
     }
 }

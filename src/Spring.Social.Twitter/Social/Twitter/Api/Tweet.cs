@@ -130,5 +130,11 @@ namespace Spring.Social.Twitter.Api
         /// Gets or sets the tweet ID of the authenticating user's own retweet.
         /// </summary>
         public long? RetweetIdByUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets the metadata and additional contextual information 
+        /// which have been parsed out of the text of the tweet.
+        /// </summary>
+        public TweetEntities Entities { get; set; }
     }
 }

@@ -55,6 +55,7 @@
     <Compile Include="Social\Twitter\Api\DirectMessage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\HashtagEntity.cs" />
     <Compile Include="Social\Twitter\Api\IBlockOperations.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -207,6 +208,7 @@
     <Compile Include="Social\Twitter\Api\Tweet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\TweetEntities.cs" />
     <Compile Include="Social\Twitter\Api\TwitterApiError.cs" />
     <Compile Include="Social\Twitter\Api\TwitterApiException.cs" />
     <Compile Include="Social\Twitter\Api\TwitterProfile.cs">

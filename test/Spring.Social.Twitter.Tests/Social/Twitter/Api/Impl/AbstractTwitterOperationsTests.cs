@@ -85,6 +85,16 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.IsTrue(tweet.IsRetweetedByUser);
             Assert.IsTrue(tweet.IsFavoritedByUser);
 	    }
+
+        protected void AssertTweetEntities(TweetEntities entities)
+        {
+            Assert.IsNotNull(entities);
+            Assert.IsNotNull(entities.Hashtags);
+            Assert.AreEqual(1, entities.Hashtags.Count);
+            Assert.AreEqual("Twitterbird", entities.Hashtags[0].Text);
+            Assert.AreEqual(19, entities.Hashtags[0].BeginOffset);
+            Assert.AreEqual(31, entities.Hashtags[0].EndOffset);
+        }
 	
 	    protected void AssertTimelineTweets(IList<Tweet> tweets) 
         {

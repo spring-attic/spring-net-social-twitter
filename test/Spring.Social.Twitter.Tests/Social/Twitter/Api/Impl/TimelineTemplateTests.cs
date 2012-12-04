@@ -339,6 +339,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.GetStatus(12345);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 	
 	    [Test]
@@ -356,6 +357,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message");
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -379,6 +381,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message", photo);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -399,6 +402,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message", details);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -420,6 +424,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message", details);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -439,6 +444,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message in reply to @someone", details);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -458,6 +464,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message", details);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -488,6 +495,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet tweet = twitter.TimelineOperations.UpdateStatus("Test Message", photo, details);
 #endif
             AssertSingleTweet(tweet);
+            AssertTweetEntities(tweet.Entities);
 	    }
 
 	    [Test]
@@ -591,6 +599,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Tweet deletedTweet = twitter.TimelineOperations.DeleteStatus(12345L);
 #endif
             AssertSingleTweet(deletedTweet);
+            AssertTweetEntities(deletedTweet.Entities);
         }
 	
 	    [Test]

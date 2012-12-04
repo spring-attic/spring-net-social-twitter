@@ -14,18 +14,16 @@
 	"retweeted" : true,
 	"favorited" : true,
 	"created_at" : "Tue Jul 13 17:38:21 +0000 2010",
-	"place":
-		{
-			"attributes":{},
-			"bounding_box":
-			{
-				"coordinates":
-				[[
-					[-77.119759,38.791645],
-					[-76.909393,38.791645],
-					[-76.909393,38.995548],
-					[-77.119759,38.995548]
-				]],
+	"place": {
+		"attributes":{},
+		"bounding_box": {
+			"coordinates":
+			[[
+				[-77.119759,38.791645],
+				[-76.909393,38.791645],
+				[-76.909393,38.995548],
+				[-77.119759,38.995548]
+			]],
 			"type":"Polygon"
 		},
 		"country":"United States",
@@ -35,5 +33,19 @@
 		"name":"Washington",
 		"place_type":"city",
 		"url": "http://api.twitter.com/1/geo/id/01fbe706f872cb32.json"
+	},
+	"entities": {
+		"hashtags": [
+		  {
+			"text": "Twitterbird",
+			"indices": [
+			  19,
+			  31
+			]
+		  }
+		],
+		"urls": [],
+		"media": [],
+		"user_mentions": []
 	}
 }
