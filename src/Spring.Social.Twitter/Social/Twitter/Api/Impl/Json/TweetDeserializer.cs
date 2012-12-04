@@ -26,9 +26,7 @@ using Spring.Json;
 namespace Spring.Social.Twitter.Api.Impl.Json
 {
     /// <summary>
-    /// JSON deserializer for tweets. 
-    /// The JSON structure varies between the search API and the timeline API. 
-    /// This deserializer determine which structure is in play and creates a tweet from it.
+    /// JSON deserializer for Twitter status update (e.g., a "tweet").
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
@@ -42,18 +40,39 @@ namespace Spring.Social.Twitter.Api.Impl.Json
 
             tweet.ID = value.GetValue<long>("id");
             tweet.Text = value.GetValue<string>("text");
-            JsonValue fromUserValue = value.GetValue("user");
-            if (fromUserValue != null)
+            tweet.CreatedAt = JsonUtils.ToDateTime(value.GetValueOrDefault<string>("created_at"), TWEET_DATE_FORMAT);
+            JsonValue userValue = value.GetValue("user");
+            if (userValue != null && userValue.IsObject)
             {
-                tweet.FromUser = fromUserValue.GetValue<string>("screen_name");
-                tweet.FromUserId = fromUserValue.GetValue<long>("id");
-                tweet.ProfileImageUrl = fromUserValue.GetValue<string>("profile_image_url");
+                tweet.User = mapper.Deserialize<TwitterProfile>(userValue);
+                tweet.FromUser = tweet.User.ScreenName;
+                tweet.FromUserId = tweet.User.ID;
+                tweet.ProfileImageUrl = tweet.User.ProfileImageUrl;
             }
-            tweet.CreatedAt = JsonUtils.ToDateTime(value.GetValue<string>("created_at"), TWEET_DATE_FORMAT);
-            tweet.Source = value.GetValue<string>("source");
             tweet.ToUserId = value.GetValueOrDefault<long?>("in_reply_to_user_id");
-            tweet.LanguageCode = value.GetValueOrDefault<string>("iso_language_code");
+            tweet.InReplyToUserId = value.GetValueOrDefault<long?>("in_reply_to_user_id");
+            tweet.InReplyToUserScreenName = value.GetValueOrDefault<string>("in_reply_to_screen_name");
             tweet.InReplyToStatusId = value.GetValueOrDefault<long?>("in_reply_to_status_id");
+            tweet.Source = value.GetValueOrDefault<string>("source");
+            JsonValue placeValue = value.GetValue("place");
+            if (placeValue != null && placeValue.IsObject)
+            {
+                tweet.Place = mapper.Deserialize<Place>(placeValue);
+            }
+            tweet.LanguageCode = value.GetValueOrDefault<string>("iso_language_code");
+            tweet.RetweetCount = value.GetValueOrDefault<int>("retweet_count");
+            JsonValue retweetedStatusValue = value.GetValue("retweeted_status");
+            if (retweetedStatusValue != null && retweetedStatusValue.IsObject)
+            {
+                tweet.RetweetedStatus = mapper.Deserialize<Tweet>(retweetedStatusValue);
+            }
+            tweet.IsRetweetedByUser = value.GetValueOrDefault<bool>("retweeted");
+            tweet.IsFavoritedByUser = value.GetValueOrDefault<bool>("favorited");
+            JsonValue retweetIdValue = value.GetValue("current_user_retweet");
+            if (retweetIdValue != null && retweetIdValue.IsObject)
+            {
+                tweet.RetweetIdByUser = retweetIdValue.GetValue<long?>("id");
+            }
 
             return tweet;
         }

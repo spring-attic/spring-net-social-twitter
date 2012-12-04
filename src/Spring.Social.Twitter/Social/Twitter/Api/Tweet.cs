@@ -48,19 +48,43 @@ namespace Spring.Social.Twitter.Api
         public DateTime? CreatedAt { get; set; }
 
         /// <summary>
+        /// Gets or sets the tweet author's ID.
+        /// </summary>
+        [Obsolete("Use 'User.ID' instead.")]
+        public long FromUserId { get; set; }
+
+        /// <summary>
         /// Gets or sets the tweet author's screen name.
         /// </summary>
+        [Obsolete("Use 'User.ScreenName' instead.")]
         public string FromUser { get; set; }
 
         /// <summary>
         /// Gets or sets the tweet author's profile image URL.
         /// </summary>
+        [Obsolete("Use 'User.ProfileImageUrl' instead.")]
         public string ProfileImageUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user who posted the tweet. 
+        /// </summary>
+        public TwitterProfile User { get; set; }
 
         /// <summary>
         /// Gets or sets the user ID when replying to a user.
         /// </summary>
+        [Obsolete("Use 'InReplyToUserId' instead.")]
         public long? ToUserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user ID when replying to a user.
+        /// </summary>
+        public long? InReplyToUserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user screen name when replying to a user.
+        /// </summary>
+        public string InReplyToUserScreenName { get; set; }
 
         /// <summary>
         /// Gets or sets the tweet ID when replying to a tweet.
@@ -68,12 +92,7 @@ namespace Spring.Social.Twitter.Api
         public long? InReplyToStatusId { get; set; }
 
         /// <summary>
-        /// Gets or sets the tweet author's ID.
-        /// </summary>
-        public long FromUserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tweet's language code. May be null.
+        /// Gets or sets the tweet's language code.
         /// </summary>
         public string LanguageCode { get; set; }
 
@@ -81,5 +100,35 @@ namespace Spring.Social.Twitter.Api
         /// Gets or sets the source from where the tweet was send.
         /// </summary>
         public string Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets the place that the tweet is associated to (but not necessarily originating from).
+        /// </summary>
+        public Place Place { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of times this tweet has been retweeted.
+        /// </summary>
+        public int RetweetCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original tweet when this is a retweet.
+        /// </summary>
+        public Tweet RetweetedStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this tweet has been retweeted by the authenticating user.
+        /// </summary>
+        public bool IsRetweetedByUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this tweet has been favorited by the authenticating user.
+        /// </summary>
+        public bool IsFavoritedByUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tweet ID of the authenticating user's own retweet.
+        /// </summary>
+        public long? RetweetIdByUser { get; set; }
     }
 }

@@ -8,6 +8,32 @@
 		"profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
 	},
 	"source" : "Spring Social Showcase",
-	"in_reply_to_user_id" : "332211",
-	"created_at" : "Tue Jul 13 17:38:21 +0000 2010"
+	"in_reply_to_user_id" : 332211,
+	"in_reply_to_screen_name" : "brbaia",
+	"retweet_count" : 12,
+	"retweeted" : true,
+	"favorited" : true,
+	"created_at" : "Tue Jul 13 17:38:21 +0000 2010",
+	"place":
+		{
+			"attributes":{},
+			"bounding_box":
+			{
+				"coordinates":
+				[[
+					[-77.119759,38.791645],
+					[-76.909393,38.791645],
+					[-76.909393,38.995548],
+					[-77.119759,38.995548]
+				]],
+			"type":"Polygon"
+		},
+		"country":"United States",
+		"country_code":"US",
+		"full_name":"Washington, DC",
+		"id":"01fbe706f872cb32",
+		"name":"Washington",
+		"place_type":"city",
+		"url": "http://api.twitter.com/1/geo/id/01fbe706f872cb32.json"
+	}
 }

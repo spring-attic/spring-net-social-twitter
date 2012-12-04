@@ -5,11 +5,16 @@
 		"user" : {
 			"id" : 112233,
 			"screen_name" : "habuma",
-			"profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
+			"profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg",
+			"created_at":"Tue Jun 29 22:15:04 +0000 2010"
 		},
 		"source" : "Spring Social Showcase",
-		"in_reply_to_user_id" : "332211",
+		"in_reply_to_user_id" : 332211,
+		"in_reply_to_screen_name" : "brbaia",
 		"in_reply_to_status_id" : 123123123123,
+		"retweet_count" : 12,
+		"retweeted" : true,
+		"favorited" : true,
 		"created_at" : "Tue Jul 13 17:38:21 +0000 2010"
 	},
 	{
@@ -18,10 +23,12 @@
 		"user" : {
 			"id" : 332211,
 			"screen_name" : "rclarkson",
-			"profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
+			"profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg",
+			"created_at":"Tue Jun 29 22:15:04 +0000 2010"
 		},
 		"source" : "Twitter",
-		"in_reply_to_user_id" : "112233",
+		"in_reply_to_user_id" : 112233,
+		"retweet_count" : 0,
 		"created_at" : "Tue Jul 20 19:38:21 +0000 2010"
 	}
 ]

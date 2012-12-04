@@ -65,14 +65,25 @@ namespace Spring.Social.Twitter.Api.Impl
         {
 		    Assert.AreEqual(12345, tweet.ID);
 		    Assert.AreEqual("Tweet 1", tweet.Text);
-		    Assert.AreEqual("habuma", tweet.FromUser);
-		    Assert.AreEqual(112233, tweet.FromUserId);
-		    Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.ProfileImageUrl);
-		    Assert.AreEqual("Spring Social Showcase", tweet.Source);
             Assert.IsNotNull(tweet.CreatedAt);
             Assert.AreEqual("13/07/2010 17:38:21", tweet.CreatedAt.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
+            Assert.AreEqual("habuma", tweet.User.ScreenName);
+            Assert.AreEqual(112233, tweet.User.ID);
+            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.User.ProfileImageUrl);
+		    Assert.AreEqual("habuma", tweet.FromUser); // Deprecated
+            Assert.AreEqual(112233, tweet.FromUserId); // Deprecated
+            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.ProfileImageUrl); // Deprecated
             Assert.IsNotNull(tweet.InReplyToStatusId);
 		    Assert.AreEqual(123123123123, tweet.InReplyToStatusId.Value);
+            Assert.IsNotNull(tweet.InReplyToUserId);
+            Assert.AreEqual(332211, tweet.InReplyToUserId.Value);
+            Assert.IsNotNull(tweet.ToUserId); // Deprecated
+            Assert.AreEqual(332211, tweet.ToUserId.Value); // Deprecated
+            Assert.AreEqual("brbaia", tweet.InReplyToUserScreenName);
+            Assert.AreEqual("Spring Social Showcase", tweet.Source);
+            Assert.AreEqual(12, tweet.RetweetCount);
+            Assert.IsTrue(tweet.IsRetweetedByUser);
+            Assert.IsTrue(tweet.IsFavoritedByUser);
 	    }
 	
 	    protected void AssertTimelineTweets(IList<Tweet> tweets) 
@@ -82,12 +93,18 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Tweet tweet2 = tweets[1];
 		    Assert.AreEqual(54321, tweet2.ID);
 		    Assert.AreEqual("Tweet 2", tweet2.Text);
-		    Assert.AreEqual("rclarkson", tweet2.FromUser);
-		    Assert.AreEqual(332211, tweet2.FromUserId);
-		    Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.ProfileImageUrl);
-		    Assert.AreEqual("Twitter", tweet2.Source);
             Assert.IsNotNull(tweet2.CreatedAt);
             Assert.AreEqual("20/07/2010 19:38:21", tweet2.CreatedAt.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
+            Assert.AreEqual("rclarkson", tweet2.User.ScreenName);
+            Assert.AreEqual(332211, tweet2.User.ID);
+            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.User.ProfileImageUrl);
+            Assert.AreEqual("rclarkson", tweet2.FromUser); // Deprecated
+            Assert.AreEqual(332211, tweet2.FromUserId); // Deprecated
+            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.ProfileImageUrl); // Deprecated
+		    Assert.AreEqual("Twitter", tweet2.Source);
+            Assert.AreEqual(0, tweet2.RetweetCount);
+            Assert.IsFalse(tweet2.IsRetweetedByUser);
+            Assert.IsFalse(tweet2.IsFavoritedByUser);
 	    }
 
 #if NET_4_0 || SILVERLIGHT_5
