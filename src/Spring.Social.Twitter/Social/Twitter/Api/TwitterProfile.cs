@@ -43,7 +43,7 @@ namespace Spring.Social.Twitter.Api
         public string ScreenName { get; set; }
 
         /// <summary>
-        /// Gets or sets the user's full name.
+        /// Gets or sets the user's display name.
         /// </summary>
         public string Name { get; set; }
 

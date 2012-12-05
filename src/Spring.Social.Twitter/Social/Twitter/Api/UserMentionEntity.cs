@@ -23,7 +23,7 @@ using System;
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Represents other Twitter users mentioned in the text of the Tweet text.
+    /// Represents other Twitter users mentioned in the text of the Tweet.
     /// </summary>
     /// <author>Bruno Baia</author>
 #if !SILVERLIGHT

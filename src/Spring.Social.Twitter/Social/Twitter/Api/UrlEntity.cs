@@ -23,7 +23,7 @@ using System;
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Represents URLs included in the text of a Tweet or within textual fields of a user object.
+    /// Represents URLs included in the text of a Tweet.
     /// </summary>
     /// <author>Bruno Baia</author>
 #if !SILVERLIGHT
@@ -47,12 +47,12 @@ namespace Spring.Social.Twitter.Api
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets or sets the string to display instead of the URL (only for t.co links).
+        /// Gets or sets the string to display instead of the URL.
         /// </summary>
         public string DisplayUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the fully resolved URL (only for t.co links).
+        /// Gets or sets the fully resolved URL.
         /// </summary>
         public string ExpandedUrl { get; set; }
     }
