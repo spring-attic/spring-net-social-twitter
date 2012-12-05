@@ -82,6 +82,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 tweet.Entities = new TweetEntities();
                 tweet.Entities.Hashtags = DeserializeHashtags(entitiesValue.GetValue("hashtags"));
                 tweet.Entities.UserMentions = DeserializeUserMentions(entitiesValue.GetValue("user_mentions"));
+                tweet.Entities.Urls = DeserializeUrls(entitiesValue.GetValue("urls"));
             }
 
             return tweet;
@@ -131,6 +132,30 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 }
             }
             return userMentions;
+        }
+
+        private IList<UrlEntity> DeserializeUrls(JsonValue value)
+        {
+            IList<UrlEntity> urls = new List<UrlEntity>();
+            if (value != null)
+            {
+                foreach (JsonValue urlValue in value.GetValues())
+                {
+                    JsonValue indicesValues = urlValue.GetValue("indices");
+                    if (indicesValues != null)
+                    {
+                        urls.Add(new UrlEntity()
+                        {
+                            BeginOffset = indicesValues.GetValue<int>(0),
+                            EndOffset = indicesValues.GetValue<int>(1),
+                            Url = urlValue.GetValue<string>("url"),
+                            DisplayUrl = urlValue.GetValueOrDefault<string>("display_url"),
+                            ExpandedUrl = urlValue.GetValueOrDefault<string>("expanded_url")
+                        });
+                    }
+                }
+            }
+            return urls;
         }
     }
 }

@@ -223,6 +223,7 @@
     <Compile Include="Social\Twitter\Api\TwitterProfile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\UrlEntity.cs" />
     <Compile Include="Social\Twitter\Api\UserList.cs" />
     <Compile Include="Social\Twitter\Api\UserMentionEntity.cs" />
     <Compile Include="Social\Twitter\Connect\TwitterServiceProvider.cs" />

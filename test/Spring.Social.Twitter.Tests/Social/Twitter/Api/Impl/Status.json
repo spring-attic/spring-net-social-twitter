@@ -44,7 +44,17 @@
 			]
 		  }
 		],
-		"urls": [],
+		"urls": [
+			{
+				"display_url": "fb.me/t35tur1", 
+				"expanded_url": "http://fb.me/t35tur1", 
+				"indices": [
+					10, 
+					30
+				], 
+				"url": "http://t.co/t35tur1"
+			}
+		],
 		"media": [],
 		"user_mentions": [
 			{

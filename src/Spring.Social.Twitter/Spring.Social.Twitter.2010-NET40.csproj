@@ -107,6 +107,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Social\Twitter\Api\UrlEntity.cs" />
     <Compile Include="Social\Twitter\Api\UserMentionEntity.cs" />
     <Compile Include="Social\Twitter\Api\HashtagEntity.cs" />
     <Compile Include="Social\Twitter\Api\TweetEntities.cs" />

@@ -103,6 +103,14 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual("Bucky Greenhorn", entities.UserMentions[0].Name);
             Assert.AreEqual(3, entities.UserMentions[0].BeginOffset);
             Assert.AreEqual(18, entities.UserMentions[0].EndOffset);
+            // URLs
+            Assert.IsNotNull(entities.Urls);
+            Assert.AreEqual(1, entities.Urls.Count);
+            Assert.AreEqual(10, entities.Urls[0].BeginOffset);
+            Assert.AreEqual(30, entities.Urls[0].EndOffset);
+            Assert.AreEqual("http://t.co/t35tur1", entities.Urls[0].Url);
+            Assert.AreEqual("fb.me/t35tur1", entities.Urls[0].DisplayUrl);
+            Assert.AreEqual("http://fb.me/t35tur1", entities.Urls[0].ExpandedUrl);
         }
 	
 	    protected void AssertTimelineTweets(IList<Tweet> tweets) 

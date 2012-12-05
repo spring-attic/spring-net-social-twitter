@@ -19,32 +19,41 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Represents the metadata and additional contextual information found within Twitter status update (e.g., a "tweet").
+    /// Represents URLs included in the text of a Tweet or within textual fields of a user object.
     /// </summary>
     /// <author>Bruno Baia</author>
 #if !SILVERLIGHT
     [Serializable]
 #endif
-    public class TweetEntities
+    public class UrlEntity
     {
         /// <summary>
-        /// Gets or sets the hashtags extracted from the Tweet text.
+        /// Gets or sets the position of the first character of the URL in the Tweet text.
         /// </summary>
-        public IList<HashtagEntity> Hashtags { get; set; }
+        public int BeginOffset { get; set; }
 
         /// <summary>
-        /// Gets or sets the user screen names extracted from the Tweet text
+        /// Gets or sets the position of the first non-URL character after the end of the URL.
         /// </summary>
-        public IList<UserMentionEntity> UserMentions { get; set; }
+        public int EndOffset { get; set; }
 
         /// <summary>
-        /// Gets or sets the URLs extracted from the Tweet text
+        /// Gets or sets the extracted URL, corresponding to the value embedded directly into the raw Tweet text.
         /// </summary>
-        public IList<UrlEntity> Urls { get; set; }
+        public string Url { get; set; }
+
+        /// <summary>
+        /// Gets or sets the string to display instead of the URL (only for t.co links).
+        /// </summary>
+        public string DisplayUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fully resolved URL (only for t.co links).
+        /// </summary>
+        public string ExpandedUrl { get; set; }
     }
 }
