@@ -19,27 +19,41 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 
 namespace Spring.Social.Twitter.Api
 {
     /// <summary>
-    /// Represents the metadata and additional contextual information found within Twitter status update (e.g., a "tweet").
+    /// Represents other Twitter users mentioned in the text of the Tweet text.
     /// </summary>
     /// <author>Bruno Baia</author>
 #if !SILVERLIGHT
     [Serializable]
 #endif
-    public class TweetEntities
+    public class UserMentionEntity
     {
         /// <summary>
-        /// Gets or sets the hashtags extracted from the Tweet text.
+        /// Gets or sets the position of the '@' character in the Tweet text string. 
         /// </summary>
-        public IList<HashtagEntity> Hashtags { get; set; }
+        public int BeginOffset { get; set; }
 
         /// <summary>
-        /// Gets or sets the user screen names extracted from the Tweet text
+        /// Gets or sets the position of the first non-screenname character following the user mention.
         /// </summary>
-        public IList<UserMentionEntity> UserMentions { get; set; }
+        public int EndOffset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the mentioned user.
+        /// </summary>
+        public long ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the screen name of the mentioned user.
+        /// </summary>
+        public string ScreenName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display name of the mentioned user.
+        /// </summary>
+        public string Name { get; set; }
     }
 }

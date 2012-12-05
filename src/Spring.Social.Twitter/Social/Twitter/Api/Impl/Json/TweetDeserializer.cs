@@ -81,6 +81,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
             {
                 tweet.Entities = new TweetEntities();
                 tweet.Entities.Hashtags = DeserializeHashtags(entitiesValue.GetValue("hashtags"));
+                tweet.Entities.UserMentions = DeserializeUserMentions(entitiesValue.GetValue("user_mentions"));
             }
 
             return tweet;
@@ -106,6 +107,30 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 }
             }
             return hashtags;
+        }
+
+        private IList<UserMentionEntity> DeserializeUserMentions(JsonValue value)
+        {
+            IList<UserMentionEntity> userMentions = new List<UserMentionEntity>();
+            if (value != null)
+            {
+                foreach (JsonValue userMentionValue in value.GetValues())
+                {
+                    JsonValue indicesValues = userMentionValue.GetValue("indices");
+                    if (indicesValues != null)
+                    {
+                        userMentions.Add(new UserMentionEntity()
+                        {
+                            BeginOffset = indicesValues.GetValue<int>(0),
+                            EndOffset = indicesValues.GetValue<int>(1),
+                            ID = userMentionValue.GetValue<long>("id"),
+                            ScreenName = userMentionValue.GetValueOrDefault<string>("screen_name"),
+                            Name = userMentionValue.GetValueOrDefault<string>("name")
+                        });
+                    }
+                }
+            }
+            return userMentions;
         }
     }
 }

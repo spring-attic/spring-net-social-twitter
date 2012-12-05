@@ -215,6 +215,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Social\Twitter\Api\UserList.cs" />
+    <Compile Include="Social\Twitter\Api\UserMentionEntity.cs" />
     <Compile Include="Social\Twitter\Connect\TwitterServiceProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

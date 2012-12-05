@@ -89,11 +89,20 @@ namespace Spring.Social.Twitter.Api.Impl
         protected void AssertTweetEntities(TweetEntities entities)
         {
             Assert.IsNotNull(entities);
+            // Hashtags
             Assert.IsNotNull(entities.Hashtags);
             Assert.AreEqual(1, entities.Hashtags.Count);
             Assert.AreEqual("Twitterbird", entities.Hashtags[0].Text);
             Assert.AreEqual(19, entities.Hashtags[0].BeginOffset);
             Assert.AreEqual(31, entities.Hashtags[0].EndOffset);
+            // User mentions
+            Assert.IsNotNull(entities.UserMentions);
+            Assert.AreEqual(2, entities.UserMentions.Count);
+            Assert.AreEqual(11223344, entities.UserMentions[0].ID);
+            Assert.AreEqual("ukuleleman", entities.UserMentions[0].ScreenName);
+            Assert.AreEqual("Bucky Greenhorn", entities.UserMentions[0].Name);
+            Assert.AreEqual(3, entities.UserMentions[0].BeginOffset);
+            Assert.AreEqual(18, entities.UserMentions[0].EndOffset);
         }
 	
 	    protected void AssertTimelineTweets(IList<Tweet> tweets) 

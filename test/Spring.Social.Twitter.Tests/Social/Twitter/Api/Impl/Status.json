@@ -46,6 +46,26 @@
 		],
 		"urls": [],
 		"media": [],
-		"user_mentions": []
+		"user_mentions": [
+			{
+				"id": 11223344, 
+				"id_str": "11223344", 
+				"indices": [
+					3, 
+					18
+				], 
+				"name": "Bucky Greenhorn", 
+				"screen_name": "ukuleleman"
+			}, 
+			{
+				"id": 44332211, 
+				"id_str": "44332211", 
+				"indices": [
+					23, 
+					37
+				], 
+				"screen_name": "jackdiamond"
+			}
+		]
 	}
 }
