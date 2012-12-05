@@ -38,13 +38,18 @@ namespace Spring.Social.Twitter.Api
         public IList<HashtagEntity> Hashtags { get; set; }
 
         /// <summary>
-        /// Gets or sets the user screen names extracted from the Tweet text
+        /// Gets or sets the user screen names extracted from the Tweet text.
         /// </summary>
         public IList<UserMentionEntity> UserMentions { get; set; }
 
         /// <summary>
-        /// Gets or sets the URLs extracted from the Tweet text
+        /// Gets or sets the URLs extracted from the Tweet text.
         /// </summary>
         public IList<UrlEntity> Urls { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of media extracted from the Tweet text.
+        /// </summary>
+        public IList<MediaEntity> Media { get; set; }
     }
 }

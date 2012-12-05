@@ -172,6 +172,7 @@
     <Compile Include="Social\Twitter\Api\IUserOperations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Social\Twitter\Api\MediaEntity.cs" />
     <Compile Include="Social\Twitter\Api\Place.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -83,6 +83,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 tweet.Entities.Hashtags = DeserializeHashtags(entitiesValue.GetValue("hashtags"));
                 tweet.Entities.UserMentions = DeserializeUserMentions(entitiesValue.GetValue("user_mentions"));
                 tweet.Entities.Urls = DeserializeUrls(entitiesValue.GetValue("urls"));
+                tweet.Entities.Media = DeserializeMedia(entitiesValue.GetValue("media"));
             }
 
             return tweet;
@@ -156,6 +157,34 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 }
             }
             return urls;
+        }
+
+        private IList<MediaEntity> DeserializeMedia(JsonValue value)
+        {
+            IList<MediaEntity> media = new List<MediaEntity>();
+            if (value != null)
+            {
+                foreach (JsonValue urlValue in value.GetValues())
+                {
+                    JsonValue indicesValues = urlValue.GetValue("indices");
+                    if (indicesValues != null)
+                    {
+                        media.Add(new MediaEntity()
+                        {
+                            BeginOffset = indicesValues.GetValue<int>(0),
+                            EndOffset = indicesValues.GetValue<int>(1),
+                            ID = urlValue.GetValue<long>("id"),
+                            Url = urlValue.GetValue<string>("url"),
+                            DisplayUrl = urlValue.GetValueOrDefault<string>("display_url"),
+                            ExpandedUrl = urlValue.GetValueOrDefault<string>("expanded_url"),
+                            MediaUrl = urlValue.GetValueOrDefault<string>("media_url"),
+                            MediaHttpsUrl = urlValue.GetValueOrDefault<string>("media_url_https"),
+                            SourceStatusId = urlValue.GetValueOrDefault<long?>("source_status_id")
+                        });
+                    }
+                }
+            }
+            return media;
         }
     }
 }

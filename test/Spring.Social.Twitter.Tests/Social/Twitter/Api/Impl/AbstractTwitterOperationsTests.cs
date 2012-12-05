@@ -111,6 +111,18 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual("http://t.co/t35tur1", entities.Urls[0].Url);
             Assert.AreEqual("fb.me/t35tur1", entities.Urls[0].DisplayUrl);
             Assert.AreEqual("http://fb.me/t35tur1", entities.Urls[0].ExpandedUrl);
+            // Media
+            Assert.IsNotNull(entities.Media);
+            Assert.AreEqual(1, entities.Media.Count);
+            Assert.AreEqual(15, entities.Media[0].BeginOffset);
+            Assert.AreEqual(35, entities.Media[0].EndOffset);
+            Assert.AreEqual(114080493040967680, entities.Media[0].ID);
+            Assert.AreEqual("http://t.co/rJC5Pxsu", entities.Media[0].Url);
+            Assert.AreEqual("pic.twitter.com/rJC5Pxsu", entities.Media[0].DisplayUrl);
+            Assert.AreEqual("http://twitter.com/yunorno/status/114080493036773378/photo/1", entities.Media[0].ExpandedUrl);
+            Assert.AreEqual("http://p.twimg.com/AZVLmp-CIAAbkyy.jpg", entities.Media[0].MediaUrl);
+            Assert.AreEqual("https://p.twimg.com/AZVLmp-CIAAbkyy.jpg", entities.Media[0].MediaHttpsUrl);
+            Assert.AreEqual(205282515685081088, entities.Media[0].SourceStatusId);
         }
 	
 	    protected void AssertTimelineTweets(IList<Tweet> tweets) 
