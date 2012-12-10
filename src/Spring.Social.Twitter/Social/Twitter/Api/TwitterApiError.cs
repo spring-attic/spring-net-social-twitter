@@ -35,6 +35,11 @@ namespace Spring.Social.Twitter.Api
         Unknown,
 
         /// <summary>
+        /// Request format was invalid.
+        /// </summary>
+        InvalidFormat,
+
+        /// <summary>
         /// Bad, expired or missing OAuth token. 
         /// </summary>
         NotAuthorized,
@@ -50,7 +55,7 @@ namespace Spring.Social.Twitter.Api
         ResourceNotFound,
 
         /// <summary>
-        /// Requests are being rate-limited.
+        /// Request is being rate-limited.
         /// </summary>
         RateLimitExceeded,
 
@@ -65,7 +70,7 @@ namespace Spring.Social.Twitter.Api
         ServerDown,
 
         /// <summary>
-        /// Server is experiencing high load.
+        /// Server is experiencing high load or request couldn't be serviced.
         /// </summary>
         ServerOverloaded
     }

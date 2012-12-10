@@ -1,1 +1,1 @@
-{"error":"You have been rate limited. Enhance your calm."}
+{"errors":[{"message":"Rate limit exceeded","code":88}]}

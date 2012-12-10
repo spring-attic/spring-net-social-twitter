@@ -1,1 +1,1 @@
-{"error":"Invalid / expired Token", "request":"/1/account/verify_credentials.json"}
+{"errors":[{"message":"Could not authenticate you","code":32}]}

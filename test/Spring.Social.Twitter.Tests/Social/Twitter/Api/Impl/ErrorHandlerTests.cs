@@ -35,37 +35,9 @@ namespace Spring.Social.Twitter.Api.Impl
     /// <author>Bruno Baia (.NET)</author>
     [TestFixture]
     public class ErrorHandlerTests : AbstractTwitterOperationsTests 
-    {    
-	    [Test]
-	    public void MissingAccessToken() 
-        {
-		    mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1.1/account/verify_credentials.json")
-			    .AndExpectMethod(HttpMethod.GET)
-			    .AndRespondWith(JsonResource("Error_No_Token"), responseHeaders, HttpStatusCode.Unauthorized, "");
-
-#if NET_4_0 || SILVERLIGHT_5
-            twitter.UserOperations.GetUserProfileAsync()
-                .ContinueWith(task =>
-                {
-                    AssertTwitterApiException(task.Exception, "Authorization is required for the operation, but the API binding was created without authorization.", TwitterApiError.NotAuthorized);
-                })
-                .Wait();
-#else
-            try
-            {
-                twitter.UserOperations.GetUserProfile();
-                Assert.Fail("Exception expected");
-            }
-            catch (Exception ex)
-            {
-                AssertTwitterApiException(ex, "Authorization is required for the operation, but the API binding was created without authorization.", TwitterApiError.NotAuthorized);
-            }
-#endif
-        }
-
+    {
         [Test]
-        public void BadAccessToken() 
+        public void InvalidToken() 
         {
             // token is fabricated or fails signature validation
             mockServer.ExpectNewRequest()
@@ -77,7 +49,7 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.UserOperations.GetUserProfileAsync()
                 .ContinueWith(task =>
                 {
-                    AssertTwitterApiException(task.Exception, "Invalid / expired Token", TwitterApiError.NotAuthorized);
+                    AssertTwitterApiException(task.Exception, "Could not authenticate you", TwitterApiError.NotAuthorized);
                 })
                 .Wait();
 #else
@@ -88,35 +60,7 @@ namespace Spring.Social.Twitter.Api.Impl
             }
             catch (Exception ex)
             {
-                AssertTwitterApiException(ex, "Invalid / expired Token", TwitterApiError.NotAuthorized);
-            }
-#endif
-        }
-
-        [Test]
-        public void RevokedToken() 
-        {
-            mockServer.ExpectNewRequest()
-                .AndExpectUri("https://api.twitter.com/1.1/account/verify_credentials.json")
-                .AndExpectMethod(HttpMethod.GET)
-                .AndRespondWith(JsonResource("Error_Revoked_Token"), responseHeaders, HttpStatusCode.Unauthorized, "");
-
-#if NET_4_0 || SILVERLIGHT_5
-            twitter.UserOperations.GetUserProfileAsync()
-                .ContinueWith(task =>
-                {
-                    AssertTwitterApiException(task.Exception, "The authorization has been revoked.", TwitterApiError.NotAuthorized);
-                })
-                .Wait();
-#else
-            try
-            {
-                twitter.UserOperations.GetUserProfile();
-                Assert.Fail("Exception expected");
-            }
-            catch (Exception ex)
-            {
-                AssertTwitterApiException(ex, "The authorization has been revoked.", TwitterApiError.NotAuthorized);
+                AssertTwitterApiException(ex, "Could not authenticate you", TwitterApiError.NotAuthorized);
             }
 #endif
         }

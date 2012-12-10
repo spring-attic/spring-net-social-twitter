@@ -32,6 +32,8 @@ namespace Spring.Social.Twitter.Api.Impl
     /// <summary>
     /// Implementation of the <see cref="IResponseErrorHandler"/> that handles errors from Twitter's REST API, 
     /// interpreting them into appropriate exceptions.
+    /// <para/>
+    /// <see cref="https://dev.twitter.com/docs/error-codes-responses"/>
     /// </summary>
     /// <author>Craig Walls</author>
     /// <author>Bruno Baia (.NET)</author>
@@ -60,8 +62,7 @@ namespace Spring.Social.Twitter.Api.Impl
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
                     string path = requestUri.AbsolutePath;
-                    if (path.EndsWith("blocks/exists.json") ||
-                        path.EndsWith("lists/members/show.json") ||
+                    if (path.EndsWith("lists/members/show.json") ||
                         path.EndsWith("lists/subscribers/show.json"))
                     {
                         // Special cases: API binding will handle this
@@ -111,23 +112,11 @@ namespace Spring.Social.Twitter.Api.Impl
 				    errorText = errorsValue.GetValue<string>();
 			    }
 		    }
+            errorText = errorText ?? response.StatusDescription;
 
 		    if (response.StatusCode == HttpStatusCode.Unauthorized) 
             {
-                if (errorText == "Could not authenticate you.")
-                {
-                    throw new TwitterApiException(
-                        "Authorization is required for the operation, but the API binding was created without authorization.", 
-                        TwitterApiError.NotAuthorized);
-			    }
-                else if (errorText == "Could not authenticate with OAuth.")
-                {
-                    throw new TwitterApiException("The authorization has been revoked.", TwitterApiError.NotAuthorized);
-			    }
-                else 
-                {
-                    throw new TwitterApiException(errorText ?? response.StatusDescription, TwitterApiError.NotAuthorized);
-			    }
+                throw new TwitterApiException(errorText, TwitterApiError.NotAuthorized);
 		    } 
             else if (response.StatusCode == HttpStatusCode.Forbidden) 
             {
@@ -137,6 +126,10 @@ namespace Spring.Social.Twitter.Api.Impl
             {
                 throw new TwitterApiException(errorText, TwitterApiError.ResourceNotFound);
 		    }
+            else if (response.StatusCode == HttpStatusCode.NotAcceptable)
+            {
+                throw new TwitterApiException(errorText, TwitterApiError.InvalidFormat);
+            }
             else if (response.StatusCode == (HttpStatusCode)429) // Too Many Requests
             {
                 throw new TwitterApiException("The rate limit has been exceeded.", TwitterApiError.RateLimitExceeded);
@@ -159,6 +152,10 @@ namespace Spring.Social.Twitter.Api.Impl
             {
                 throw new TwitterApiException("Twitter is overloaded with requests. Try again later.", TwitterApiError.ServerOverloaded);
 		    }
+            else if (statusCode == HttpStatusCode.GatewayTimeout)
+            {
+                throw new TwitterApiException("Twitter servers are up, but the request couldn't be serviced. Try again later.", TwitterApiError.ServerOverloaded);
+            }
 	    }
 
         private JsonValue ExtractErrorDetailsFromResponse(HttpResponseMessage<byte[]> response) 

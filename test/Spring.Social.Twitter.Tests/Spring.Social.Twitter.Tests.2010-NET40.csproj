@@ -139,9 +139,7 @@
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Suggestion_Categories.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Twitter_Profile.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Invalid_Token.json" />
-    <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_No_Token.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Rate_Limited.json" />
-    <EmbeddedResource Include="Social\Twitter\Api\Impl\Error_Revoked_Token.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Direct_Message.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\Messages.json" />
     <EmbeddedResource Include="Social\Twitter\Api\Impl\List_Of_Ids.json" />
