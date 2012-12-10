@@ -21,6 +21,8 @@
   <property name="product.version" value="2.0.0" />
   <!-- alpha / beta# / rc# -->
   <property name="product.releasetype" value="" />
+  <property name="product.informationalversion" value="${product.version}" if="${(product.releasetype == '')}" />
+  <property name="product.informationalversion" value="${product.version}-${product.releasetype}" if="${(product.releasetype != '')}" />
   <property name="product.fullname" value="${product.name} ${product.version}" if="${(product.releasetype == '')}" />
   <property name="product.fullname" value="${product.name} ${product.version} (${product.releasetype})" if="${(product.releasetype != '')}" />
 
@@ -74,8 +76,7 @@
 
   <target name="release">
     <property name="project.buildtype" value="release" />
-    <property name="project.zip-filename" value="Spring.Social.Twitter-${product.version}.zip" if="${(product.releasetype == '')}" />
-    <property name="project.zip-filename" value="Spring.Social.Twitter-${product.version}-${product.releasetype}.zip" if="${(product.releasetype != '')}" />
+    <property name="project.zip-filename" value="Spring.Social.Twitter-${product.informationalversion}.zip" />
     
     <call target="package-deploy"/>
     <call target="nuget-deploy"/>
@@ -103,6 +104,7 @@
         <attribute type="AssemblyCopyrightAttribute" value="${product.copyright}" />
         <attribute type="AssemblyTrademarkAttribute" value="Apache License, Version 2.0" />
         <attribute type="AssemblyCultureAttribute" value="" />
+        <attribute type="AssemblyInformationalVersionAttribute" value="${product.informationalversion}" />
         <attribute type="AssemblyVersionAttribute" value="${project.version}" />
         <attribute type="AssemblyConfigurationAttribute" value="${project.framework}; ${project.version}; ${project.buildtype}" />
       </attributes>
@@ -246,8 +248,8 @@
       <fail message="'bin' directory is missing. Call 'build', 'daily' or 'release' target first." />
     </if>
     <echo message="Generating NuGet package..." />
-    <if test="${property::exists('product.version')}">
-      <xmlpoke file="${setup.dir}\NuGet\src\Spring.Social.Twitter.nuspec" xpath="/n:package/n:metadata/n:version" value="${product.version}">
+    <if test="${property::exists('product.informationalversion')}">
+      <xmlpoke file="${setup.dir}\NuGet\src\Spring.Social.Twitter.nuspec" xpath="/n:package/n:metadata/n:version" value="${product.informationalversion}">
         <namespaces>
           <namespace prefix="n" uri="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" />
         </namespaces>
