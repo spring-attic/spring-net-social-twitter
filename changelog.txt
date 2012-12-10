@@ -2,6 +2,18 @@ SPRING.NET SOCIAL TWITTER CHANGELOG
 ===================================
 http://www.springframework.net/social-twitter/
 
+Release Version 2.0.0 M1 December 10, 2012
+
+Improvement
+[SPRNETSOCIALTW-7] - Improve FriendOperations.GetFriends and GetFollowers methods with latest API v1.1 methods
+[SPRNETSOCIALTW-8] - Improve Twitter status update (e.g. "tweet") object model
+[SPRNETSOCIALTW-9] - Add entities to Tweet object model
+
+New Feature
+[SPRNETSOCIALTW-5] - Update to version 1.1 of the Twitter REST API
+
+
+*******************************************************************************
 Release Version 1.0.1 November 19, 2012
 
 Bug

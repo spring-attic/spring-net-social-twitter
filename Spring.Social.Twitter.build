@@ -19,8 +19,8 @@
   <property name="product.description" value="Allows you to connect your applications with Twitter" />
   
   <property name="product.version" value="2.0.0" />
-  <!-- alpha / beta# / rc# -->
-  <property name="product.releasetype" value="" />
+  <!-- M# / RC# -->
+  <property name="product.releasetype" value="M1" />
   <property name="product.informationalversion" value="${product.version}" if="${(product.releasetype == '')}" />
   <property name="product.informationalversion" value="${product.version}-${product.releasetype}" if="${(product.releasetype != '')}" />
   <property name="product.fullname" value="${product.name} ${product.version}" if="${(product.releasetype == '')}" />
@@ -209,6 +209,7 @@
         <include name="readme.txt"/>
         <include name="license.txt"/>
         <include name="changelog.txt"/>
+        <include name="breaking-changes.txt"/>
         <include name="examples\**"/>
         <include name="lib\**"/>
         <include name="src\**"/>

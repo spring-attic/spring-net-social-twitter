@@ -1,0 +1,6 @@
+Changes (1.0 to 2.0-M1)
+=======================
+
+1. Various changes on operations interfaces due to new Twitter REST API v1.1 [SPRNETSOCIALTW-5].
+
+2. Removed empty TwitterTemplate constructor: all endpoints requires authentication with new Twitter REST API v1.1 [SPRNETSOCIALTW-5].
