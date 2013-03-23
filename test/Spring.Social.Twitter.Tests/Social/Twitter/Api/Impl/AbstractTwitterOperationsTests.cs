@@ -81,6 +81,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual(332211, tweet.ToUserId.Value); // Deprecated
             Assert.AreEqual("brbaia", tweet.InReplyToUserScreenName);
             Assert.AreEqual("Spring Social Showcase", tweet.Source);
+            Assert.AreEqual(9, tweet.FavoriteCount);
             Assert.AreEqual(12, tweet.RetweetCount);
             Assert.IsTrue(tweet.IsRetweetedByUser);
             Assert.IsTrue(tweet.IsFavoritedByUser);
@@ -141,6 +142,7 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual(332211, tweet2.FromUserId); // Deprecated
             Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.ProfileImageUrl); // Deprecated
 		    Assert.AreEqual("Twitter", tweet2.Source);
+            Assert.AreEqual(0, tweet2.FavoriteCount);
             Assert.AreEqual(0, tweet2.RetweetCount);
             Assert.IsFalse(tweet2.IsRetweetedByUser);
             Assert.IsFalse(tweet2.IsFavoritedByUser);

@@ -61,6 +61,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
                 tweet.Place = mapper.Deserialize<Place>(placeValue);
             }
             tweet.LanguageCode = value.GetValueOrDefault<string>("iso_language_code");
+            tweet.FavoriteCount = value.GetValueOrDefault<int>("favorite_count");
             tweet.RetweetCount = value.GetValueOrDefault<int>("retweet_count");
             JsonValue retweetedStatusValue = value.GetValue("retweeted_status");
             if (retweetedStatusValue != null && retweetedStatusValue.IsObject)

@@ -112,6 +112,11 @@ namespace Spring.Social.Twitter.Api
         public int RetweetCount { get; set; }
 
         /// <summary>
+        /// Gets or sets the number of times this tweet has been favorited.
+        /// </summary>
+        public int FavoriteCount { get; set; }
+
+        /// <summary>
         /// Gets or sets the original tweet when this is a retweet.
         /// </summary>
         public Tweet RetweetedStatus { get; set; }

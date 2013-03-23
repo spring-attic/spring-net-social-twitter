@@ -60,6 +60,7 @@
 				}
 			]
 		 },
+		 "favorite_count" : 9,
 		 "retweet_count" : 12,
 		 "retweeted" : true,
 		 "favorited" : true,
