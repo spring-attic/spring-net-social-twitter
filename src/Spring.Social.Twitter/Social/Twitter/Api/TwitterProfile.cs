@@ -57,7 +57,7 @@ namespace Spring.Social.Twitter.Api
         /// </summary>
         public string ProfileUrl
         {
-            get { return "http://twitter.com/" + this.ScreenName; }
+            get { return "https://twitter.com/" + this.ScreenName; }
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Spring.Social.Twitter.Api
         /// Gets or sets a value indicating whether or not the user is verified with Twitter.
         /// </summary>
         /// <remarks>
-        /// See http://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/119135-about-verified-accounts.
+        /// See https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/119135-about-verified-accounts.
         /// </remarks>
         public bool IsVerified { get; set; }
 

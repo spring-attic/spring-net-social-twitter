@@ -94,7 +94,7 @@ namespace Spring.ConsoleQuickStart
 
                 // ITimelineOperations
                 Tweet tweet = twitter.TimelineOperations.UpdateStatusAsync(
-                    "Hi from #Spring.NET Social Twitter! http://bit.ly/x2rvlC", new AssemblyResource("Image.png", typeof(Program))).Result;
+                    "Hi from #Spring.NET Social Twitter! https://bit.ly/x2rvlC", new AssemblyResource("Image.png", typeof(Program))).Result;
                 twitter.TimelineOperations.DeleteStatusAsync(tweet.ID).Wait();
                 IList<Tweet> homeTimeline = twitter.TimelineOperations.GetHomeTimelineAsync().Result;
                 IList<Tweet> userTimeline = twitter.TimelineOperations.GetUserTimelineAsync().Result;
@@ -191,7 +191,7 @@ namespace Spring.ConsoleQuickStart
 
                 // ITimelineOperations
                 Tweet tweet = twitter.TimelineOperations.UpdateStatus(
-                    "Hi from #Spring.NET Social Twitter! http://bit.ly/x2rvlC", new AssemblyResource("Image.png", typeof(Program)));
+                    "Hi from #Spring.NET Social Twitter! https://bit.ly/x2rvlC", new AssemblyResource("Image.png", typeof(Program)));
                 twitter.TimelineOperations.DeleteStatus(tweet.ID);
                 IList<Tweet> homeTimeline = twitter.TimelineOperations.GetHomeTimeline();
                 IList<Tweet> userTimeline = twitter.TimelineOperations.GetUserTimeline();

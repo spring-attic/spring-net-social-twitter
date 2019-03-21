@@ -141,7 +141,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    if (statusCode == HttpStatusCode.InternalServerError) 
             {
                 throw new TwitterApiException(
-                    "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", 
+                    "Something is broken at Twitter. Please see https://dev.twitter.com/pages/support to report the issue.", 
                     TwitterApiError.Server);
 		    } 
             else if (statusCode == HttpStatusCode.BadGateway) 

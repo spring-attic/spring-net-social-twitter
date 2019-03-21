@@ -57,7 +57,7 @@ namespace Spring.Social.Twitter.Api.Impl.Json
             return limits;
         }
 
-        // epoch time : http://en.wikipedia.org/wiki/Unix_time
+        // epoch time : https://en.wikipedia.org/wiki/Unix_time
         private static DateTime FromUnixTime(long unixTime)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

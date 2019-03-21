@@ -69,10 +69,10 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual("13/07/2010 17:38:21", tweet.CreatedAt.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
             Assert.AreEqual("habuma", tweet.User.ScreenName);
             Assert.AreEqual(112233, tweet.User.ID);
-            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.User.ProfileImageUrl);
+            Assert.AreEqual("https://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.User.ProfileImageUrl);
 		    Assert.AreEqual("habuma", tweet.FromUser); // Deprecated
             Assert.AreEqual(112233, tweet.FromUserId); // Deprecated
-            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.ProfileImageUrl); // Deprecated
+            Assert.AreEqual("https://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet.ProfileImageUrl); // Deprecated
             Assert.IsNotNull(tweet.InReplyToStatusId);
 		    Assert.AreEqual(123123123123, tweet.InReplyToStatusId.Value);
             Assert.IsNotNull(tweet.InReplyToUserId);
@@ -109,19 +109,19 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual(1, entities.Urls.Count);
             Assert.AreEqual(10, entities.Urls[0].BeginOffset);
             Assert.AreEqual(30, entities.Urls[0].EndOffset);
-            Assert.AreEqual("http://t.co/t35tur1", entities.Urls[0].Url);
+            Assert.AreEqual("https://t.co/t35tur1", entities.Urls[0].Url);
             Assert.AreEqual("fb.me/t35tur1", entities.Urls[0].DisplayUrl);
-            Assert.AreEqual("http://fb.me/t35tur1", entities.Urls[0].ExpandedUrl);
+            Assert.AreEqual("https://fb.me/t35tur1", entities.Urls[0].ExpandedUrl);
             // Media
             Assert.IsNotNull(entities.Media);
             Assert.AreEqual(1, entities.Media.Count);
             Assert.AreEqual(15, entities.Media[0].BeginOffset);
             Assert.AreEqual(35, entities.Media[0].EndOffset);
             Assert.AreEqual(114080493040967680, entities.Media[0].ID);
-            Assert.AreEqual("http://t.co/rJC5Pxsu", entities.Media[0].Url);
+            Assert.AreEqual("https://t.co/rJC5Pxsu", entities.Media[0].Url);
             Assert.AreEqual("pic.twitter.com/rJC5Pxsu", entities.Media[0].DisplayUrl);
-            Assert.AreEqual("http://twitter.com/yunorno/status/114080493036773378/photo/1", entities.Media[0].ExpandedUrl);
-            Assert.AreEqual("http://p.twimg.com/AZVLmp-CIAAbkyy.jpg", entities.Media[0].MediaUrl);
+            Assert.AreEqual("https://twitter.com/yunorno/status/114080493036773378/photo/1", entities.Media[0].ExpandedUrl);
+            Assert.AreEqual("https://p.twimg.com/AZVLmp-CIAAbkyy.jpg", entities.Media[0].MediaUrl);
             Assert.AreEqual("https://p.twimg.com/AZVLmp-CIAAbkyy.jpg", entities.Media[0].MediaHttpsUrl);
             Assert.AreEqual(205282515685081088, entities.Media[0].SourceStatusId);
         }
@@ -137,10 +137,10 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual("20/07/2010 19:38:21", tweet2.CreatedAt.Value.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"));
             Assert.AreEqual("rclarkson", tweet2.User.ScreenName);
             Assert.AreEqual(332211, tweet2.User.ID);
-            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.User.ProfileImageUrl);
+            Assert.AreEqual("https://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.User.ProfileImageUrl);
             Assert.AreEqual("rclarkson", tweet2.FromUser); // Deprecated
             Assert.AreEqual(332211, tweet2.FromUserId); // Deprecated
-            Assert.AreEqual("http://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.ProfileImageUrl); // Deprecated
+            Assert.AreEqual("https://a3.twimg.com/profile_images/1205746571/me2_300.jpg", tweet2.ProfileImageUrl); // Deprecated
 		    Assert.AreEqual("Twitter", tweet2.Source);
             Assert.AreEqual(0, tweet2.FavoriteCount);
             Assert.AreEqual(0, tweet2.RetweetCount);
