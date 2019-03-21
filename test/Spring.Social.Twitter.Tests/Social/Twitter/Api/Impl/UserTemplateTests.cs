@@ -55,8 +55,8 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("Art Names", profile.Name);
 		    Assert.AreEqual("I'm just a normal kinda guy", profile.Description);
 		    Assert.AreEqual("Denton, TX", profile.Location);
-		    Assert.AreEqual("http://www.springsource.org", profile.Url);
-		    Assert.AreEqual("http://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", profile.ProfileImageUrl);
+		    Assert.AreEqual("https://www.springsource.org", profile.Url);
+		    Assert.AreEqual("https://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", profile.ProfileImageUrl);
 		    Assert.IsTrue(profile.IsNotificationsEnabled);
 		    Assert.IsFalse(profile.IsVerified);
 		    Assert.IsTrue(profile.IsGeoEnabled);
@@ -77,7 +77,7 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("C0DEED", profile.SidebarBorderColor);
 		    Assert.AreEqual("DDEEF6", profile.SidebarFillColor);
 		    Assert.AreEqual("C0DEED", profile.BackgroundColor);
-		    Assert.AreEqual("http://a3.twimg.com/a/1301419075/images/themes/theme1/bg.png", profile.BackgroundImageUrl);
+		    Assert.AreEqual("https://a3.twimg.com/a/1301419075/images/themes/theme1/bg.png", profile.BackgroundImageUrl);
 		    Assert.IsFalse(profile.IsBackgroundImageTiled);
 		    Assert.AreEqual("333333", profile.TextColor);
 		    Assert.AreEqual("0084B4", profile.LinkColor);
@@ -101,8 +101,8 @@ namespace Spring.Social.Twitter.Api.Impl
 		    Assert.AreEqual("Art Names", profile.Name);
 		    Assert.AreEqual("I'm just a normal kinda guy", profile.Description);
 		    Assert.AreEqual("Denton, TX", profile.Location);
-		    Assert.AreEqual("http://www.springsource.org", profile.Url);
-		    Assert.AreEqual("http://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", profile.ProfileImageUrl);
+		    Assert.AreEqual("https://www.springsource.org", profile.Url);
+		    Assert.AreEqual("https://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", profile.ProfileImageUrl);
 	    }
 
 	    [Test]

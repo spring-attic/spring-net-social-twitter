@@ -187,8 +187,8 @@ namespace Spring.Social.Twitter.Api.Impl
             Assert.AreEqual("Art Names", blockedUser.Name);
             Assert.AreEqual("I'm just a normal kinda guy", blockedUser.Description);
             Assert.AreEqual("Denton, TX", blockedUser.Location);
-            Assert.AreEqual("http://www.springsource.org", blockedUser.Url);
-            Assert.AreEqual("http://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", blockedUser.ProfileImageUrl);
+            Assert.AreEqual("https://www.springsource.org", blockedUser.Url);
+            Assert.AreEqual("https://a1.twimg.com/sticky/default_profile_images/default_profile_4_normal.png", blockedUser.ProfileImageUrl);
         }
     }
 }

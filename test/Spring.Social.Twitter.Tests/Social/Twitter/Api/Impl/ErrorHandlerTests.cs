@@ -105,7 +105,7 @@ namespace Spring.Social.Twitter.Api.Impl
             twitter.TimelineOperations.GetHomeTimelineAsync()
                 .ContinueWith(task =>
                 {
-                    AssertTwitterApiException(task.Exception, "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", TwitterApiError.Server);
+                    AssertTwitterApiException(task.Exception, "Something is broken at Twitter. Please see https://dev.twitter.com/pages/support to report the issue.", TwitterApiError.Server);
                 })
                 .Wait();
 #else
@@ -116,7 +116,7 @@ namespace Spring.Social.Twitter.Api.Impl
             }
             catch (Exception ex)
             {
-                AssertTwitterApiException(ex, "Something is broken at Twitter. Please see http://dev.twitter.com/pages/support to report the issue.", TwitterApiError.Server);
+                AssertTwitterApiException(ex, "Something is broken at Twitter. Please see https://dev.twitter.com/pages/support to report the issue.", TwitterApiError.Server);
             }
 #endif
         }

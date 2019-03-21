@@ -124,7 +124,7 @@ namespace Spring.Social.Twitter.Api
         /// identified by its Yahoo! "Where on Earth" (WOE) ID. 
         /// This includes hashtagged topics.
         /// <para/>
-        /// See http://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
+        /// See https://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
         /// </summary>
         /// <param name="whereOnEarthId">
         /// The Yahoo! "Where on Earth" (WOE) ID for the location to retrieve trend data.
@@ -142,7 +142,7 @@ namespace Spring.Social.Twitter.Api
         /// Asynchronously retrieves the top 10 trending topics for a given location, 
         /// identified by its Yahoo! "Where on Earth" (WOE) ID.
         /// <para/>
-        /// See http://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
+        /// See https://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
         /// </summary>
         /// <param name="whereOnEarthId">
         /// The Yahoo! "Where on Earth" (WOE) ID for the location to retrieve trend data.
@@ -227,7 +227,7 @@ namespace Spring.Social.Twitter.Api
         /// identified by its "Where on Earth" (WOE) ID. 
         /// This includes hashtagged topics.
         /// <para/>
-        /// See http://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
+        /// See https://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
         /// </summary>
         /// <param name="whereOnEarthId">
         /// The Yahoo! "Where on Earth" (WOE) ID for the location to retrieve trend data.
@@ -242,7 +242,7 @@ namespace Spring.Social.Twitter.Api
         /// Retrieves the top 10 trending topics for a given location, 
         /// identified by its "Where on Earth" (WOE) ID.
         /// <para/>
-        /// See http://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
+        /// See https://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
         /// </summary>
         /// <param name="whereOnEarthId">
         /// The Yahoo! "Where on Earth" (WOE) ID for the location to retrieve trend data.
@@ -363,7 +363,7 @@ namespace Spring.Social.Twitter.Api
         /// This includes hashtagged topics.
         /// </summary>
         /// <remarks>
-        /// See http://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
+        /// See https://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
         /// </remarks>
         /// <param name="whereOnEarthId">
         /// The Yahoo! "Where on Earth" (WOE) ID for the location to retrieve trend data.
@@ -385,7 +385,7 @@ namespace Spring.Social.Twitter.Api
         /// identified by its "Where on Earth" (WOE) ID.
         /// </summary>
         /// <remarks>
-        /// See http://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
+        /// See https://developer.yahoo.com/geo/geoplanet/ for more information on WOE.
         /// </remarks>
         /// <param name="whereOnEarthId">
         /// The Yahoo! "Where on Earth" (WOE) ID for the location to retrieve trend data.
